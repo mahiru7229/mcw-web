@@ -18,9 +18,16 @@ export default {
         cyber: {
           cyan: '#00f0ff',
           neon: '#00ffaa',
-          purple: '#a855f7',
-          pink: '#f43f5e',
+          purple: '#9d4edd',
+          pink: '#ff4d8d',
+          sakura: '#ff77aa',
           amber: '#f59e0b',
+        },
+        anime: {
+          pink: '#ff3385',
+          rose: '#ff4d8d',
+          dark: '#07090e',
+          card: '#0d111a',
         }
       },
       fontFamily: {

@@ -54,12 +54,12 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Cyber" --username 
   };
 
   return (
-    <section id="core-hub" className="py-24 relative overflow-hidden bg-obsidian-900/40 border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <section id="core-hub" className="py-20 relative overflow-hidden bg-obsidian-900/40 border-t border-white/5">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left info */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyber-purple/10 border border-cyber-purple/30 text-cyber-purple text-xs font-mono font-semibold">
+          <div className="lg:col-span-5 space-y-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-anime-pink/10 border border-anime-pink/30 text-anime-pink text-xs font-mono font-semibold">
               {t.core_hub.tag}
             </div>
 

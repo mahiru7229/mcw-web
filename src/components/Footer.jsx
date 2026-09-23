@@ -52,18 +52,18 @@ export default function Footer({ t }) {
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#features" className="hover:text-cyber-cyan transition-colors">
-                  {t.nav.features}
+                <a href="#features" className="hover:text-anime-pink transition-colors">
+                  {t.sidebar.features}
                 </a>
               </li>
               <li>
-                <a href="#simulator" className="hover:text-cyber-cyan transition-colors">
-                  {t.nav.simulator}
+                <a href="#simulator" className="hover:text-anime-pink transition-colors">
+                  {t.sidebar.simulator}
                 </a>
               </li>
               <li>
-                <a href="#download" className="hover:text-cyber-cyan transition-colors">
-                  {t.nav.download}
+                <a href="#download" className="hover:text-anime-pink transition-colors">
+                  {t.sidebar.download}
                 </a>
               </li>
               <li>
