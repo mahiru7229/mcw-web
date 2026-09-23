@@ -103,7 +103,6 @@ export const I18N = {
       stat_loaders: "4 Mod Loaders Hỗ Trợ",
       stat_open: "100% Mã Nguồn Mở",
       stat_speed: "Server VN Tốc Độ Cao",
-      stat_health: "Miễn Nhiễm WinError 3",
     },
     features: {
       tag: "EVA-02 TACTICAL SYSTEMS // 4 TRỤ CỘT",
@@ -185,7 +184,6 @@ export const I18N = {
       stat_loaders: "4 Official Mod Loaders",
       stat_open: "100% Open Source",
       stat_speed: "Vietnam Server Fast",
-      stat_health: "Zero WinError 3",
     },
     features: {
       tag: "EVA-02 TACTICAL SYSTEMS // 4 PILLARS",

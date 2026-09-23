@@ -77,7 +77,7 @@ export default function Hero({ t }) {
             </div>
 
             {/* Micro Stats Banner */}
-            <div className="pt-4 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="pt-4 border-t border-white/5 grid grid-cols-3 gap-3">
               <div className="space-y-0.5">
                 <span className="text-lg font-extrabold text-white font-mono block">4 Loaders</span>
                 <span className="text-[11px] text-slate-400 block">{t.hero.stat_loaders}</span>
@@ -89,10 +89,6 @@ export default function Hero({ t }) {
               <div className="space-y-0.5">
                 <span className="text-lg font-extrabold text-asuka-flame font-mono block">Server VN</span>
                 <span className="text-[11px] text-slate-400 block">{t.hero.stat_speed}</span>
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-lg font-extrabold text-amber-400 font-mono block">Zero WinError 3</span>
-                <span className="text-[11px] text-slate-400 block">{t.hero.stat_health}</span>
               </div>
             </div>
           </div>
