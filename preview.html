@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCW Launcher — The Next-Gen Instance-First Minecraft Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: {
+              950: '#06070a',
+              900: '#0a0d14',
+              850: '#0f1420',
+              800: '#141b2d',
+              700: '#1e2942',
+            },
+            cyber: {
+              cyan: '#00f0ff',
+              neon: '#00ffaa',
+              purple: '#a855f7',
+              pink: '#f43f5e',
+              amber: '#f59e0b',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- React & ReactDOM & Babel for in-browser standalone execution -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Lucide Icons standalone -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .glass-panel {
+      background: rgba(15, 20, 32, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-panel-glow {
+      background: rgba(15, 20, 32, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 35px -10px rgba(0, 240, 255, 0.2);
+    }
+    .cyber-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #00f0ff 0%, #a855f7 50%, #00ffaa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-obsidian-950 text-slate-100 antialiased selection:bg-cyber-cyan selection:text-obsidian-950 overflow-x-hidden min-h-screen">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // --- Interactive 3D Canvas ---
+    function InteractiveCanvas() {
+      const canvasRef = useRef(null);
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+        let width = (canvas.width = canvas.offsetWidth);
+        let height = (canvas.height = canvas.offsetHeight);
+
+        let targetRotX = 0.3;
+        let targetRotY = 0.6;
+        let rotX = 0.3;
+        let rotY = 0.6;
+
+        const handleResize = () => {
+          width = canvas.width = canvas.offsetWidth;
+          height = canvas.height = canvas.offsetHeight;
+        };
+        window.addEventListener('resize', handleResize);
+
+        const handleMouseMove = (e) => {
+          const rect = canvas.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / width - 0.5;
+          const y = (e.clientY - rect.top) / height - 0.5;
+          targetRotY = x * 1.5;
+          targetRotX = -y * 1.2;
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+
+        const vertices = [
+          [-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
+          [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1],
+        ];
+
+        const edges = [
+          [0, 1], [1, 2], [2, 3], [3, 0],
+          [4, 5], [5, 6], [6, 7], [7, 4],
+          [0, 4], [1, 5], [2, 6], [3, 7],
+        ];
+
+        const particles = Array.from({ length: 35 }, () => ({
+          x: (Math.random() - 0.5) * 4,
+          y: (Math.random() - 0.5) * 4,
+          z: (Math.random() - 0.5) * 4,
+          size: Math.random() * 2 + 1,
+          speed: Math.random() * 0.01 + 0.005,
+        }));
+
+        let time = 0;
+
+        const render = () => {
+          time += 0.015;
+          rotX += (targetRotX + Math.sin(time * 0.5) * 0.1 - rotX) * 0.05;
+          rotY += (targetRotY + time * 0.2 - rotY) * 0.05;
+
+          ctx.clearRect(0, 0, width, height);
+
+          const cx = width / 2;
+          const cy = height / 2;
+          const scale = Math.min(width, height) * 0.24;
+
+          const project = ([x, y, z]) => {
+            const cosY = Math.cos(rotY);
+            const sinY = Math.sin(rotY);
+            const x1 = x * cosY + z * sinY;
+            const z1 = -x * sinY + z * cosY;
+
+            const cosX = Math.cos(rotX);
+            const sinX = Math.sin(rotX);
+            const y2 = y * cosX - z1 * sinX;
+            const z2 = y * sinX + z1 * cosX;
+
+            const fov = 3.5;
+            const pz = z2 + fov;
+            const px = (x1 / pz) * scale * 2 + cx;
+            const py = (y2 / pz) * scale * 2 + cy;
+            return [px, py, z2];
+          };
+
+          particles.forEach((p) => {
+            p.y -= p.speed;
+            if (p.y < -2) p.y = 2;
+            const [px, py] = project([p.x, p.y, p.z]);
+            ctx.beginPath();
+            ctx.arc(px, py, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 240, 255, ${0.4 + Math.sin(time + p.x) * 0.3})`;
+            ctx.fill();
+          });
+
+          const projected = vertices.map(project);
+          ctx.shadowBlur = 18;
+          ctx.shadowColor = '#00f0ff';
+          ctx.lineWidth = 2.5;
+
+          edges.forEach(([i, j]) => {
+            const [x1, y1] = projected[i];
+            const [x2, y2] = projected[j];
+
+            const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+            gradient.addColorStop(0, '#00f0ff');
+            gradient.addColorStop(0.5, '#a855f7');
+            gradient.addColorStop(1, '#00ffaa');
+
+            ctx.strokeStyle = gradient;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+          });
+
+          const [coreX, coreY] = project([0, 0, 0]);
+          const corePulse = Math.sin(time * 3) * 6 + 18;
+          ctx.shadowBlur = 30;
+          ctx.shadowColor = '#a855f7';
+          ctx.fillStyle = 'rgba(168, 85, 247, 0.7)';
+          ctx.beginPath();
+          ctx.arc(coreX, coreY, corePulse, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          animationFrameId = requestAnimationFrame(render);
+        };
+
+        render();
+
+        return () => {
+          window.removeEventListener('resize', handleResize);
+          window.removeEventListener('mousemove', handleMouseMove);
+          cancelAnimationFrame(animationFrameId);
+        };
+      }, []);
+
+      return (
+        <div className="relative w-full h-full min-h-[360px] flex items-center justify-center">
+          <canvas ref={canvasRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-xs font-mono text-cyan-400/70 bg-obsidian-900/90 px-3 py-1 rounded-full border border-cyan-500/20 backdrop-blur-sm pointer-events-none">
+            ◈ INTERACTIVE HOLOGRAPHIC VOXEL // MOVE CURSOR ◈
+          </div>
+        </div>
+      );
+    }
+
+    // --- Main App Component ---
+    function App() {
+      const [lang, setLang] = useState('vi');
+      const [selectedServer, setSelectedServer] = useState('cdn');
+      const [selectedLoader, setSelectedLoader] = useState('neoforge');
+      const [ram, setRam] = useState(6);
+      const [launching, setLaunching] = useState(false);
+      const [launched, setLaunched] = useState(false);
+      const [copiedHash, setCopiedHash] = useState(null);
+      const [activeTab, setActiveTab] = useState('launch');
+      const [logs, setLogs] = useState([
+        "[SYSTEM] MCW Kernel v1.6.1 initialized. Platform: Windows x64 (Win32)",
+        "[CORE] Extended \\\\?\\ path protection armed: MAX_PATH (260) bypass enabled.",
+        "[CACHE] Modloader repository cache verified. Network retry protocol: 5-attempts active.",
+        "[STATUS] Ready for sandbox launch."
+      ]);
+
+      const loaders = [
+        { id: 'neoforge', name: 'NeoForge', version: '21.1.251', game: '1.21.1' },
+        { id: 'fabric', name: 'Fabric', version: '0.16.5', game: '1.21.1' },
+        { id: 'forge', name: 'Forge', version: '47.3.0', game: '1.20.1' },
+        { id: 'quilt', name: 'Quilt', version: '0.26.0', game: '1.21.1' },
+      ];
+
+      const currentLoader = loaders.find(l => l.id === selectedLoader) || loaders[0];
+
+      const handleLaunch = () => {
+        if (launching || launched) return;
+        setLaunching(true);
+        const steps = [
+          `[LAUNCH] Request received for instance '${currentLoader.name} Ready'`,
+          `[ISOLATION] Sandboxing instance directory: .mcw-data/instances/${currentLoader.name} Ready`,
+          `[RESOLVE] Provisioning Java 21 Adoptium runtime via ManagedJavaRepository...`,
+          `[LONGPATH] Path check: verified safe against WinError 3 with \\\\?\\ prefix.`,
+          `[JVM] Applying flags: -Xmx${ram}G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions`,
+          `[MODLOADER] Injected ${currentLoader.name} ${currentLoader.version} (Minecraft ${currentLoader.game})`,
+          `[PROCESS] Minecraft client process spawned (PID: 14892). Game window ready.`
+        ];
+
+        let index = 0;
+        const interval = setInterval(() => {
+          if (index < steps.length) {
+            setLogs(prev => [...prev, steps[index]]);
+            index++;
+          } else {
+            clearInterval(interval);
+            setLaunching(false);
+            setLaunched(true);
+          }
+        }, 400);
+      };
+
+      const handleReset = () => {
+        setLaunched(false);
+        setLaunching(false);
+        setLogs([
+          "[SYSTEM] Sandbox reset.",
+          `[LOADER] Selected ${currentLoader.name} ${currentLoader.version}`,
+          "[STATUS] Ready for launch simulation."
+        ]);
+      };
+
+      const handleReloadLoader = () => {
+        setLogs(prev => [
+          ...prev,
+          `[RELOAD] User clicked Instant Reload Button. Cache invalidated.`,
+          `[HTTP] Fetching metadata with max_attempts=5 & exponential backoff...`,
+          `[HTTP] Attempt 1/5: 200 OK. Loaded ${currentLoader.name} versions successfully!`
+        ]);
+      };
+
+      return (
+        <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col font-sans">
+          {/* Navbar */}
+          <nav className="fixed top-0 left-0 right-0 z-50 bg-obsidian-950/80 backdrop-blur-md border-b border-cyan-500/20 py-3.5 shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyber-cyan via-cyber-purple to-cyber-neon p-[1.5px]">
+                  <div className="w-full h-full bg-obsidian-900 rounded-[10px] flex items-center justify-center font-mono font-black text-xl text-gradient">
+                    M
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-lg text-white">MCW Launcher</span>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyber-cyan">
+                      v1.6.1 Stable
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#features" className="hover:text-cyber-cyan transition-colors">Tính Năng</a>
+                <a href="#simulator" className="hover:text-cyber-cyan transition-colors">Trình Giả Lập</a>
+                <a href="#core-hub" className="hover:text-cyber-cyan transition-colors">MCW Core</a>
+                <a href="#download" className="hover:text-cyber-cyan transition-colors">Tải Về</a>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <a
+                  href="#download"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyber-cyan to-cyber-purple text-obsidian-950 font-bold text-xs hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all"
+                >
+                  Tải Ngay v1.6.1
+                </a>
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <section className="relative pt-36 pb-20 cyber-grid overflow-hidden">
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-cyber-cyan/15 blur-[140px] pointer-events-none rounded-full" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-obsidian-900 border border-cyber-cyan/40 text-xs font-mono text-cyber-cyan">
+                    <span className="w-2 h-2 rounded-full bg-cyber-neon animate-ping" />
+                    <span>BẢN PHÁT HÀNH CHÍNH THỨC v1.6.1 ĐÃ SẴN SÀNG</span>
+                  </div>
+
+                  <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                    <span className="text-white block">Trải Nghiệm Minecraft</span>
+                    <span className="text-gradient block">Đẳng Cấp Tương Lai</span>
+                    <span className="text-slate-300 text-3xl sm:text-4xl block mt-1">Kiến Trúc Instance-First</span>
+                  </h1>
+
+                  <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed">
+                    Nền tảng khởi chạy Minecraft mã nguồn mở thế hệ mới. Tách biệt độc lập từng phiên bản, tự động vá lỗi đường dẫn dài Windows, nạp modloader tức thì với mạng lưới CDN tốc độ cao.
+                  </p>
+
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a
+                      href="#download"
+                      className="px-8 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-cyber-cyan to-cyber-neon text-obsidian-950 hover:shadow-[0_0_35px_rgba(0,240,255,0.5)] transition-all"
+                    >
+                      Tải Ngay v1.6.1 (.exe)
+                    </a>
+                    <a
+                      href="#simulator"
+                      className="px-6 py-3.5 rounded-xl font-semibold text-sm bg-obsidian-900 border border-white/10 hover:border-cyber-cyan text-slate-200 transition-all"
+                    >
+                      Trải Nghiệm Trực Quan &rarr;
+                    </a>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+                    <div>
+                      <span className="text-xl font-mono font-bold text-white block">4 Loaders</span>
+                      <span className="text-xs text-slate-400">NeoForge, Forge, Fabric, Quilt</span>
+                    </div>
+                    <div>
+                      <span className="text-xl font-mono font-bold text-cyber-cyan block">100% Free</span>
+                      <span className="text-xs text-slate-400">Mã Nguồn Mở MIT</span>
+                    </div>
+                    <div>
+                      <span className="text-xl font-mono font-bold text-cyber-neon block">&lt; 15ms</span>
+                      <span className="text-xs text-slate-400">CDN Tốc Độ Cao VN</span>
+                    </div>
+                    <div>
+                      <span className="text-xl font-mono font-bold text-cyber-purple block">Bypass 260</span>
+                      <span className="text-xs text-slate-400">Vá Lỗi MAX_PATH</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5 relative">
+                  <div className="glass-panel rounded-2xl p-4 border border-cyan-500/20 shadow-2xl relative">
+                    <InteractiveCanvas />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Interactive Simulator Section */}
+          <section id="simulator" className="py-20 bg-obsidian-900/60 border-y border-white/5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
+                <span className="text-xs font-mono text-cyber-purple uppercase tracking-wider font-semibold">
+                  HỆ ĐIỀU HÀNH ẢO
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+                  Trình Mô Phỏng Khởi Chạy Tương Tác
+                </h2>
+                <p className="text-slate-400 text-sm sm:text-base">
+                  Bấm thử các modloader và tính năng để xem cách MCW Launcher quản lý từng instance độc lập hoàn toàn.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                {/* Simulator controls */}
+                <div className="lg:col-span-5 glass-panel rounded-2xl p-6 sm:p-7 space-y-6 border border-cyan-500/20">
+                  <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                    <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+                      Instance Architect
+                    </span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-cyber-neon">
+                      KERNEL ACTIVE
+                    </span>
+                  </div>
+
+                  {/* Modloaders */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-mono text-slate-300 font-semibold uppercase">
+                        Chọn Mod Loader
+                      </label>
+                      <button
+                        onClick={handleReloadLoader}
+                        className="text-[11px] font-mono text-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 px-2 py-1 rounded border border-cyan-500/30"
+                      >
+                        ↻ Reload (5 Retries)
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      {loaders.map((l) => (
+                        <button
+                          key={l.id}
+                          onClick={() => {
+                            setSelectedLoader(l.id);
+                            setLogs(prev => [...prev, `[SELECT] Switch modloader to ${l.name} (${l.version})`]);
+                          }}
+                          className={`p-3 rounded-xl border text-left transition-all ${
+                            selectedLoader === l.id
+                              ? 'bg-obsidian-800 border-cyber-cyan shadow-[0_0_15px_rgba(0,240,255,0.25)]'
+                              : 'bg-obsidian-950/60 border-white/5 hover:border-white/20'
+                          }`}
+                        >
+                          <div className="font-bold text-sm text-white">{l.name}</div>
+                          <div className="text-xs font-mono text-slate-400">MC {l.game}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* RAM Slider */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-xs font-mono">
+                      <span className="text-slate-300">Phân bổ RAM</span>
+                      <span className="text-cyber-cyan font-bold">{ram} GB</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="2"
+                      max="16"
+                      value={ram}
+                      onChange={(e) => setRam(e.target.value)}
+                      className="w-full h-2 bg-obsidian-950 rounded-lg appearance-none cursor-pointer accent-cyber-cyan"
+                    />
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      onClick={handleLaunch}
+                      disabled={launching || launched}
+                      className={`flex-1 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+                        launched
+                          ? 'bg-emerald-500/20 border border-emerald-500/40 text-cyber-neon'
+                          : launching
+                          ? 'bg-cyan-500/30 text-slate-300'
+                          : 'bg-gradient-to-r from-cyber-cyan to-cyber-purple text-obsidian-950 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)]'
+                      }`}
+                    >
+                      {launching ? 'Đang nạp Minecraft...' : launched ? 'Đang chạy mượt mà' : 'Khởi Chạy Giả Lập'}
+                    </button>
+                    <button
+                      onClick={handleReset}
+                      className="p-3.5 rounded-xl bg-obsidian-950 border border-white/10 hover:border-white/20 text-slate-400"
+                    >
+                      Đặt lại
+                    </button>
+                  </div>
+                </div>
+
+                {/* Terminal logs */}
+                <div className="lg:col-span-7 glass-panel rounded-2xl p-6 sm:p-7 space-y-3 border border-white/10">
+                  <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs font-mono text-slate-300">
+                    <span>MCW RUNTIME KERNEL — CONSOLE LOGS</span>
+                    <span className="text-emerald-400">TTY: 0</span>
+                  </div>
+                  <div className="bg-obsidian-950/90 rounded-xl p-4 h-[300px] overflow-y-auto font-mono text-xs text-slate-300 space-y-1.5 border border-white/5">
+                    {logs.map((log, index) => (
+                      <div key={index} className="text-slate-400">
+                        <span className="text-slate-600 mr-2">{String(index + 1).padStart(2, '0')}</span>
+                        {log}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Download Section */}
+          <section id="download" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+              <span className="text-xs font-mono text-cyber-neon uppercase tracking-wider font-semibold">
+                TẢI VỀ MIỄN PHÍ
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+                Sẵn Sàng Cho Cuộc Phiêu Lưu Của Bạn
+              </h2>
+              <p className="text-slate-400 text-sm sm:text-base">
+                Tải ngay bản phát hành v1.6.1 chính thức với định dạng một tệp thực thi duy nhất (One-file).
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Windows Installer */}
+              <div className="glass-panel-glow rounded-2xl p-7 flex flex-col justify-between border border-cyan-500/40">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyber-cyan uppercase">
+                    Windows Recommended
+                  </span>
+                  <h3 className="text-xl font-bold text-white">Bản Cài Đặt Windows (.exe)</h3>
+                  <p className="text-xs font-mono text-slate-400">MCW-Launcher-Setup-1.6.1.exe (78.4 MB)</p>
+                  <p className="text-sm text-slate-300">Bộ cài đặt đầy đủ cho Windows 10/11 x64, tự động tạo lối tắt và bảo vệ đường dẫn dài.</p>
+                </div>
+                <div className="pt-6 mt-6 border-t border-white/10">
+                  <a
+                    href="https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW-Launcher-Setup-1.6.1.exe"
+                    className="w-full py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-cyber-cyan to-cyber-neon text-obsidian-950 flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all"
+                  >
+                    Tải Installer (.exe)
+                  </a>
+                </div>
+              </div>
+
+              {/* Windows Portable */}
+              <div className="glass-panel rounded-2xl p-7 flex flex-col justify-between border border-white/10">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-purple-500/10 text-cyber-purple uppercase">
+                    Portable One-File
+                  </span>
+                  <h3 className="text-xl font-bold text-white">Bản Portable (Không cần cài)</h3>
+                  <p className="text-xs font-mono text-slate-400">MCW Launcher.exe (77.9 MB)</p>
+                  <p className="text-sm text-slate-300">File thực thi độc lập duy nhất. Lưu vào USB và chơi ngay trên bất kỳ máy nào.</p>
+                </div>
+                <div className="pt-6 mt-6 border-t border-white/10">
+                  <a
+                    href="https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW%20Launcher.exe"
+                    className="w-full py-3.5 rounded-xl font-semibold text-sm bg-obsidian-850 border border-white/10 hover:border-cyan-500/40 text-white flex items-center justify-center gap-2 transition-all"
+                  >
+                    Tải Portable (.exe)
+                  </a>
+                </div>
+              </div>
+
+              {/* Linux Standalone */}
+              <div className="glass-panel rounded-2xl p-7 flex flex-col justify-between border border-white/10">
+                <div className="space-y-4">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-cyber-neon uppercase">
+                    Linux Standalone
+                  </span>
+                  <h3 className="text-xl font-bold text-white">Bản Linux (x64)</h3>
+                  <p className="text-xs font-mono text-slate-400">mcw-launcher (82.3 MB)</p>
+                  <p className="text-sm text-slate-300">File thực thi độc lập cho Ubuntu, Debian, Fedora, Arch. Chạy mượt mà trên desktop.</p>
+                </div>
+                <div className="pt-6 mt-6 border-t border-white/10">
+                  <a
+                    href="https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/mcw-launcher"
+                    className="w-full py-3.5 rounded-xl font-semibold text-sm bg-obsidian-850 border border-white/10 hover:border-emerald-500/40 text-white flex items-center justify-center gap-2 transition-all"
+                  >
+                    Tải Linux Binary
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-obsidian-950 border-t border-white/10 py-12 text-slate-400 text-xs">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+              <div className="flex items-center justify-center gap-2 font-bold text-white text-base">
+                <span>MCW Launcher</span>
+                <span className="text-xs font-mono text-cyber-cyan">v1.6.1</span>
+              </div>
+              <p className="max-w-xl mx-auto text-slate-500">
+                Tuyên bố miễn trừ: MCW Launcher là dự án phần mềm nguồn mở độc lập, không liên kết, không được tài trợ hay phê duyệt bởi Mojang Studios, Microsoft Corporation hay bất kỳ đơn vị sở hữu bản quyền Minecraft nào.
+              </p>
+              <div className="text-slate-600 font-mono">
+                &copy; {new Date().getFullYear()} MCW Launcher. MIT License.
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
