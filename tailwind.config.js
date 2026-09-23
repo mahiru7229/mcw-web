@@ -28,6 +28,15 @@ export default {
           rose: '#ff4d8d',
           dark: '#07090e',
           card: '#0d111a',
+        },
+        asuka: {
+          red: '#ff1f44',
+          crimson: '#d90429',
+          flame: '#ff5400',
+          orange: '#ff7b00',
+          amber: '#ffb703',
+          dark: '#07080d',
+          panel: '#0e111a',
         }
       },
       fontFamily: {

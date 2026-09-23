@@ -52,17 +52,12 @@ export default function Footer({ t }) {
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#features" className="hover:text-anime-pink transition-colors">
+                <a href="#features" className="hover:text-asuka-red transition-colors">
                   {t.sidebar.features}
                 </a>
               </li>
               <li>
-                <a href="#simulator" className="hover:text-anime-pink transition-colors">
-                  {t.sidebar.simulator}
-                </a>
-              </li>
-              <li>
-                <a href="#download" className="hover:text-anime-pink transition-colors">
+                <a href="#download" className="hover:text-asuka-flame transition-colors">
                   {t.sidebar.download}
                 </a>
               </li>
@@ -71,7 +66,7 @@ export default function Footer({ t }) {
                   href="https://github.com/mahiru7229/mcw-launcher/blob/main/CHANGELOG.md"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-cyber-cyan transition-colors"
+                  className="hover:text-amber-400 transition-colors"
                 >
                   Changelog v1.6.1
                 </a>

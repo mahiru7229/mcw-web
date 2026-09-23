@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MCW Launcher — The Next-Gen Instance-First Minecraft Platform</title>
+  <title>MCW Launcher — EVA-02 Asuka Protocol v1.6.1</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,19 +19,19 @@
               800: '#141b2d',
               700: '#1e2942',
             },
+            asuka: {
+              red: '#ff1f44',
+              crimson: '#d90429',
+              flame: '#ff5400',
+              orange: '#ff7b00',
+              amber: '#ffb703',
+              dark: '#07080d',
+              panel: '#0e111a',
+            },
             cyber: {
               cyan: '#00f0ff',
               neon: '#00ffaa',
               purple: '#9d4edd',
-              pink: '#ff4d8d',
-              sakura: '#ff77aa',
-              amber: '#f59e0b',
-            },
-            anime: {
-              pink: '#ff3385',
-              rose: '#ff4d8d',
-              dark: '#07090e',
-              card: '#0d111a',
             }
           },
           fontFamily: {
@@ -44,7 +44,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <!-- React & ReactDOM & Babel for in-browser standalone execution -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -64,19 +64,19 @@
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #ff4d8d;
+      background: #ff1f44;
     }
     .glass-panel {
-      background: rgba(15, 20, 32, 0.7);
+      background: rgba(14, 17, 26, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .glass-panel-glow {
-      background: rgba(15, 20, 32, 0.85);
+    .asuka-panel-glow {
+      background: rgba(14, 17, 26, 0.9);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 77, 141, 0.35);
-      box-shadow: 0 0 35px -10px rgba(255, 77, 141, 0.2);
+      border: 1px solid rgba(255, 31, 68, 0.4);
+      box-shadow: 0 0 35px -8px rgba(255, 31, 68, 0.25);
     }
     .cyber-grid {
       background-size: 36px 36px;
@@ -84,18 +84,18 @@
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
-    .text-gradient-anime {
-      background: linear-gradient(135deg, #ff4d8d 0%, #a855f7 50%, #00f0ff 100%);
+    .text-gradient-asuka {
+      background: linear-gradient(135deg, #ff1f44 0%, #ff5400 50%, #ffb703 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
   </style>
 </head>
-<body class="bg-obsidian-950 text-slate-100 antialiased selection:bg-anime-pink selection:text-white overflow-x-hidden min-h-screen">
+<body class="bg-obsidian-950 text-slate-100 antialiased selection:bg-asuka-red selection:text-white overflow-x-hidden min-h-screen">
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
+    const { useState, useEffect } = React;
 
     const RELEASE_DATA = {
       version: "v1.6.1",
@@ -137,18 +137,18 @@
       changelog: [
         {
           type: "feat",
-          title: "Nút Reload Modloader & Retry 5 Lần",
-          desc: "Bổ sung nút nạp lại danh sách phiên bản modloader trong dialog Tạo Instance. Tự động thử lại 5 lần với exponential backoff khi mạng chập chờn."
+          title: "Nạp Lại Modloader & 5 Lần Thử Lại",
+          desc: "Nút Reload tức thì trong giao diện Tạo Instance. Tự động thử lại 5 lần với exponential backoff khi mạng chập chờn."
         },
         {
           type: "fix",
-          title: "Khắc phục Lỗi Đường Dẫn Dài Windows",
-          desc: "Tự động kích hoạt tiền tố \\\\?\\ chống chạm trần 260 ký tự (WinError 3) khi giải nén các modpack đồ sộ của NeoForge 1.21.1."
+          title: "Giải Phóng Giới Hạn MAX_PATH Windows",
+          desc: "Tự động kích hoạt tiền tố \\\\?\\ mở rộng 32.767 ký tự, xóa sổ hoàn toàn lỗi WinError 3 khi cài các modpack nặng."
         },
         {
           type: "perf",
-          title: "One-File Siêu Nhẹ & Chuẩn Bị Cloudflare CDN",
-          desc: "Định dạng đóng gói đơn tệp an toàn, sẵn sàng liên kết cụm máy chủ tải tốc độ cao tại Việt Nam."
+          title: "Đóng Gói One-File & Cụm Server VN Siêu Tốc",
+          desc: "Tệp thực thi độc lập an toàn không dính cảnh báo sai, sẵn sàng kết nối cụm Server VN tốc độ cao."
         }
       ]
     };
@@ -156,76 +156,58 @@
     const I18N = {
       vi: {
         sidebar: {
-          brand_sub: "マインクラフト・新世代",
-          status: "SYSTEM READY",
-          status_kaomoji: "(๑•̀ㅂ•́)و✧",
+          brand_sub: "EVA-02 // PROTOCOL MCW",
+          status: "SYNC RATE: 100%",
+          status_kaomoji: "PILOT: ASUKA 02",
           home: "Tổng Quan",
           home_jp: "ホーム",
-          features: "Tính Năng",
+          features: "Hệ Thống EVA",
           features_jp: "特長",
-          simulator: "Trải Nghiệm",
-          simulator_jp: "仮想実験",
           download: "Tải Về",
           download_jp: "入手",
           core: "Dev Core",
           core_jp: "開発者",
-          download_btn: "Tải v1.6.1",
+          download_btn: "Khởi Chạy v1.6.1",
         },
         hero: {
-          badge: "✦ BẢN CHÍNH THỨC v1.6.1 SẴN SÀNG ✦",
-          badge_jp: "「完全独立・エラーゼロ」",
+          badge: "✦ EVA UNIT-02 // ASUKA PROTOCOL v1.6.1 ✦",
+          badge_jp: "「あんたバカ？ 起動しなさい！」",
           title_1: "Trình Khởi Chạy Minecraft",
-          title_gradient: "Tối Giản. Tuyệt Tốc.",
-          title_2: "Độc Lập Instance-First",
-          subtitle: "Nền tảng khởi chạy Minecraft thế hệ mới. Tách biệt 100% từng bản chơi, xóa sổ hoàn toàn lỗi đường dẫn dài Windows, tự động hóa Java & Modloader với mạng lưới CDN Việt Nam siêu tốc.",
+          title_gradient: "Đồng Bộ Tuyệt Tốc. Đỏ Rực Đam Mê.",
+          title_2: "Chuẩn Mực Instance-First",
+          subtitle: "Nền tảng khởi chạy Minecraft cách ly 100% từng phiên bản, loại bỏ hoàn toàn lỗi đường dẫn dài Windows. Đạt tỷ lệ đồng bộ tuyệt đối với cụm Server Việt Nam tốc độ cao!",
           btn_download: "Tải v1.6.1 Ngay",
-          btn_explore: "Thử Giả Lập",
+          btn_explore: "Khám Phá Tính Năng",
           stat_loaders: "4 Mod Loaders Hỗ Trợ",
           stat_open: "100% Mã Nguồn Mở",
-          stat_speed: "CDN Việt Nam Siêu Tốc",
+          stat_speed: "Server VN Tốc Độ Cao",
           stat_health: "Miễn Nhiễm WinError 3",
         },
-        simulator: {
-          tag: "VIRTUAL LAUNCH HUD // 仮想起動実験",
-          title: "Trình Mô Phỏng Khởi Chạy",
-          subtitle: "Trải nghiệm cách MCW Launcher quản lý từng không gian cách ly và tự phục hồi khi có sự cố.",
-          select_loader: "Chọn Mod Loader",
-          ram_allocated: "Phân bổ RAM",
-          instance_status: "Trạng thái",
-          ready_to_launch: "Sẵn sàng",
-          launching: "Đang nạp Minecraft...",
-          active: "Link Start! Đang chạy",
-          btn_launch: "Link Start! (Khởi Chạy)",
-          btn_reset: "Đặt Lại",
-          terminal_title: "MCW RUNTIME // TERMINAL CONSOLE",
-          auto_heal_badge: "Auto-Heal 5x Active",
-          extended_path_badge: "Bypass MAX_PATH Active",
-        },
         features: {
-          tag: "CORE INNOVATIONS // 4 TRỤ CỘT",
-          title: "Tối Giản. Mạnh Mẽ. Không Lỗi.",
-          subtitle: "Tập trung giải quyết triệt để những phiền toái lớn nhất khi chơi Minecraft modpack.",
-          card1_title: "Cách Ly Instance Tuyệt Đối",
-          card1_jp: "完全独立空間",
-          card1_desc: "Mỗi bản game là một khoang chứa độc lập. Mods, saves, shaders, Java và cấu hình JVM tách biệt hoàn toàn — cài mod mới không bao giờ lo hỏng thế giới cũ.",
-          card2_title: "Xóa Sổ Lỗi Đường Dẫn Windows",
-          card2_jp: "パス制限完全解除",
-          card2_desc: "Tự động kích hoạt tiền tố \\\\?\\ mở rộng giới hạn lên 32.767 ký tự. Thoải mái cài các modpack đồ sộ hàng trăm mod mà không gặp lỗi WinError 3.",
-          card3_title: "Tự Phục Hồi Với 5 Lần Retry",
-          card3_jp: "5回自動再試行",
-          card3_desc: "Bộ nạp metadata tự động thử lại 5 lần với exponential backoff khi mạng chập chờn, kèm nút Reload tức thì ngay trong màn hình tạo bản chơi.",
-          card4_title: "Tự Động Java & Mod Hub",
-          card4_jp: "Java自動管理＆Modハブ",
+          tag: "EVA-02 TACTICAL SYSTEMS // 4 TRỤ CỘT",
+          title: "Đồng Bộ Tuyệt Đối. Không Thỏa Hiệp.",
+          subtitle: "Xóa sạch mọi lỗi nghẽn và phiền toái khi chơi Minecraft modpack với hiệu năng tối đa.",
+          card1_title: "Khoang Cách Ly Tuyệt Đối (Plug Isolation)",
+          card1_jp: "「完全独立・エントリープラグ」",
+          card1_desc: "Mỗi bản game là một khoang lái độc lập. Mods, saves, shaders, Java và cấu hình JVM tách biệt hoàn toàn — thử modpack mới không bao giờ ảnh hưởng thế giới cũ.",
+          card2_title: "Giải Phóng Giới Hạn MAX_PATH",
+          card2_jp: "「32,767文字パス完全解放」",
+          card2_desc: "Tự động kích hoạt tiền tố \\\\?\\ mở rộng giới hạn lên 32.767 ký tự. Thoải mái cài các modpack đồ sộ hàng trăm mod của NeoForge mà không lo lỗi WinError 3.",
+          card3_title: "Tự Phục Hồi 5 Lần (Auto-Recovery)",
+          card3_jp: "「5回自動リトライ機構」",
+          card3_desc: "Bộ nạp metadata tự động thử lại 5 lần kèm giãn cách exponential backoff khi mạng chập chờn, kết hợp nút Reload tức thì ngay trong màn hình tạo bản chơi.",
+          card4_title: "Đồng Bộ Java & Mod Hub",
+          card4_jp: "「Java＆Mod統合同期ハブ」",
           card4_desc: "Tự nhận diện và cấp phát Java Adoptium chuẩn xác từ Java 8 đến 21+. Tìm kiếm và cài đặt mod Modrinth & CurseForge an toàn chỉ với 1 cú click.",
         },
         download: {
-          tag: "DOWNLOAD // ソフトウェア入手",
-          title: "Tải Về Trải Nghiệm Ngay",
-          subtitle: "Bản phát hành chính thức v1.6.1 gọn nhẹ, sẵn sàng khởi chạy ngay.",
+          tag: "DEPLOYMENT // TRẠM TẢI XUỐNG",
+          title: "Sẵn Sàng Triển Khai Ngay",
+          subtitle: "Bản phát hành chính thức v1.6.1 gọn nhẹ, sẵn sàng khởi chạy chỉ sau vài giây.",
           detected: "Thiết bị nhận diện:",
-          server_switch: "Máy chủ:",
-          server_cdn: "⚡ CDN Việt Nam (Siêu tốc)",
-          server_github: "🌐 GitHub Quốc tế",
+          server_switch: "Chọn máy chủ:",
+          server_cdn: "⚡ Server VN (Tốc độ cao)",
+          server_github: "🌐 Server Quốc tế",
           windows_installer: "Bản Cài Đặt Windows (.exe)",
           windows_portable: "Bản Portable Windows (One-file)",
           linux_binary: "Bản Linux x64 (Standalone)",
@@ -238,76 +220,58 @@
       },
       en: {
         sidebar: {
-          brand_sub: "Next-Gen Minecraft",
-          status: "SYSTEM READY",
-          status_kaomoji: "(๑•̀ㅂ•́)و✧",
+          brand_sub: "EVA-02 // PROTOCOL MCW",
+          status: "SYNC RATE: 100%",
+          status_kaomoji: "PILOT: ASUKA 02",
           home: "Overview",
           home_jp: "ホーム",
-          features: "Features",
+          features: "EVA Systems",
           features_jp: "特長",
-          simulator: "Simulator",
-          simulator_jp: "仮想実験",
           download: "Download",
           download_jp: "入手",
           core: "Dev Core",
           core_jp: "開発者",
-          download_btn: "Get v1.6.1",
+          download_btn: "Launch v1.6.1",
         },
         hero: {
-          badge: "✦ OFFICIAL STABLE v1.6.1 READY ✦",
-          badge_jp: "「完全独立・エラーゼロ」",
+          badge: "✦ EVA UNIT-02 // ASUKA PROTOCOL v1.6.1 ✦",
+          badge_jp: "「あんたバカ？ 起動しなさい！」",
           title_1: "Next-Gen Minecraft Launcher",
-          title_gradient: "Minimal. Ultra Fast.",
+          title_gradient: "Peak Synchronization. Fiery Passion.",
           title_2: "Pure Instance-First",
-          subtitle: "The streamlined open-source Minecraft launcher. 100% isolated instances, zero Windows long path errors, auto Java & modloader provisioning with lightning edge CDN.",
+          subtitle: "The high-performance open-source Minecraft launcher. 100% isolated instances, zero Windows long path errors, and blazing fast downloads via dedicated Vietnam & Global servers.",
           btn_download: "Download v1.6.1",
-          btn_explore: "Try Simulator",
+          btn_explore: "Explore Systems",
           stat_loaders: "4 Official Mod Loaders",
           stat_open: "100% Open Source",
-          stat_speed: "Ultra-Fast Edge CDN",
+          stat_speed: "Vietnam Server Fast",
           stat_health: "Zero WinError 3",
         },
-        simulator: {
-          tag: "VIRTUAL LAUNCH HUD // 仮想起動実験",
-          title: "Interactive Launch Simulator",
-          subtitle: "Experience how MCW Launcher manages isolated environments and auto-recovers gracefully.",
-          select_loader: "Select Mod Loader",
-          ram_allocated: "Allocated RAM",
-          instance_status: "Status",
-          ready_to_launch: "Ready",
-          launching: "Spawning Minecraft...",
-          active: "Link Start! Running",
-          btn_launch: "Link Start! (Simulate)",
-          btn_reset: "Reset",
-          terminal_title: "MCW RUNTIME // TERMINAL CONSOLE",
-          auto_heal_badge: "Auto-Heal 5x Active",
-          extended_path_badge: "Bypass MAX_PATH Active",
-        },
         features: {
-          tag: "CORE INNOVATIONS // 4 PILLARS",
-          title: "Minimal. Robust. Zero Frustration.",
-          subtitle: "Engineered specifically to solve the biggest headaches in modded Minecraft.",
-          card1_title: "Absolute Instance Isolation",
-          card1_jp: "完全独立空間",
-          card1_desc: "Every instance is a self-contained sandbox. Mods, saves, shaders, Java, and JVM arguments are isolated — testing new modpacks never harms existing worlds.",
+          tag: "EVA-02 TACTICAL SYSTEMS // 4 PILLARS",
+          title: "Absolute Synchronization. Zero Compromise.",
+          subtitle: "Engineered specifically to solve the biggest headaches in modded Minecraft with maximum stability.",
+          card1_title: "Plug Isolation (Independent Containers)",
+          card1_jp: "「完全独立・エントリープラグ」",
+          card1_desc: "Every instance is a self-contained cockpit. Mods, saves, shaders, Java, and JVM arguments are isolated — testing new modpacks never harms existing worlds.",
           card2_title: "Windows Long Path Bypass",
-          card2_jp: "パス制限完全解除",
+          card2_jp: "「32,767文字パス完全解放」",
           card2_desc: "Automatically utilizes \\\\?\\ extended 32,767-character paths on Windows. Freely install massive modpacks with deep hierarchies without WinError 3.",
           card3_title: "5-Attempt Auto-Recovery",
-          card3_jp: "5回自動再試行",
+          card3_jp: "「5回自動リトライ機構」",
           card3_desc: "Metadata fetchers retry 5 times with exponential backoff on transient connection drops, paired with an instant Reload button right inside the Create dialog.",
           card4_title: "Auto Java & Mod Hub",
-          card4_jp: "Java自動管理＆Modハブ",
+          card4_jp: "「Java＆Mod統合同期ハブ」",
           card4_desc: "Auto-detects and provisions Eclipse Temurin runtimes from Java 8 to 21+. Seamlessly search and install mods from Modrinth & CurseForge in 1 click.",
         },
         download: {
-          tag: "DOWNLOAD // ソフトウェア入手",
-          title: "Get MCW Launcher Today",
+          tag: "DEPLOYMENT // TRẠM TẢI XUỐNG",
+          title: "Ready For Launch",
           subtitle: "Official v1.6.1 stable builds packaged in clean, portable single-executable formats.",
           detected: "Detected system:",
-          server_switch: "Mirror:",
-          server_cdn: "⚡ Vietnam Edge CDN (Fast)",
-          server_github: "🌐 Global GitHub",
+          server_switch: "Select server:",
+          server_cdn: "⚡ Server VN (High-Speed)",
+          server_github: "🌐 Server Quốc tế",
           windows_installer: "Windows Installer (.exe)",
           windows_portable: "Windows Portable (One-file)",
           linux_binary: "Linux x64 (Standalone)",
@@ -320,167 +284,13 @@
       }
     };
 
-    // 3D Voxel Canvas Component
-    function InteractiveCanvas() {
-      const canvasRef = useRef(null);
-
-      useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        let animationFrameId;
-
-        const dpr = window.devicePixelRatio || 1;
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.scale(dpr, dpr);
-
-        let angleX = 0.5;
-        let angleY = 0.5;
-        let targetAngleX = 0.5;
-        let targetAngleY = 0.5;
-
-        const handleMouseMove = (e) => {
-          const rect = canvas.getBoundingClientRect();
-          const x = (e.clientX - rect.left) / rect.width - 0.5;
-          const y = (e.clientY - rect.top) / rect.height - 0.5;
-          targetAngleY = x * 1.5;
-          targetAngleX = -y * 1.5;
-        };
-
-        canvas.addEventListener('mousemove', handleMouseMove);
-
-        const particles = Array.from({ length: 28 }).map(() => ({
-          x: (Math.random() - 0.5) * 220,
-          y: (Math.random() - 0.5) * 220,
-          z: (Math.random() - 0.5) * 220,
-          size: Math.random() * 2 + 1,
-          color: Math.random() > 0.5 ? '#ff4d8d' : '#00f0ff',
-          speed: Math.random() * 0.01 + 0.005
-        }));
-
-        const cubeSize = 58;
-        const vertices = [
-          [-cubeSize, -cubeSize, -cubeSize],
-          [cubeSize, -cubeSize, -cubeSize],
-          [cubeSize, cubeSize, -cubeSize],
-          [-cubeSize, cubeSize, -cubeSize],
-          [-cubeSize, -cubeSize, cubeSize],
-          [cubeSize, -cubeSize, cubeSize],
-          [cubeSize, cubeSize, cubeSize],
-          [-cubeSize, cubeSize, cubeSize]
-        ];
-
-        const edges = [
-          [0, 1], [1, 2], [2, 3], [3, 0],
-          [4, 5], [5, 6], [6, 7], [7, 4],
-          [0, 4], [1, 5], [2, 6], [3, 7]
-        ];
-
-        const render = () => {
-          ctx.clearRect(0, 0, rect.width, rect.height);
-          angleX += (targetAngleX - angleX) * 0.05 + 0.004;
-          angleY += (targetAngleY - angleY) * 0.05 + 0.008;
-
-          const cx = rect.width / 2;
-          const cy = rect.height / 2;
-          const fov = 260;
-
-          // Draw floating particles
-          particles.forEach(p => {
-            p.y -= 0.3;
-            if (p.y < -110) p.y = 110;
-            const rotY = p.x * Math.cos(angleY) - p.z * Math.sin(angleY);
-            const rotZ = p.x * Math.sin(angleY) + p.z * Math.cos(angleY);
-            const rotX = p.y * Math.cos(angleX) - rotZ * Math.sin(angleX);
-            const finalZ = p.y * Math.sin(angleX) + rotZ * Math.cos(angleX);
-
-            const scale = fov / (fov + finalZ + 180);
-            const x2d = cx + rotY * scale;
-            const y2d = cy + rotX * scale;
-
-            ctx.beginPath();
-            ctx.arc(x2d, y2d, p.size * scale, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = Math.max(0.2, Math.min(0.9, scale));
-            ctx.fill();
-          });
-          ctx.globalAlpha = 1;
-
-          // Project Cube Vertices
-          const projected = vertices.map(v => {
-            const rotY = v[0] * Math.cos(angleY) - v[2] * Math.sin(angleY);
-            const rotZ = v[0] * Math.sin(angleY) + v[2] * Math.cos(angleY);
-            const rotX = v[1] * Math.cos(angleX) - rotZ * Math.sin(angleX);
-            const finalZ = v[1] * Math.sin(angleX) + rotZ * Math.cos(angleX);
-
-            const scale = fov / (fov + finalZ + 180);
-            return {
-              x: cx + rotY * scale,
-              y: cy + rotX * scale,
-              scale
-            };
-          });
-
-          // Draw Glowing Edges
-          edges.forEach(edge => {
-            const p1 = projected[edge[0]];
-            const p2 = projected[edge[1]];
-
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
-            grad.addColorStop(0, '#ff4d8d');
-            grad.addColorStop(0.5, '#9d4edd');
-            grad.addColorStop(1, '#00f0ff');
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 2.2;
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#ff4d8d';
-            ctx.stroke();
-            ctx.shadowBlur = 0;
-          });
-
-          // Draw Vertices Points
-          projected.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 4 * p.scale, 0, Math.PI * 2);
-            ctx.fillStyle = '#00f0ff';
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = '#00f0ff';
-            ctx.fill();
-            ctx.shadowBlur = 0;
-          });
-
-          animationFrameId = requestAnimationFrame(render);
-        };
-
-        render();
-
-        return () => {
-          cancelAnimationFrame(animationFrameId);
-          canvas.removeEventListener('mousemove', handleMouseMove);
-        };
-      }, []);
-
-      return (
-        <canvas
-          ref={canvasRef}
-          className="w-full h-[270px] sm:h-[310px] rounded-xl cursor-grab active:cursor-grabbing"
-        />
-      );
-    }
-
     // Left Sidebar Component
     function LeftSidebar({ lang, setLang, t, activeTab, setActiveTab }) {
       const [mobileOpen, setMobileOpen] = useState(false);
 
       const navItems = [
         { id: 'hero', href: '#hero', label: t.sidebar.home, jp: t.sidebar.home_jp, icon: "🚀" },
-        { id: 'features', href: '#features', label: t.sidebar.features, jp: t.sidebar.features_jp, icon: "✦" },
-        { id: 'simulator', href: '#simulator', label: t.sidebar.simulator, jp: t.sidebar.simulator_jp, icon: "🎮" },
+        { id: 'features', href: '#features', label: t.sidebar.features, jp: t.sidebar.features_jp, icon: "🔥" },
         { id: 'download', href: '#download', label: t.sidebar.download, jp: t.sidebar.download_jp, icon: "📥" },
         { id: 'core-hub', href: '#core-hub', label: t.sidebar.core, jp: t.sidebar.core_jp, icon: "💻" },
       ];
@@ -488,16 +298,16 @@
       return (
         <React.Fragment>
           {/* Mobile Top Bar */}
-          <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-obsidian-950/90 backdrop-blur-md border-b border-white/10 px-4 py-3 flex items-center justify-between">
+          <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-obsidian-950/95 backdrop-blur-md border-b border-asuka-red/20 px-4 py-3 flex items-center justify-between">
             <a href="#hero" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-anime-pink via-cyber-purple to-cyber-cyan p-[1.5px]">
-                <div className="w-full h-full bg-obsidian-900 rounded-[7px] flex items-center justify-center font-mono font-bold text-xs text-gradient-anime">
-                  M
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-asuka-red via-asuka-flame to-asuka-amber p-[1.5px] shadow-[0_0_15px_rgba(255,31,68,0.4)]">
+                <div className="w-full h-full bg-obsidian-900 rounded-[7px] flex items-center justify-center font-mono font-bold text-xs text-gradient-asuka">
+                  02
                 </div>
               </div>
               <div>
                 <span className="font-extrabold text-sm text-white">MCW</span>
-                <span className="text-[10px] font-mono text-anime-pink ml-1.5">v1.6.1</span>
+                <span className="text-[10px] font-mono text-asuka-red ml-1.5 font-bold">v1.6.1</span>
               </div>
             </a>
             <div className="flex items-center gap-2">
@@ -520,13 +330,13 @@
           {mobileOpen && (
             <div
               onClick={() => setMobileOpen(false)}
-              className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+              className="md:hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-40"
             />
           )}
 
           {/* Left Sidebar Body */}
           <aside
-            className={`fixed top-0 bottom-0 left-0 z-50 w-64 lg:w-72 bg-obsidian-950/95 backdrop-blur-xl border-r border-white/10 flex flex-col justify-between transition-transform duration-300 md:translate-x-0 ${
+            className={`fixed top-0 bottom-0 left-0 z-50 w-64 lg:w-72 bg-obsidian-950/95 backdrop-blur-xl border-r border-asuka-red/25 flex flex-col justify-between transition-transform duration-300 md:translate-x-0 ${
               mobileOpen ? 'translate-x-0 pt-16 md:pt-0' : '-translate-x-full md:translate-x-0'
             }`}
           >
@@ -534,34 +344,34 @@
             <div className="p-6 border-b border-white/10">
               <a href="#hero" className="block group">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-anime-pink via-cyber-purple to-cyber-cyan p-[2px] shadow-[0_0_20px_rgba(255,77,141,0.35)]">
-                    <div className="w-full h-full bg-obsidian-900 rounded-[8px] flex items-center justify-center font-mono font-black text-lg text-gradient-anime">
-                      M
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-asuka-red via-asuka-flame to-asuka-amber p-[2px] shadow-[0_0_20px_rgba(255,31,68,0.4)]">
+                    <div className="w-full h-full bg-obsidian-900 rounded-[8px] flex items-center justify-center font-mono font-black text-lg text-gradient-asuka">
+                      02
                     </div>
                   </div>
                   <div>
                     <h1 className="font-extrabold text-base tracking-wider text-white">MCW LAUNCHER</h1>
-                    <span className="text-[11px] font-mono text-cyan-400 block tracking-wider">
+                    <span className="text-[10px] font-mono text-asuka-orange block tracking-wider font-semibold">
                       {t.sidebar.brand_sub}
                     </span>
                   </div>
                 </div>
               </a>
 
-              {/* Anime Status Tag */}
-              <div className="mt-4 px-3 py-1.5 rounded-lg bg-anime-pink/10 border border-anime-pink/30 flex items-center justify-between text-[11px] font-mono">
-                <div className="flex items-center gap-1.5 text-anime-pink">
-                  <span className="w-1.5 h-1.5 rounded-full bg-anime-pink animate-pulse" />
-                  <span className="font-semibold">{t.sidebar.status}</span>
+              {/* Asuka Sync Rate Tag */}
+              <div className="mt-4 px-3 py-1.5 rounded-lg bg-asuka-red/10 border border-asuka-red/30 flex items-center justify-between text-[11px] font-mono">
+                <div className="flex items-center gap-1.5 text-asuka-red font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-asuka-flame animate-pulse" />
+                  <span>{t.sidebar.status}</span>
                 </div>
-                <span className="text-slate-300 font-bold">{t.sidebar.status_kaomoji}</span>
+                <span className="text-amber-400 font-bold text-[10px]">{t.sidebar.status_kaomoji}</span>
               </div>
             </div>
 
             {/* Navigation links */}
             <nav className="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto">
               <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-widest text-slate-500">
-                NAVIGATION // メニュー
+                EVA PROTOCOLS // システム
               </div>
 
               {navItems.map((item) => {
@@ -576,7 +386,7 @@
                     }}
                     className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium ${
                       isActive
-                        ? 'bg-gradient-to-r from-anime-pink/20 to-cyber-cyan/10 border border-anime-pink/40 text-white shadow-[0_0_15px_rgba(255,77,141,0.15)]'
+                        ? 'bg-gradient-to-r from-asuka-red/25 to-asuka-flame/15 border border-asuka-red/50 text-white shadow-[0_0_15px_rgba(255,31,68,0.2)]'
                         : 'text-slate-300 hover:text-white hover:bg-white/5 border border-transparent'
                     }`}
                   >
@@ -591,11 +401,11 @@
             </nav>
 
             {/* Bottom Actions */}
-            <div className="p-4 border-t border-white/10 space-y-2.5 bg-obsidian-900/40">
+            <div className="p-4 border-t border-white/10 space-y-2.5 bg-obsidian-900/60">
               <a
                 href="#download"
                 onClick={() => setMobileOpen(false)}
-                className="w-full py-2.5 px-3 rounded-xl font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-anime-pink via-cyber-purple to-cyber-cyan hover:shadow-[0_0_20px_rgba(255,77,141,0.5)] transition-all flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-3 rounded-xl font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber hover:shadow-[0_0_25px_rgba(255,31,68,0.5)] transition-all flex items-center justify-center gap-2"
               >
                 <span>📥 {t.sidebar.download_btn}</span>
                 <span className="text-[10px] opacity-80 font-mono">(v1.6.1)</span>
@@ -604,7 +414,7 @@
               <div className="grid grid-cols-2 gap-2 pt-1">
                 <button
                   onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')}
-                  className="py-1.5 px-2 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 border border-white/10 text-xs font-mono text-slate-300 hover:text-anime-pink flex items-center justify-center gap-1.5"
+                  className="py-1.5 px-2 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 border border-white/10 text-xs font-mono text-slate-300 hover:text-asuka-red flex items-center justify-center gap-1.5"
                 >
                   <span>🌐</span>
                   <span>{lang === 'vi' ? 'Tiếng Việt' : 'English'}</span>
@@ -620,8 +430,8 @@
               </div>
 
               <div className="pt-1 text-center text-[10px] font-mono text-slate-400 flex items-center justify-between px-1">
-                <span>MCW STABLE</span>
-                <span className="text-cyan-400">1.6.1</span>
+                <span className="text-slate-500">SYNC: 100%</span>
+                <span className="text-asuka-flame font-bold">1.6.1</span>
               </div>
             </div>
           </aside>
@@ -633,64 +443,10 @@
     function App() {
       const [lang, setLang] = useState('vi');
       const [activeTab, setActiveTab] = useState('hero');
-      const [selectedLoader, setSelectedLoader] = useState('neoforge');
-      const [ram, setRam] = useState(6);
-      const [launching, setLaunching] = useState(false);
-      const [launched, setLaunched] = useState(false);
-      const [selectedServer, setSelectedServer] = useState('cdn');
+      const [selectedServer, setSelectedServer] = useState('cdn'); // 'cdn' = Server VN | 'github' = Server Quốc tế
       const [copiedHash, setCopiedHash] = useState(null);
-      const [logs, setLogs] = useState([
-        "[KERNEL] MCW Core initialized. Platform: Windows x64",
-        "[LONGPATH] Extended \\\\?\\ path protection armed: MAX_PATH bypass active.",
-        "[NETWORK] Metadata client online. Retry strategy: 5-attempts active.",
-        "[STATUS] Ready for sandbox launch. (๑•̀ㅂ•́)و✧"
-      ]);
 
       const t = I18N[lang];
-
-      const loaders = [
-        { id: 'neoforge', name: 'NeoForge', version: '21.1.251', game: '1.21.1', tag: '推奨' },
-        { id: 'fabric', name: 'Fabric', version: '0.16.5', game: '1.21.1', tag: '高速' },
-        { id: 'forge', name: 'Forge', version: '47.3.0', game: '1.20.1', tag: '定番' },
-        { id: 'quilt', name: 'Quilt', version: '0.26.0', game: '1.21.1', tag: '次世代' },
-      ];
-
-      const currentLoader = loaders.find(l => l.id === selectedLoader) || loaders[0];
-
-      const handleLaunch = () => {
-        if (launching || launched) return;
-        setLaunching(true);
-        const newLogs = [
-          `[LINK START] Initializing sandbox for '${currentLoader.name} Ready'`,
-          `[ISOLATE] Mounting container: .mcw-data/instances/${currentLoader.name}-Sandbox`,
-          `[RUNTIME] Auto-provisioning Java 21 Adoptium Temurin (64-bit)...`,
-          `[WINDOWS] Long path verified safe: \\\\?\\ prefix active (Zero WinError 3).`,
-          `[JVM] Setting Heap: -Xms2G -Xmx${ram}G -XX:+UseG1GC`,
-          `[MODLOADER] Injected ${currentLoader.name} ${currentLoader.version} (Minecraft ${currentLoader.game})`,
-          `[SPAWN] Game window rendered (PID: 20492). Have fun! (≧◡≦) ✨`
-        ];
-
-        let currentStep = 0;
-        const interval = setInterval(() => {
-          if (currentStep < newLogs.length) {
-            setLogs(prev => [...prev, newLogs[currentStep]]);
-            currentStep++;
-          } else {
-            clearInterval(interval);
-            setLaunching(false);
-            setLaunched(true);
-          }
-        }, 350);
-      };
-
-      const handleReloadLoader = () => {
-        setLogs(prev => [
-          ...prev,
-          `[RELOAD] User clicked Instant Reload (v1.6.1 feature).`,
-          `[HTTP] Fetching metadata with max_attempts=5 exponential backoff...`,
-          `[HTTP] Attempt 1/5: 200 OK. ${currentLoader.name} versions refreshed! ✦`
-        ]);
-      };
 
       const handleCopyHash = (hash, id) => {
         navigator.clipboard.writeText(hash);
@@ -699,7 +455,7 @@
       };
 
       return (
-        <div className="min-h-screen bg-obsidian-950 text-slate-100 flex font-sans">
+        <div className="min-h-screen bg-obsidian-950 text-slate-100 flex font-sans selection:bg-asuka-red selection:text-white">
           {/* Left Navigation Sidebar */}
           <LeftSidebar
             lang={lang}
@@ -714,29 +470,29 @@
             <main className="flex-grow">
               {/* HERO SECTION */}
               <section id="hero" className="relative pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden cyber-grid">
-                <div className="absolute top-1/4 left-1/3 w-[500px] h-[350px] bg-anime-pink/15 blur-[140px] pointer-events-none rounded-full" />
-                <div className="absolute top-1/3 right-1/4 w-[450px] h-[300px] bg-cyber-cyan/15 blur-[130px] pointer-events-none rounded-full" />
+                <div className="absolute top-1/4 left-1/4 w-[500px] h-[350px] bg-asuka-red/15 blur-[140px] pointer-events-none rounded-full" />
+                <div className="absolute top-1/3 right-1/4 w-[450px] h-[300px] bg-asuka-flame/15 blur-[130px] pointer-events-none rounded-full" />
 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                     <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-obsidian-900/90 border border-anime-pink/30 shadow-[0_0_20px_rgba(255,77,141,0.25)]">
-                        <span className="w-2 h-2 rounded-full bg-anime-pink animate-ping" />
-                        <span className="text-xs font-mono font-semibold tracking-wider text-anime-pink uppercase">
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-obsidian-900/95 border border-asuka-red/40 shadow-[0_0_20px_rgba(255,31,68,0.25)]">
+                        <span className="w-2 h-2 rounded-full bg-asuka-red animate-ping" />
+                        <span className="text-xs font-mono font-bold tracking-wider text-asuka-red uppercase">
                           {t.hero.badge}
                         </span>
-                        <span className="text-[11px] font-mono text-cyan-400 font-normal hidden sm:inline">
+                        <span className="text-[11px] font-mono text-asuka-orange font-medium hidden sm:inline">
                           {t.hero.badge_jp}
                         </span>
                       </div>
 
                       <div className="space-y-1">
-                        <span className="text-sm font-mono text-cyan-400/90 tracking-widest uppercase block">
-                          MINECRAFT NEXT-GEN LAUNCHER
+                        <span className="text-xs font-mono text-asuka-flame tracking-widest uppercase block font-semibold">
+                          NEON GENESIS // INSTANCE-FIRST ENGINE
                         </span>
                         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15]">
                           <span className="text-white block">{t.hero.title_1}</span>
-                          <span className="text-gradient-anime block py-1">{t.hero.title_gradient}</span>
+                          <span className="text-gradient-asuka block py-1 font-black">{t.hero.title_gradient}</span>
                           <span className="text-slate-300 text-2xl sm:text-3xl lg:text-4xl block font-semibold">
                             {t.hero.title_2}
                           </span>
@@ -750,16 +506,16 @@
                       <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
                         <a
                           href="#download"
-                          className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-anime-pink via-cyber-purple to-cyber-cyan text-white hover:shadow-[0_0_30px_rgba(255,77,141,0.5)] transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
+                          className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white hover:shadow-[0_0_35px_rgba(255,31,68,0.6)] transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
                         >
                           <span>📥 {t.hero.btn_download}</span>
                         </a>
 
                         <a
-                          href="#simulator"
-                          className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-sm tracking-wide bg-obsidian-900/80 hover:bg-obsidian-850 text-slate-200 border border-white/10 hover:border-anime-pink/40 transition-all flex items-center justify-center gap-2"
+                          href="#features"
+                          className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-sm tracking-wide bg-obsidian-900/80 hover:bg-obsidian-850 text-slate-200 border border-white/10 hover:border-asuka-red/50 transition-all flex items-center justify-center gap-2"
                         >
-                          <span>✦ {t.hero.btn_explore}</span>
+                          <span>🔥 {t.hero.btn_explore}</span>
                         </a>
                       </div>
 
@@ -769,39 +525,59 @@
                           <span className="text-[11px] text-slate-400 block">{t.hero.stat_loaders}</span>
                         </div>
                         <div className="space-y-0.5">
-                          <span className="text-lg font-extrabold text-anime-pink font-mono block">100% Free</span>
+                          <span className="text-lg font-extrabold text-asuka-red font-mono block">100% Free</span>
                           <span className="text-[11px] text-slate-400 block">{t.hero.stat_open}</span>
                         </div>
                         <div className="space-y-0.5">
-                          <span className="text-lg font-extrabold text-cyber-cyan font-mono block">VN Edge CDN</span>
+                          <span className="text-lg font-extrabold text-asuka-flame font-mono block">Server VN</span>
                           <span className="text-[11px] text-slate-400 block">{t.hero.stat_speed}</span>
                         </div>
                         <div className="space-y-0.5">
-                          <span className="text-lg font-extrabold text-cyber-neon font-mono block">Zero WinError 3</span>
+                          <span className="text-lg font-extrabold text-amber-400 font-mono block">Zero WinError 3</span>
                           <span className="text-[11px] text-slate-400 block">{t.hero.stat_health}</span>
                         </div>
                       </div>
                     </div>
 
+                    {/* Right: Asuka Pilot Card */}
                     <div className="lg:col-span-5 relative">
-                      <div className="relative glass-panel rounded-2xl p-4 sm:p-5 border border-anime-pink/20 shadow-[0_0_40px_rgba(255,77,141,0.12)]">
-                        <div className="flex items-center justify-between pb-3 mb-2 border-b border-white/10">
+                      <div className="relative glass-panel rounded-2xl p-4 sm:p-5 border border-asuka-red/40 shadow-[0_0_50px_rgba(255,31,68,0.2)] overflow-hidden group">
+                        <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
                           <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-anime-pink animate-pulse" />
-                            <span className="text-[11px] font-mono font-bold tracking-wider text-slate-200">
-                              HOLO-VOXEL 3D // 空間投影
+                            <span className="w-2 h-2 rounded-full bg-asuka-red animate-ping" />
+                            <span className="text-xs font-mono font-bold tracking-wider text-slate-200">
+                              EVA-02 // PILOT: ASUKA
                             </span>
                           </div>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyber-cyan border border-cyan-500/30">
-                            INTERACTIVE
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 text-asuka-red border border-asuka-red/40 font-bold">
+                            SYNC: 100%
                           </span>
                         </div>
 
-                        <InteractiveCanvas />
+                        <div className="relative rounded-xl overflow-hidden border border-asuka-red/30 bg-obsidian-950">
+                          <img
+                            src="./asuka.jpg"
+                            alt="Asuka Langley MCW Pilot"
+                            className="w-full h-[320px] sm:h-[350px] object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              e.currentTarget.src = "./public/images/asuka.jpg";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent opacity-80 pointer-events-none" />
+                          <div className="absolute bottom-3 left-3 right-3 p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/40 text-left">
+                            <div className="flex items-center justify-between text-[10px] font-mono text-asuka-flame font-bold mb-1">
+                              <span>「あんたバカ？ 早く起動しなさいよ！」</span>
+                              <span className="text-white bg-asuka-red px-1 rounded text-[9px]">EVA-02</span>
+                            </div>
+                            <p className="text-xs text-slate-300 font-medium leading-snug">
+                              "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Đừng để ta phải nhắc lại lần hai!"
+                            </p>
+                          </div>
+                        </div>
 
                         <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
-                          <span className="text-anime-pink text-[11px]">Crafted for Minecraft Community</span>
-                          <span className="text-cyan-400 font-bold text-[11px]">v1.6.1 STABLE</span>
+                          <span className="text-asuka-flame text-[11px] font-semibold">TARGET: MINECRAFT SANDBOX</span>
+                          <span className="text-asuka-red font-bold text-[11px]">v1.6.1 READY</span>
                         </div>
                       </div>
                     </div>
@@ -809,12 +585,12 @@
                 </div>
               </section>
 
-              {/* 4 CORE PILLARS FEATURES */}
+              {/* 4 EVA SYSTEMS PILLARS */}
               <section id="features" className="py-20 relative overflow-hidden">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                   <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-anime-pink/10 border border-anime-pink/30 text-anime-pink text-xs font-mono font-semibold">
-                      <span>✦ {t.features.tag}</span>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/10 border border-asuka-red/30 text-asuka-red text-xs font-mono font-bold">
+                      <span>🔥 {t.features.tag}</span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
                       {t.features.title}
@@ -825,67 +601,71 @@
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-anime-pink/50 group relative flex flex-col justify-between transition-all">
+                    {/* Pillar 1 */}
+                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-asuka-red/60 group relative flex flex-col justify-between transition-all">
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-anime-pink text-2xl font-bold">
+                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-asuka-red text-2xl font-bold">
                             📦
                           </div>
                           <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            ISOLATION // 独立
+                            PLUG ISOLATION // 独立
                           </span>
                         </div>
-                        <div className="text-[11px] font-mono text-cyan-400/80 mb-1">{t.features.card1_jp}</div>
+                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card1_jp}</div>
                         <h3 className="text-lg font-bold text-white mb-2">{t.features.card1_title}</h3>
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card1_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>PILLAR 01</span>
-                        <span className="text-anime-pink">ACTIVE ✦</span>
+                        <span>EVA PROTOCOL 01</span>
+                        <span className="text-asuka-red font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
 
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-cyan-500/50 group relative flex flex-col justify-between transition-all">
+                    {/* Pillar 2 */}
+                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-asuka-flame/60 group relative flex flex-col justify-between transition-all">
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-cyber-cyan text-2xl font-bold">
+                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-asuka-flame text-2xl font-bold">
                             🛡️
                           </div>
                           <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
                             LONG PATH // 安定
                           </span>
                         </div>
-                        <div className="text-[11px] font-mono text-cyan-400/80 mb-1">{t.features.card2_jp}</div>
+                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card2_jp}</div>
                         <h3 className="text-lg font-bold text-white mb-2">{t.features.card2_title}</h3>
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card2_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>PILLAR 02</span>
-                        <span className="text-cyber-cyan">ACTIVE ✦</span>
+                        <span>EVA PROTOCOL 02</span>
+                        <span className="text-asuka-flame font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
 
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-purple-500/50 group relative flex flex-col justify-between transition-all">
+                    {/* Pillar 3 */}
+                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-amber-500/60 group relative flex flex-col justify-between transition-all">
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-cyber-purple text-2xl font-bold">
+                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-amber-400 text-2xl font-bold">
                             🔄
                           </div>
                           <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            AUTO-RETRY // 回復
+                            AUTO-RECOVERY // 回復
                           </span>
                         </div>
-                        <div className="text-[11px] font-mono text-cyan-400/80 mb-1">{t.features.card3_jp}</div>
+                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card3_jp}</div>
                         <h3 className="text-lg font-bold text-white mb-2">{t.features.card3_title}</h3>
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card3_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>PILLAR 03</span>
-                        <span className="text-cyber-purple">ACTIVE ✦</span>
+                        <span>EVA PROTOCOL 03</span>
+                        <span className="text-amber-400 font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
 
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-emerald-500/50 group relative flex flex-col justify-between transition-all">
+                    {/* Pillar 4 */}
+                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-emerald-500/60 group relative flex flex-col justify-between transition-all">
                       <div>
                         <div className="flex items-center justify-between mb-4">
                           <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-cyber-neon text-2xl font-bold">
@@ -895,185 +675,50 @@
                             JAVA & MODS // 自動
                           </span>
                         </div>
-                        <div className="text-[11px] font-mono text-cyan-400/80 mb-1">{t.features.card4_jp}</div>
+                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card4_jp}</div>
                         <h3 className="text-lg font-bold text-white mb-2">{t.features.card4_title}</h3>
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card4_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>PILLAR 04</span>
-                        <span className="text-cyber-neon">ACTIVE ✦</span>
+                        <span>EVA PROTOCOL 04</span>
+                        <span className="text-cyber-neon font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </section>
 
-              {/* SIMULATOR */}
-              <section id="simulator" className="py-20 relative overflow-hidden bg-obsidian-900/60 border-y border-white/5">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                  <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-purple/10 border border-cyber-purple/30 text-cyber-purple text-xs font-mono font-semibold">
-                      <span>⚡ {t.simulator.tag}</span>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-                      {t.simulator.title}
-                    </h2>
-                    <p className="text-slate-400 text-sm sm:text-base">
-                      {t.simulator.subtitle}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    <div className="lg:col-span-5 glass-panel rounded-2xl p-5 sm:p-6 space-y-5 border border-anime-pink/20 shadow-xl">
-                      <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                        <span className="font-bold text-white text-xs font-mono uppercase">INSTANCE PILOT // 制御盤</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-cyber-neon font-semibold">
-                          ONLINE
-                        </span>
-                      </div>
-
-                      <div className="space-y-2.5">
-                        <div className="flex items-center justify-between">
-                          <label className="text-xs font-mono uppercase text-slate-300 font-semibold">
-                            {t.simulator.select_loader}
-                          </label>
-                          <button
-                            onClick={handleReloadLoader}
-                            className="text-[11px] font-mono text-cyan-400 hover:text-white bg-cyan-500/10 px-2 py-1 rounded border border-cyan-500/30"
-                          >
-                            🔄 Reload (5 Retries)
-                          </button>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2.5">
-                          {loaders.map(loader => (
-                            <button
-                              key={loader.id}
-                              onClick={() => {
-                                setSelectedLoader(loader.id);
-                                setLogs(prev => [...prev, `[SELECT] Switch to ${loader.name} (${loader.version})`]);
-                              }}
-                              className={`p-3 rounded-xl border text-left transition-all ${
-                                selectedLoader === loader.id
-                                  ? 'bg-obsidian-800 border-anime-pink shadow-[0_0_15px_rgba(255,77,141,0.25)]'
-                                  : 'bg-obsidian-950/60 border-white/5 hover:border-white/20'
-                              }`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="font-bold text-sm text-white">{loader.name}</span>
-                                <span className="text-[9px] font-mono text-slate-400 border border-white/10 px-1 rounded">{loader.tag}</span>
-                              </div>
-                              <span className="text-[11px] font-mono text-slate-400 block mt-1">MC {loader.game}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between items-center text-xs font-mono">
-                          <span className="text-slate-300 font-semibold">{t.simulator.ram_allocated}</span>
-                          <span className="text-anime-pink font-bold">{ram} GB DDR4/DDR5</span>
-                        </div>
-                        <input
-                          type="range"
-                          min="2"
-                          max="16"
-                          step="1"
-                          value={ram}
-                          onChange={(e) => setRam(Number(e.target.value))}
-                          className="w-full h-2 bg-obsidian-950 rounded-lg appearance-none cursor-pointer accent-anime-pink"
-                        />
-                      </div>
-
-                      <div className="pt-2 flex gap-2.5">
-                        <button
-                          onClick={handleLaunch}
-                          disabled={launching || launched}
-                          className={`flex-1 py-3 rounded-xl font-bold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all ${
-                            launched
-                              ? 'bg-emerald-500/20 border border-emerald-500/40 text-cyber-neon'
-                              : launching
-                              ? 'bg-anime-pink/20 text-slate-300'
-                              : 'bg-gradient-to-r from-anime-pink via-cyber-purple to-cyber-cyan text-white'
-                          }`}
-                        >
-                          <span>{launching ? t.simulator.launching : launched ? t.simulator.active : t.simulator.btn_launch}</span>
-                        </button>
-                        <button
-                          onClick={() => {
-                            setLaunched(false);
-                            setLaunching(false);
-                            setLogs(["[SYSTEM] Sandbox reset.", "[STATUS] Awaiting Link Start command..."]);
-                          }}
-                          className="p-3 rounded-xl bg-obsidian-950 border border-white/10 text-slate-400"
-                        >
-                          🔄
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-7 glass-panel rounded-2xl p-5 sm:p-6 space-y-3.5 border border-white/10 shadow-xl">
-                      <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
-                        <span className="text-xs font-mono font-bold tracking-wider text-slate-200">
-                          {t.simulator.terminal_title}
-                        </span>
-                        <span className="text-[10px] font-mono text-cyan-400">TTY: LIVE</span>
-                      </div>
-
-                      <div className="bg-obsidian-950/95 rounded-xl p-3.5 h-[300px] overflow-y-auto font-mono text-xs text-slate-300 space-y-1.5 border border-white/5">
-                        {logs.map((log, index) => (
-                          <div
-                            key={index}
-                            className={`leading-relaxed ${
-                              log.includes('[SPAWN]') || log.includes('(≧◡≦)')
-                                ? 'text-cyber-neon font-semibold'
-                                : log.includes('[LINK START]') || log.includes('[RELOAD]')
-                                ? 'text-anime-pink'
-                                : log.includes('[WINDOWS]') || log.includes('[RUNTIME]')
-                                ? 'text-cyber-cyan'
-                                : 'text-slate-400'
-                            }`}
-                          >
-                            <span className="text-slate-600 select-none mr-2">{String(index + 1).padStart(2, '0')}</span>
-                            {log}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              {/* DOWNLOAD */}
+              {/* DOWNLOAD SECTION (Server VN vs Server Quốc tế) */}
               <section id="download" className="py-20 relative overflow-hidden bg-obsidian-950/80 cyber-grid">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                   <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-neon/10 border border-cyber-neon/30 text-cyber-neon text-xs font-mono font-semibold">
-                      <span>✦ {t.download.tag}</span>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/15 border border-asuka-red/35 text-asuka-red text-xs font-mono font-bold">
+                      <span>🔥 {t.download.tag}</span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
                       {t.download.title}
                     </h2>
                     <p className="text-slate-400 text-sm sm:text-base">{t.download.subtitle}</p>
 
+                    {/* Server VN vs Server Quốc tế switch */}
                     <div className="flex items-center justify-center gap-3 pt-3">
-                      <div className="flex items-center bg-obsidian-900 border border-anime-pink/30 p-1 rounded-xl">
+                      <div className="flex items-center bg-obsidian-900 border border-asuka-red/30 p-1 rounded-xl shadow-lg">
                         <button
                           onClick={() => setSelectedServer('cdn')}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-mono ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                             selectedServer === 'cdn'
-                              ? 'bg-gradient-to-r from-anime-pink to-cyber-cyan text-white font-bold'
-                              : 'text-slate-400'
+                              ? 'bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white font-bold shadow-[0_0_15px_rgba(255,31,68,0.4)]'
+                              : 'text-slate-400 hover:text-white'
                           }`}
                         >
                           {t.download.server_cdn}
                         </button>
                         <button
                           onClick={() => setSelectedServer('github')}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-mono ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                             selectedServer === 'github'
-                              ? 'bg-obsidian-800 text-white font-bold'
-                              : 'text-slate-400'
+                              ? 'bg-obsidian-800 text-white font-bold border border-white/20'
+                              : 'text-slate-400 hover:text-white'
                           }`}
                         >
                           {t.download.server_github}
@@ -1084,10 +729,10 @@
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Installer */}
-                    <div className="glass-panel-glow rounded-2xl p-6 flex flex-col justify-between border border-anime-pink/40">
+                    <div className="asuka-panel-glow rounded-2xl p-6 flex flex-col justify-between border border-asuka-red/40">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-anime-pink/15 text-anime-pink font-semibold uppercase">RECOMMENDED</span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 text-asuka-red font-bold uppercase">RECOMMENDED</span>
                           <span className="text-xs font-mono text-slate-400">{RELEASE_DATA.downloads.windows.installer.size}</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">{t.download.windows_installer}</h3>
@@ -1096,7 +741,7 @@
                       <div className="pt-5 mt-5 border-t border-white/10">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.windows.installer.cdnUrl : RELEASE_DATA.downloads.windows.installer.githubUrl}
-                          className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-anime-pink to-cyber-cyan text-white flex items-center justify-center gap-2"
+                          className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white flex items-center justify-center gap-2 uppercase"
                         >
                           <span>Tải Bản Cài Đặt (.exe)</span>
                         </a>
@@ -1104,10 +749,10 @@
                     </div>
 
                     {/* Portable */}
-                    <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-anime-pink/40">
+                    <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-asuka-flame/40">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-purple/15 text-cyber-purple font-semibold uppercase">PORTABLE</span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-flame/15 text-asuka-flame font-bold uppercase">PORTABLE ONE-FILE</span>
                           <span className="text-xs font-mono text-slate-400">{RELEASE_DATA.downloads.windows.portable.size}</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">{t.download.windows_portable}</h3>
@@ -1116,7 +761,7 @@
                       <div className="pt-5 mt-5 border-t border-white/10">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.windows.portable.cdnUrl : RELEASE_DATA.downloads.windows.portable.githubUrl}
-                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 text-white border border-white/10 flex items-center justify-center gap-2"
+                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 text-white border border-white/10 flex items-center justify-center gap-2 uppercase"
                         >
                           <span>Tải Portable (.exe)</span>
                         </a>
@@ -1124,10 +769,10 @@
                     </div>
 
                     {/* Linux */}
-                    <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-cyber-cyan/40">
+                    <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-amber-400/40">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-cyber-neon font-semibold uppercase">LINUX & DEVS</span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-cyber-neon font-bold uppercase">LINUX & DEVS</span>
                           <span className="text-xs font-mono text-slate-400">{RELEASE_DATA.downloads.linux.binary.size}</span>
                         </div>
                         <h3 className="text-lg font-bold text-white">{t.download.linux_binary}</h3>
@@ -1136,7 +781,7 @@
                       <div className="pt-5 mt-5 border-t border-white/10">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.linux.binary.cdnUrl : RELEASE_DATA.downloads.linux.binary.githubUrl}
-                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 text-white border border-white/10 flex items-center justify-center gap-2"
+                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 text-white border border-white/10 flex items-center justify-center gap-2 uppercase"
                         >
                           <span>Tải Linux (x64)</span>
                         </a>
@@ -1150,10 +795,10 @@
               <section id="core-hub" className="py-20 relative overflow-hidden bg-obsidian-900/40 border-t border-white/5">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                   <div className="max-w-xl space-y-4">
-                    <span className="text-xs font-mono text-anime-pink font-semibold">✦ PYTHON CORE SDK // 開発者向け</span>
+                    <span className="text-xs font-mono text-asuka-flame font-semibold">✦ PYTHON CORE SDK // 開発者向け</span>
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Thư Viện mcw-core Headless</h2>
                     <p className="text-sm text-slate-300">Toàn bộ sức mạnh của launcher được đóng gói thành thư viện Python độc lập để bạn tự do xây dựng bot hoặc công cụ tự động hóa.</p>
-                    <div className="p-3 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-cyber-cyan flex items-center justify-between">
+                    <div className="p-3 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-asuka-flame flex items-center justify-between">
                       <span>$ pip install mcw-core</span>
                       <button
                         onClick={() => navigator.clipboard.writeText('pip install mcw-core')}
@@ -1170,8 +815,8 @@
             {/* FOOTER */}
             <footer className="bg-obsidian-950 border-t border-white/10 py-8 px-6 text-slate-400 text-xs">
               <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span>&copy; 2026 MCW Launcher. Next-Gen Minecraft Platform.</span>
-                <span className="text-anime-pink font-mono">✦ (๑•̀ㅂ•́)و✧ System Online</span>
+                <span>&copy; 2026 MCW Launcher. EVA-02 Asuka Protocol.</span>
+                <span className="text-asuka-flame font-mono">✦ PILOT: ASUKA 02 // SYNC: 100%</span>
               </div>
             </footer>
           </div>

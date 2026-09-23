@@ -52,11 +52,31 @@
   -webkit-text-fill-color: transparent;
 }
 
-.text-gradient-anime {
-  background: linear-gradient(135deg, #ff4d8d 0%, #a855f7 50%, #00f0ff 100%);
+.text-gradient-asuka {
+  background: linear-gradient(135deg, #ff1f44 0%, #ff5400 50%, #ffb703 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.text-gradient-anime {
+  background: linear-gradient(135deg, #ff1f44 0%, #ff5400 50%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.asuka-panel-glow {
+  background: rgba(14, 17, 26, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 31, 68, 0.35);
+  box-shadow: 0 0 35px -8px rgba(255, 31, 68, 0.25);
+}
+
+.asuka-badge {
+  background: rgba(255, 31, 68, 0.12);
+  border: 1px solid rgba(255, 31, 68, 0.4);
+  color: #ff4d6d;
+}
+
 
 .text-gradient-cyan {
   background: linear-gradient(135deg, #ffffff 0%, #00f0ff 100%);
