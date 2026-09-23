@@ -4,9 +4,9 @@ Trang web portal thế hệ mới của **MCW Launcher**, được thiết kế 
 
 ## Tính Năng Nổi Bật
 
-- **Interactive Hologram 3D Canvas**: Khối lập phương holographic xoay chuyển theo tọa độ con trỏ chuột người dùng.
-- **Interactive Launcher Simulator**: Mô phỏng giao diện chọn modloader (Fabric, Quilt, Forge, NeoForge), điều chỉnh RAM, xem console logs thời gian thực.
-- **Smart Download Matrix**: Tự động nhận diện hệ điều hành (Windows / Linux) và chuyển đổi linh hoạt giữa máy chủ **CDN Việt Nam** và **GitHub Releases**.
+- **Interactive Hologram 3D Canvas**: Khối lập phương holographic xoay chuyển theo tương tác chuột người dùng.
+- **Left-Dock Navigation HUD**: Thanh điều hướng bên trái phong cách cyberpunk anime, tinh gọn và mượt mà.
+- **Smart Download Matrix**: Tự động nhận diện hệ điều hành (Windows / Linux) và chuyển đổi linh hoạt giữa **Server VN (Tốc độ cao)** và **Server Quốc tế**.
 - **Developer Hub**: Trình xem code mẫu Python cho thư viện headless `mcw-core` với nút copy nhanh.
 - **Song ngữ thông minh**: Chuyển đổi mượt mà giữa Tiếng Việt (VI) và Tiếng Anh (EN).
 

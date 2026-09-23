@@ -10,7 +10,7 @@ export default function Features({ t }) {
       desc: t.features.card1_desc,
       color: 'text-asuka-red',
       border: 'hover:border-asuka-red/60',
-      badge: 'PLUG ISOLATION // 独立',
+      badge: 'CONTAINER ISOLATION // 独立',
       bgGlow: 'group-hover:shadow-[0_0_35px_rgba(255,31,68,0.2)]'
     },
     {
@@ -100,7 +100,7 @@ export default function Features({ t }) {
 
                 {/* Bottom subtle accent line */}
                 <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>EVA PROTOCOL 0{index + 1}</span>
+                  <span>CORE PROTOCOL 0{index + 1}</span>
                   <span className="text-slate-400 group-hover:text-asuka-flame transition-colors font-semibold">
                     SYNCED 100% ✦
                   </span>

@@ -156,12 +156,12 @@
     const I18N = {
       vi: {
         sidebar: {
-          brand_sub: "EVA-02 // PROTOCOL MCW",
+          brand_sub: "TACTICAL HUD // INSTANCE-FIRST",
           status: "SYNC RATE: 100%",
-          status_kaomoji: "PILOT: ASUKA 02",
+          status_kaomoji: "SYSTEM: ONLINE (๑•̀ㅂ•́)و✧",
           home: "Tổng Quan",
           home_jp: "ホーム",
-          features: "Hệ Thống EVA",
+          features: "Hệ Thống Lõi",
           features_jp: "特長",
           download: "Tải Về",
           download_jp: "入手",
@@ -170,8 +170,8 @@
           download_btn: "Khởi Chạy v1.6.1",
         },
         hero: {
-          badge: "✦ EVA UNIT-02 // ASUKA PROTOCOL v1.6.1 ✦",
-          badge_jp: "「あんたバカ？ 起動しなさい！」",
+          badge: "✦ TACTICAL HUD // INSTANCE MATRIX v1.6.1 ✦",
+          badge_jp: "「完全独立・高速起動」",
           title_1: "Trình Khởi Chạy",
           title_gradient: "MCW Launcher",
           title_2: "Chuẩn Mực Instance-First",
@@ -183,12 +183,12 @@
           stat_speed: "Server VN Tốc Độ Cao",
         },
         features: {
-          tag: "EVA-02 TACTICAL SYSTEMS // 4 TRỤ CỘT",
+          tag: "TACTICAL SYSTEMS // 4 TRỤ CỘT",
           title: "Đồng Bộ Tuyệt Đối. Không Thỏa Hiệp.",
           subtitle: "Xóa sạch mọi lỗi nghẽn và phiền toái khi chơi Minecraft modpack với hiệu năng tối đa.",
-          card1_title: "Khoang Cách Ly Tuyệt Đối (Plug Isolation)",
-          card1_jp: "「完全独立・エントリープラグ」",
-          card1_desc: "Mỗi bản game là một khoang lái độc lập. Mods, saves, shaders, Java và cấu hình JVM tách biệt hoàn toàn — thử modpack mới không bao giờ ảnh hưởng thế giới cũ.",
+          card1_title: "Khoang Cách Ly Tuyệt Đối (Container Isolation)",
+          card1_jp: "「完全独立・コンテナ分離」",
+          card1_desc: "Mỗi bản game là một không gian độc lập tuyệt đối. Mods, saves, shaders, Java và cấu hình JVM tách biệt hoàn toàn — thử modpack mới không bao giờ ảnh hưởng thế giới cũ.",
           card2_title: "Giải Phóng Giới Hạn MAX_PATH",
           card2_jp: "「32,767文字パス完全解放」",
           card2_desc: "Tự động kích hoạt tiền tố \\\\?\\ mở rộng giới hạn lên 32.767 ký tự. Thoải mái cài các modpack đồ sộ hàng trăm mod của NeoForge mà không lo lỗi WinError 3.",
@@ -219,12 +219,12 @@
       },
       en: {
         sidebar: {
-          brand_sub: "EVA-02 // PROTOCOL MCW",
+          brand_sub: "TACTICAL HUD // INSTANCE-FIRST",
           status: "SYNC RATE: 100%",
-          status_kaomoji: "PILOT: ASUKA 02",
+          status_kaomoji: "SYSTEM: ONLINE (๑•̀ㅂ•́)و✧",
           home: "Overview",
           home_jp: "ホーム",
-          features: "EVA Systems",
+          features: "Core Systems",
           features_jp: "特長",
           download: "Download",
           download_jp: "入手",
@@ -233,8 +233,8 @@
           download_btn: "Launch v1.6.1",
         },
         hero: {
-          badge: "✦ EVA UNIT-02 // ASUKA PROTOCOL v1.6.1 ✦",
-          badge_jp: "「あんたバカ？ 起動しなさい！」",
+          badge: "✦ TACTICAL HUD // INSTANCE MATRIX v1.6.1 ✦",
+          badge_jp: "「完全独立・高速起動」",
           title_1: "The Next-Gen",
           title_gradient: "MCW Launcher",
           title_2: "Pure Instance-First",
@@ -246,12 +246,12 @@
           stat_speed: "Vietnam Server Fast",
         },
         features: {
-          tag: "EVA-02 TACTICAL SYSTEMS // 4 PILLARS",
+          tag: "TACTICAL SYSTEMS // 4 PILLARS",
           title: "Absolute Synchronization. Zero Compromise.",
           subtitle: "Engineered specifically to solve the biggest headaches in modded Minecraft with maximum stability.",
-          card1_title: "Plug Isolation (Independent Containers)",
-          card1_jp: "「完全独立・エントリープラグ」",
-          card1_desc: "Every instance is a self-contained cockpit. Mods, saves, shaders, Java, and JVM arguments are isolated — testing new modpacks never harms existing worlds.",
+          card1_title: "Instance Container Isolation",
+          card1_jp: "「完全独立・コンテナ分離」",
+          card1_desc: "Every instance is a self-contained environment. Mods, saves, shaders, Java, and JVM arguments are isolated — testing new modpacks never harms existing worlds.",
           card2_title: "Windows Long Path Bypass",
           card2_jp: "「32,767文字パス完全解放」",
           card2_desc: "Automatically utilizes \\\\?\\ extended 32,767-character paths on Windows. Freely install massive modpacks with deep hierarchies without WinError 3.",
@@ -282,7 +282,7 @@
       }
     };
 
-    // 3D EVA-02 Interactive Voxel Canvas
+    // 3D Tactical Interactive Voxel Canvas
     function InteractiveCanvas() {
       const canvasRef = React.useRef(null);
 
@@ -449,7 +449,7 @@
             <a href="#hero" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-asuka-red via-asuka-flame to-asuka-amber p-[1.5px] shadow-[0_0_15px_rgba(255,31,68,0.4)]">
                 <div className="w-full h-full bg-obsidian-900 rounded-[7px] flex items-center justify-center font-mono font-bold text-xs text-gradient-asuka">
-                  02
+                  MCW
                 </div>
               </div>
               <div>
@@ -492,8 +492,8 @@
               <a href="#hero" className="block group">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-asuka-red via-asuka-flame to-asuka-amber p-[2px] shadow-[0_0_20px_rgba(255,31,68,0.4)]">
-                    <div className="w-full h-full bg-obsidian-900 rounded-[8px] flex items-center justify-center font-mono font-black text-lg text-gradient-asuka">
-                      02
+                    <div className="w-full h-full bg-obsidian-900 rounded-[8px] flex items-center justify-center font-mono font-black text-sm text-gradient-asuka">
+                      MCW
                     </div>
                   </div>
                   <div>
@@ -505,7 +505,7 @@
                 </div>
               </a>
 
-              {/* Asuka Sync Rate Tag */}
+              {/* Tactical Sync Rate Tag */}
               <div className="mt-4 px-3 py-1.5 rounded-lg bg-asuka-red/10 border border-asuka-red/30 flex items-center justify-between text-[11px] font-mono">
                 <div className="flex items-center gap-1.5 text-asuka-red font-bold">
                   <span className="w-1.5 h-1.5 rounded-full bg-asuka-flame animate-pulse" />
@@ -518,7 +518,7 @@
             {/* Navigation links */}
             <nav className="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto">
               <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-widest text-slate-500">
-                EVA PROTOCOLS // システム
+                CORE PROTOCOLS // システム
               </div>
 
               {navItems.map((item) => {
@@ -682,14 +682,14 @@
                       </div>
                     </div>
 
-                    {/* Right: EVA-02 Hologram Matrix HUD Card */}
+                    {/* Right: 3D Hologram Matrix HUD Card */}
                     <div className="lg:col-span-5 relative">
                       <div className="relative glass-panel rounded-2xl p-4 sm:p-5 border border-asuka-red/40 shadow-[0_0_50px_rgba(255,31,68,0.2)] overflow-hidden group">
                         <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
                           <div className="flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-asuka-red animate-ping" />
                             <span className="text-xs font-mono font-bold tracking-wider text-slate-200">
-                              EVA-02 // PROTOCOL MCW
+                              MATRIX HUD // PROTOCOL MCW
                             </span>
                           </div>
                           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 text-asuka-red border border-asuka-red/40 font-bold">
@@ -701,11 +701,11 @@
                           <InteractiveCanvas />
                           <div className="p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/30 text-left mt-2">
                             <div className="flex items-center justify-between text-[10px] font-mono text-asuka-flame font-bold mb-1">
-                              <span>「あんたバカ？ 早く起動しなさいよ！」</span>
-                              <span className="text-white bg-asuka-red px-1 rounded text-[9px]">EVA-02</span>
+                              <span>「完全独立・超高速起動」</span>
+                              <span className="text-white bg-asuka-red px-1.5 py-0.5 rounded text-[9px] font-bold">CORE HUD</span>
                             </div>
                             <p className="text-xs text-slate-300 font-medium leading-snug">
-                              "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Sẵn sàng đồng bộ và cất cánh!"
+                              "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Sẵn sàng khởi chạy tức thì!"
                             </p>
                           </div>
                         </div>
@@ -720,7 +720,7 @@
                 </div>
               </section>
 
-              {/* 4 EVA SYSTEMS PILLARS */}
+              {/* 4 TACTICAL PILLARS */}
               <section id="features" className="py-20 relative overflow-hidden">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                   <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
@@ -744,7 +744,7 @@
                             📦
                           </div>
                           <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            PLUG ISOLATION // 独立
+                            CONTAINER ISOLATION // 独立
                           </span>
                         </div>
                         <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card1_jp}</div>
@@ -752,7 +752,7 @@
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card1_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>EVA PROTOCOL 01</span>
+                        <span>CORE PROTOCOL 01</span>
                         <span className="text-asuka-red font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
@@ -773,7 +773,7 @@
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card2_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>EVA PROTOCOL 02</span>
+                        <span>CORE PROTOCOL 02</span>
                         <span className="text-asuka-flame font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
@@ -794,7 +794,7 @@
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card3_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>EVA PROTOCOL 03</span>
+                        <span>CORE PROTOCOL 03</span>
                         <span className="text-amber-400 font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
@@ -815,7 +815,7 @@
                         <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card4_desc}</p>
                       </div>
                       <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>EVA PROTOCOL 04</span>
+                        <span>CORE PROTOCOL 04</span>
                         <span className="text-cyber-neon font-semibold">SYNCED 100% ✦</span>
                       </div>
                     </div>
@@ -950,8 +950,8 @@
             {/* FOOTER */}
             <footer className="bg-obsidian-950 border-t border-white/10 py-8 px-6 text-slate-400 text-xs">
               <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span>&copy; 2026 MCW Launcher. EVA-02 Asuka Protocol.</span>
-                <span className="text-asuka-flame font-mono">✦ PILOT: ASUKA 02 // SYNC: 100%</span>
+                <span>&copy; 2026 MCW Launcher. High Performance Minecraft Architecture.</span>
+                <span className="text-asuka-flame font-mono">✦ INSTANCE MATRIX // SYSTEM: ONLINE (๑•̀ㅂ•́)و✧</span>
               </div>
             </footer>
           </div>

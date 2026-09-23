@@ -30,7 +30,7 @@ export default function DownloadSection({ t }) {
 
   return (
     <section id="download" className="py-20 relative overflow-hidden bg-obsidian-950/80 cyber-grid">
-      {/* Background EVA Flame Glow */}
+      {/* Background Flame Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-asuka-red/10 blur-[150px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

@@ -35,8 +35,8 @@ export default function Sidebar({ lang, setLang, t }) {
       <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-obsidian-950/95 backdrop-blur-md border-b border-asuka-red/20 px-4 py-3 flex items-center justify-between">
         <a href="#hero" className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-asuka-red via-asuka-flame to-asuka-amber p-[1.5px] shadow-[0_0_15px_rgba(255,31,68,0.4)]">
-            <div className="w-full h-full bg-obsidian-900 rounded-[7px] flex items-center justify-center font-mono font-black text-sm text-gradient-asuka">
-              02
+            <div className="w-full h-full bg-obsidian-900 rounded-[7px] flex items-center justify-center font-mono font-black text-xs text-gradient-asuka">
+              MCW
             </div>
           </div>
           <div>
@@ -83,13 +83,13 @@ export default function Sidebar({ lang, setLang, t }) {
           mobileOpen ? 'translate-x-0 pt-16 md:pt-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
-        {/* Top: Brand & Asuka EVA-02 HUD Status */}
+        {/* Top: Brand & Tactical HUD Status */}
         <div className="p-6 border-b border-white/10">
           <a href="#hero" className="block group">
             <div className="flex items-center gap-3">
               <div className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-asuka-red via-asuka-flame to-asuka-amber p-[2px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_25px_rgba(255,31,68,0.4)]">
                 <div className="w-full h-full bg-obsidian-900 rounded-[9px] flex items-center justify-center">
-                  <span className="font-mono font-black text-xl text-gradient-asuka">02</span>
+                  <span className="font-mono font-black text-sm text-gradient-asuka">MCW</span>
                 </div>
                 <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-asuka-flame rounded-full animate-ping opacity-75" />
                 <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-asuka-flame rounded-full" />
@@ -108,7 +108,7 @@ export default function Sidebar({ lang, setLang, t }) {
             </div>
           </a>
 
-          {/* Asuka Sync Rate Tag */}
+          {/* Tactical Sync Rate Tag */}
           <div className="mt-4 px-3 py-1.5 rounded-lg bg-asuka-red/10 border border-asuka-red/30 flex items-center justify-between text-[11px] font-mono">
             <div className="flex items-center gap-1.5 text-asuka-red">
               <Flame className="w-3.5 h-3.5 text-asuka-flame animate-pulse" />
@@ -121,7 +121,7 @@ export default function Sidebar({ lang, setLang, t }) {
         {/* Middle: Navigation Links */}
         <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
           <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-widest text-slate-500">
-            EVA PROTOCOLS // システム
+            CORE PROTOCOLS // システム
           </div>
 
           {navItems.map((item) => {

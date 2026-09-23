@@ -5,7 +5,7 @@ import InteractiveCanvas from './InteractiveCanvas';
 export default function Hero({ t }) {
   return (
     <section id="hero" className="relative pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden cyber-grid">
-      {/* Background EVA-02 Fiery Glows */}
+      {/* Background Tactical Fiery Glows */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[350px] bg-asuka-red/15 blur-[140px] pointer-events-none rounded-full" />
       <div className="absolute top-1/3 right-1/4 w-[450px] h-[300px] bg-asuka-flame/15 blur-[130px] pointer-events-none rounded-full" />
 
@@ -13,7 +13,7 @@ export default function Hero({ t }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Main Hero Left */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* EVA-02 / Asuka Status Pill */}
+            {/* Tactical Status Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-obsidian-900/95 border border-asuka-red/40 shadow-[0_0_20px_rgba(255,31,68,0.25)]">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-asuka-red opacity-75"></span>
@@ -93,18 +93,18 @@ export default function Hero({ t }) {
             </div>
           </div>
 
-          {/* Right: EVA-02 Hologram Matrix HUD Card */}
+          {/* Right: 3D Hologram Matrix HUD Card */}
           <div className="lg:col-span-5 relative">
             <div className="relative glass-panel rounded-2xl p-4 sm:p-5 border border-asuka-red/40 shadow-[0_0_50px_rgba(255,31,68,0.2)] overflow-hidden group">
               {/* Tactical Corner Decal */}
               <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-asuka-red/20 to-transparent pointer-events-none" />
 
-              {/* EVA-02 Header Strip */}
+              {/* Matrix Header Strip */}
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-asuka-red animate-ping" />
                   <span className="text-xs font-mono font-bold tracking-wider text-slate-200">
-                    EVA-02 // PROTOCOL MCW
+                    MATRIX HUD // PROTOCOL MCW
                   </span>
                 </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 text-asuka-red border border-asuka-red/40 font-bold">
@@ -119,11 +119,11 @@ export default function Hero({ t }) {
                 {/* Tactical HUD Overlay Quote Tag */}
                 <div className="p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/30 text-left mt-2">
                   <div className="flex items-center justify-between text-[10px] font-mono text-asuka-flame font-bold mb-1">
-                    <span>「あんたバカ？ 早く起動しなさいよ！」</span>
-                    <span className="text-white bg-asuka-red px-1 rounded text-[9px]">EVA-02</span>
+                    <span>「完全独立・超高速起動」</span>
+                    <span className="text-white bg-asuka-red px-1.5 py-0.5 rounded text-[9px] font-bold">CORE HUD</span>
                   </div>
                   <p className="text-xs text-slate-300 font-medium leading-snug">
-                    "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Sẵn sàng đồng bộ và cất cánh!"
+                    "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Sẵn sàng khởi chạy tức thì!"
                   </p>
                 </div>
               </div>

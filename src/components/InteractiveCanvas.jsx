@@ -52,7 +52,7 @@ export default function InteractiveCanvas() {
       [0, 4], [1, 5], [2, 6], [3, 7], // connecting edges
     ];
 
-    // Particles floating around in EVA-02 flame colors
+    // Particles floating around in tactical flame colors
     const particles = Array.from({ length: 45 }, () => ({
       x: (Math.random() - 0.5) * 4,
       y: (Math.random() - 0.5) * 4,
@@ -112,7 +112,7 @@ export default function InteractiveCanvas() {
       // Project vertices
       const projected = vertices.map(project);
 
-      // Draw cube edges with EVA-02 flame/crimson glow
+      // Draw cube edges with cyber flame/crimson glow
       ctx.shadowBlur = 18;
       ctx.shadowColor = '#ff1f44';
       ctx.lineWidth = 2.4;
@@ -133,7 +133,7 @@ export default function InteractiveCanvas() {
         ctx.stroke();
       });
 
-      // Draw inner glowing core (EVA-02 S2 Engine Sync)
+      // Draw inner glowing core (Instance Matrix Sync)
       const [coreX, coreY] = project([0, 0, 0]);
       const corePulse = Math.sin(time * 3) * 6 + 18;
       ctx.shadowBlur = 32;
@@ -173,7 +173,7 @@ export default function InteractiveCanvas() {
         className="w-full h-full cursor-grab active:cursor-grabbing"
       />
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 text-[11px] font-mono text-asuka-flame bg-obsidian-900/90 px-3 py-1 rounded-full border border-asuka-red/30 backdrop-blur-sm pointer-events-none">
-        ◈ EVA-02 CORE MATRIX // INTERACTIVE ◈
+        ◈ 3D TACTICAL CORE // INTERACTIVE ◈
       </div>
     </div>
   );
