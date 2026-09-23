@@ -52,20 +52,14 @@ export default function InteractiveCanvas() {
       [0, 4], [1, 5], [2, 6], [3, 7], // connecting edges
     ];
 
-    // Additional isometric grid lines inside cube (hologram look)
-    const innerLines = [
-      [-0.5, 0, 0, 0.5, 0, 0],
-      [0, -0.5, 0, 0, 0.5, 0],
-      [0, 0, -0.5, 0, 0, 0.5],
-    ];
-
-    // Particles floating around
-    const particles = Array.from({ length: 40 }, () => ({
+    // Particles floating around in EVA-02 flame colors
+    const particles = Array.from({ length: 45 }, () => ({
       x: (Math.random() - 0.5) * 4,
       y: (Math.random() - 0.5) * 4,
       z: (Math.random() - 0.5) * 4,
-      size: Math.random() * 2 + 1,
-      speed: Math.random() * 0.01 + 0.005,
+      size: Math.random() * 2.2 + 1,
+      speed: Math.random() * 0.012 + 0.006,
+      color: Math.random() > 0.4 ? '#ff1f44' : '#ff7b00',
     }));
 
     let time = 0;
@@ -79,7 +73,7 @@ export default function InteractiveCanvas() {
 
       const cx = width / 2;
       const cy = height / 2;
-      const scale = Math.min(width, height) * 0.24;
+      const scale = Math.min(width, height) * 0.25;
 
       const project = ([x, y, z]) => {
         // Rotate around Y
@@ -102,33 +96,35 @@ export default function InteractiveCanvas() {
         return [px, py, z2];
       };
 
-      // Draw floating glow particles
+      // Draw floating flame particles
       particles.forEach((p) => {
         p.y -= p.speed;
         if (p.y < -2) p.y = 2;
         const [px, py] = project([p.x, p.y, p.z]);
         ctx.beginPath();
         ctx.arc(px, py, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 240, 255, ${0.4 + Math.sin(time + p.x) * 0.3})`;
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.5 + Math.sin(time + p.x) * 0.3;
         ctx.fill();
       });
+      ctx.globalAlpha = 1;
 
       // Project vertices
       const projected = vertices.map(project);
 
-      // Draw cube edges with cyber neon glow
+      // Draw cube edges with EVA-02 flame/crimson glow
       ctx.shadowBlur = 18;
-      ctx.shadowColor = '#00f0ff';
-      ctx.lineWidth = 2.5;
+      ctx.shadowColor = '#ff1f44';
+      ctx.lineWidth = 2.4;
 
       edges.forEach(([i, j]) => {
         const [x1, y1] = projected[i];
         const [x2, y2] = projected[j];
 
         const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-        gradient.addColorStop(0, '#00f0ff');
-        gradient.addColorStop(0.5, '#a855f7');
-        gradient.addColorStop(1, '#00ffaa');
+        gradient.addColorStop(0, '#ff1f44');
+        gradient.addColorStop(0.5, '#ff5400');
+        gradient.addColorStop(1, '#ffb703');
 
         ctx.strokeStyle = gradient;
         ctx.beginPath();
@@ -137,17 +133,24 @@ export default function InteractiveCanvas() {
         ctx.stroke();
       });
 
-      // Draw inner glowing core
+      // Draw inner glowing core (EVA-02 S2 Engine Sync)
       const [coreX, coreY] = project([0, 0, 0]);
       const corePulse = Math.sin(time * 3) * 6 + 18;
-      ctx.shadowBlur = 30;
-      ctx.shadowColor = '#a855f7';
-      ctx.fillStyle = 'rgba(168, 85, 247, 0.7)';
+      ctx.shadowBlur = 32;
+      ctx.shadowColor = '#ff1f44';
+      ctx.fillStyle = 'rgba(255, 31, 68, 0.75)';
       ctx.beginPath();
       ctx.arc(coreX, coreY, corePulse, 0, Math.PI * 2);
       ctx.fill();
 
-      // Reset shadow for performance
+      // Vertex dots
+      projected.forEach(([x, y]) => {
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffb703';
+        ctx.fill();
+      });
+
       ctx.shadowBlur = 0;
 
       animationFrameId = requestAnimationFrame(render);
@@ -163,14 +166,14 @@ export default function InteractiveCanvas() {
   }, []);
 
   return (
-    <div className="relative w-full h-full min-h-[360px] flex items-center justify-center">
+    <div className="relative w-full h-[320px] sm:h-[350px] flex items-center justify-center">
       <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent pointer-events-none z-10" />
       <canvas
         ref={canvasRef}
         className="w-full h-full cursor-grab active:cursor-grabbing"
       />
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-xs font-mono text-cyan-400/60 bg-obsidian-900/80 px-3 py-1 rounded-full border border-cyan-500/20 backdrop-blur-sm pointer-events-none">
-        ◈ INTERACTIVE HOLOGRAPHIC CORE // MOVE CURSOR ◈
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 text-[11px] font-mono text-asuka-flame bg-obsidian-900/90 px-3 py-1 rounded-full border border-asuka-red/30 backdrop-blur-sm pointer-events-none">
+        ◈ EVA-02 CORE MATRIX // INTERACTIVE ◈
       </div>
     </div>
   );

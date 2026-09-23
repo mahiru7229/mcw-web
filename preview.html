@@ -284,6 +284,155 @@
       }
     };
 
+    // 3D EVA-02 Interactive Voxel Canvas
+    function InteractiveCanvas() {
+      const canvasRef = React.useRef(null);
+
+      React.useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        let angleX = 0.5;
+        let angleY = 0.5;
+        let targetAngleX = 0.5;
+        let targetAngleY = 0.5;
+
+        const handleMouseMove = (e) => {
+          const rect = canvas.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          targetAngleY = x * 1.5;
+          targetAngleX = -y * 1.5;
+        };
+
+        canvas.addEventListener('mousemove', handleMouseMove);
+
+        const particles = Array.from({ length: 36 }).map(() => ({
+          x: (Math.random() - 0.5) * 220,
+          y: (Math.random() - 0.5) * 220,
+          z: (Math.random() - 0.5) * 220,
+          size: Math.random() * 2 + 1,
+          color: Math.random() > 0.4 ? '#ff1f44' : '#ff7b00',
+        }));
+
+        const cubeSize = 58;
+        const vertices = [
+          [-cubeSize, -cubeSize, -cubeSize],
+          [cubeSize, -cubeSize, -cubeSize],
+          [cubeSize, cubeSize, -cubeSize],
+          [-cubeSize, cubeSize, -cubeSize],
+          [-cubeSize, -cubeSize, cubeSize],
+          [cubeSize, -cubeSize, cubeSize],
+          [cubeSize, cubeSize, cubeSize],
+          [-cubeSize, cubeSize, cubeSize]
+        ];
+
+        const edges = [
+          [0, 1], [1, 2], [2, 3], [3, 0],
+          [4, 5], [5, 6], [6, 7], [7, 4],
+          [0, 4], [1, 5], [2, 6], [3, 7]
+        ];
+
+        const render = () => {
+          ctx.clearRect(0, 0, rect.width, rect.height);
+          angleX += (targetAngleX - angleX) * 0.05 + 0.004;
+          angleY += (targetAngleY - angleY) * 0.05 + 0.008;
+
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const fov = 260;
+
+          // Flame particles
+          particles.forEach(p => {
+            p.y -= 0.3;
+            if (p.y < -110) p.y = 110;
+            const rotY = p.x * Math.cos(angleY) - p.z * Math.sin(angleY);
+            const rotZ = p.x * Math.sin(angleY) + p.z * Math.cos(angleY);
+            const rotX = p.y * Math.cos(angleX) - rotZ * Math.sin(angleX);
+            const finalZ = p.y * Math.sin(angleX) + rotZ * Math.cos(angleX);
+
+            const scale = fov / (fov + finalZ + 180);
+            const x2d = cx + rotY * scale;
+            const y2d = cy + rotX * scale;
+
+            ctx.beginPath();
+            ctx.arc(x2d, y2d, p.size * scale, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = Math.max(0.2, Math.min(0.9, scale));
+            ctx.fill();
+          });
+          ctx.globalAlpha = 1;
+
+          // Projected cube
+          const projected = vertices.map(v => {
+            const rotY = v[0] * Math.cos(angleY) - v[2] * Math.sin(angleY);
+            const rotZ = v[0] * Math.sin(angleY) + v[2] * Math.cos(angleY);
+            const rotX = v[1] * Math.cos(angleX) - rotZ * Math.sin(angleX);
+            const finalZ = v[1] * Math.sin(angleX) + rotZ * Math.cos(angleX);
+
+            const scale = fov / (fov + finalZ + 180);
+            return {
+              x: cx + rotY * scale,
+              y: cy + rotX * scale,
+              scale
+            };
+          });
+
+          // Edges
+          edges.forEach(edge => {
+            const p1 = projected[edge[0]];
+            const p2 = projected[edge[1]];
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+            grad.addColorStop(0, '#ff1f44');
+            grad.addColorStop(0.5, '#ff5400');
+            grad.addColorStop(1, '#ffb703');
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 2.4;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#ff1f44';
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+          });
+
+          // Vertices
+          projected.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 4 * p.scale, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffb703';
+            ctx.fill();
+          });
+
+          animationFrameId = requestAnimationFrame(render);
+        };
+
+        render();
+
+        return () => {
+          cancelAnimationFrame(animationFrameId);
+          canvas.removeEventListener('mousemove', handleMouseMove);
+        };
+      }, []);
+
+      return (
+        <canvas
+          ref={canvasRef}
+          className="w-full h-[270px] sm:h-[300px] rounded-xl cursor-grab active:cursor-grabbing"
+        />
+      );
+    }
+
     // Left Sidebar Component
     function LeftSidebar({ lang, setLang, t, activeTab, setActiveTab }) {
       const [mobileOpen, setMobileOpen] = useState(false);
@@ -539,14 +688,14 @@
                       </div>
                     </div>
 
-                    {/* Right: Asuka Pilot Card */}
+                    {/* Right: EVA-02 Hologram Matrix HUD Card */}
                     <div className="lg:col-span-5 relative">
                       <div className="relative glass-panel rounded-2xl p-4 sm:p-5 border border-asuka-red/40 shadow-[0_0_50px_rgba(255,31,68,0.2)] overflow-hidden group">
                         <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
                           <div className="flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-asuka-red animate-ping" />
                             <span className="text-xs font-mono font-bold tracking-wider text-slate-200">
-                              EVA-02 // PILOT: ASUKA
+                              EVA-02 // PROTOCOL MCW
                             </span>
                           </div>
                           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 text-asuka-red border border-asuka-red/40 font-bold">
@@ -555,22 +704,14 @@
                         </div>
 
                         <div className="relative rounded-xl overflow-hidden border border-asuka-red/30 bg-obsidian-950">
-                          <img
-                            src="./asuka.jpg"
-                            alt="Asuka Langley MCW Pilot"
-                            className="w-full h-[320px] sm:h-[350px] object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                            onError={(e) => {
-                              e.currentTarget.src = "./public/images/asuka.jpg";
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent opacity-80 pointer-events-none" />
-                          <div className="absolute bottom-3 left-3 right-3 p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/40 text-left">
+                          <InteractiveCanvas />
+                          <div className="p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/30 text-left mt-2">
                             <div className="flex items-center justify-between text-[10px] font-mono text-asuka-flame font-bold mb-1">
                               <span>「あんたバカ？ 早く起動しなさいよ！」</span>
                               <span className="text-white bg-asuka-red px-1 rounded text-[9px]">EVA-02</span>
                             </div>
                             <p className="text-xs text-slate-300 font-medium leading-snug">
-                              "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Đừng để ta phải nhắc lại lần hai!"
+                              "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Sẵn sàng đồng bộ và cất cánh!"
                             </p>
                           </div>
                         </div>

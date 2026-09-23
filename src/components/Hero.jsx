@@ -1,5 +1,6 @@
 import React from 'react';
 import { Download, Sparkles, Github, ShieldCheck, Flame, ArrowRight, Zap, Target } from 'lucide-react';
+import InteractiveCanvas from './InteractiveCanvas';
 
 export default function Hero({ t }) {
   return (
@@ -96,7 +97,7 @@ export default function Hero({ t }) {
             </div>
           </div>
 
-          {/* Right: Asuka EVA-02 Pilot HUD Card */}
+          {/* Right: EVA-02 Hologram Matrix HUD Card */}
           <div className="lg:col-span-5 relative">
             <div className="relative glass-panel rounded-2xl p-4 sm:p-5 border border-asuka-red/40 shadow-[0_0_50px_rgba(255,31,68,0.2)] overflow-hidden group">
               {/* Tactical Corner Decal */}
@@ -107,7 +108,7 @@ export default function Hero({ t }) {
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-asuka-red animate-ping" />
                   <span className="text-xs font-mono font-bold tracking-wider text-slate-200">
-                    EVA-02 // PILOT: ASUKA
+                    EVA-02 // PROTOCOL MCW
                   </span>
                 </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 text-asuka-red border border-asuka-red/40 font-bold">
@@ -115,29 +116,18 @@ export default function Hero({ t }) {
                 </span>
               </div>
 
-              {/* Asuka Artwork Display */}
+              {/* Interactive 3D Hologram Canvas */}
               <div className="relative rounded-xl overflow-hidden border border-asuka-red/30 shadow-inner bg-obsidian-950">
-                <img
-                  src="/images/asuka.jpg"
-                  alt="Asuka Langley Soryu MCW Pilot"
-                  className="w-full h-[320px] sm:h-[350px] object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    // Fallback to relative path if deployed on subpath
-                    e.currentTarget.src = "./images/asuka.jpg";
-                  }}
-                />
+                <InteractiveCanvas />
 
-                {/* Tactical HUD Overlay Elements */}
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent opacity-80 pointer-events-none" />
-
-                {/* Asuka Quote Floating Tag */}
-                <div className="absolute bottom-3 left-3 right-3 p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/40 text-left">
+                {/* Tactical HUD Overlay Quote Tag */}
+                <div className="p-3 rounded-lg bg-obsidian-950/85 backdrop-blur-md border border-asuka-red/30 text-left mt-2">
                   <div className="flex items-center justify-between text-[10px] font-mono text-asuka-flame font-bold mb-1">
                     <span>「あんたバカ？ 早く起動しなさいよ！」</span>
                     <span className="text-white bg-asuka-red px-1 rounded text-[9px]">EVA-02</span>
                   </div>
                   <p className="text-xs text-slate-300 font-medium leading-snug">
-                    "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Đừng để ta phải nhắc lại lần hai!"
+                    "Tách biệt 100% từng bản chơi, xóa sổ mọi xung đột. Sẵn sàng đồng bộ và cất cánh!"
                   </p>
                 </div>
               </div>
