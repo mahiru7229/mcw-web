@@ -5,38 +5,19 @@ export const RELEASE_INFO = {
   channel: "stable",
   downloads: {
     windows: {
-      installer: {
-        filename: "MCW-Launcher-Setup-1.6.1.exe",
-        size: "78.4 MB",
-        sha256: "9b3c4f7a2d1e0f8c3a5b7e9d1a3c5e7f9b1d3f5a7c9e1b3d5f7a9c1e3b5d7f9a",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW-Launcher-Setup-1.6.1.exe",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/MCW-Launcher-Setup-1.6.1.exe",
-      },
-      portable: {
-        filename: "MCW Launcher.exe",
-        size: "77.9 MB",
-        sha256: "4a2b1c3d5e7f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW%20Launcher.exe",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/MCW%20Launcher.exe",
-      },
       archive: {
         filename: "MCW-Launcher-v1.6.1-windows-x64.zip",
-        size: "79.1 MB",
+        size: "74.3 MB",
+        sha256: "19efbb5964845a866452680bac5ba4ab82d656c9682698854e3edd4bd4b310a7",
         githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW-Launcher-v1.6.1-windows-x64.zip",
         cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/MCW-Launcher-v1.6.1-windows-x64.zip",
       }
     },
     linux: {
-      binary: {
-        filename: "mcw-launcher",
-        size: "82.3 MB",
-        sha256: "7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/mcw-launcher",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/mcw-launcher",
-      },
       archive: {
         filename: "MCW-Launcher-v1.6.1-linux-x64.zip",
-        size: "83.0 MB",
+        size: "75.8 MB",
+        sha256: "d2fc8172dd5e79962a8aed6deb9e32e6bda449aba94ac6e0b266f5e03d98bb60",
         githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW-Launcher-v1.6.1-linux-x64.zip",
         cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/MCW-Launcher-v1.6.1-linux-x64.zip",
       }
@@ -273,9 +254,8 @@ export const I18N = {
       server_switch: "Chọn máy chủ:",
       server_cdn: "⚡ Server Châu Á (HKG / SIN)",
       server_github: "🌐 Server Quốc tế",
-      windows_installer: "Bản Cài Đặt Windows (.exe)",
-      windows_portable: "Bản Portable Windows (One-file)",
-      linux_binary: "Bản Linux x64 (Standalone)",
+      windows_zip: "Bản Windows x64 (.zip)",
+      linux_zip: "Bản Linux x64 (.zip)",
       core_wheel: "Thư viện Python Core (.whl)",
       sha256_label: "SHA256",
       copy_sha256: "Copy SHA256",
@@ -499,9 +479,8 @@ export const I18N = {
       server_switch: "Select server:",
       server_cdn: "⚡ Asia Edge (HKG / SIN)",
       server_github: "🌐 Server Quốc tế",
-      windows_installer: "Windows Installer (.exe)",
-      windows_portable: "Windows Portable (One-file)",
-      linux_binary: "Linux x64 (Standalone)",
+      windows_zip: "Windows x64 Package (.zip)",
+      linux_zip: "Linux x64 Package (.zip)",
       core_wheel: "Python Core Wheel (.whl)",
       sha256_label: "SHA256",
       copy_sha256: "Copy SHA256",

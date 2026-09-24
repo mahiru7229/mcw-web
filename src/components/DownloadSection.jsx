@@ -86,40 +86,40 @@ export default function DownloadSection({ t }) {
 
         {/* Download Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Windows Installer */}
+          {/* Card 1: Windows x64 Archive */}
           <div className="asuka-panel-glow rounded-2xl p-6 flex flex-col justify-between border border-asuka-red/40 relative group">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 border border-asuka-red/40 text-asuka-red uppercase font-bold">
-                  RECOMMENDED // 推奨
+                  WINDOWS X64 // VERIFIED
                 </span>
                 <span className="text-xs font-mono text-slate-400">
-                  {RELEASE_INFO.downloads.windows.installer.size}
+                  {RELEASE_INFO.downloads.windows.archive.size}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white">
-                {t.download.windows_installer}
+                {t.download.windows_zip}
               </h3>
               <p className="text-[11px] text-slate-400 font-mono truncate">
-                {RELEASE_INFO.downloads.windows.installer.filename}
+                {RELEASE_INFO.downloads.windows.archive.filename}
               </p>
-              <p className="text-xs text-slate-300">
-                Bộ cài đặt hoàn chỉnh cho Windows 10 & 11 (x64), tự động tạo shortcut màn hình và cập nhật nền an toàn.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Gói phân phối độc lập hoàn chỉnh cho Windows 10 & 11 (x64), giải nén và khởi chạy ngay.
               </p>
 
               {/* SHA256 copy */}
-              {RELEASE_INFO.downloads.windows.installer.sha256 && (
+              {RELEASE_INFO.downloads.windows.archive.sha256 && (
                 <div className="pt-1">
                   <button
-                    onClick={() => handleCopyHash(RELEASE_INFO.downloads.windows.installer.sha256, 'win-inst')}
+                    onClick={() => handleCopyHash(RELEASE_INFO.downloads.windows.archive.sha256, 'win-zip')}
                     className="flex items-center gap-1.5 text-[11px] font-mono text-slate-400 hover:text-asuka-flame transition-colors"
                   >
-                    {copiedHash === 'win-inst' ? (
+                    {copiedHash === 'win-zip' ? (
                       <Check className="w-3 h-3 text-cyber-neon" />
                     ) : (
                       <Copy className="w-3 h-3" />
                     )}
-                    <span>{copiedHash === 'win-inst' ? t.download.copied : t.download.copy_sha256}</span>
+                    <span>{copiedHash === 'win-zip' ? t.download.copied : `${t.download.sha256_label}: 19efbb5...`}</span>
                   </button>
                 </div>
               )}
@@ -127,48 +127,48 @@ export default function DownloadSection({ t }) {
 
             <div className="pt-5 mt-5 border-t border-white/10">
               <a
-                href={getDownloadUrl(RELEASE_INFO.downloads.windows.installer)}
+                href={getDownloadUrl(RELEASE_INFO.downloads.windows.archive)}
                 className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white flex items-center justify-center gap-2 hover:shadow-[0_0_25px_rgba(255,31,68,0.5)] transition-all uppercase"
               >
                 <Download className="w-4 h-4 text-white" />
-                <span>Tải Bản Cài Đặt (.exe)</span>
+                <span>Tải Bản Windows x64 (.zip)</span>
               </a>
             </div>
           </div>
 
-          {/* Card 2: Windows Portable One-file */}
+          {/* Card 2: Linux x64 Archive */}
           <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-asuka-flame/40 transition-all relative group">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-flame/15 border border-asuka-flame/30 text-asuka-flame uppercase font-bold">
-                  PORTABLE ONE-FILE // 単体
+                  LINUX X64 // VERIFIED
                 </span>
                 <span className="text-xs font-mono text-slate-400">
-                  {RELEASE_INFO.downloads.windows.portable.size}
+                  {RELEASE_INFO.downloads.linux.archive.size}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white">
-                {t.download.windows_portable}
+                {t.download.linux_zip}
               </h3>
               <p className="text-[11px] text-slate-400 font-mono truncate">
-                {RELEASE_INFO.downloads.windows.portable.filename}
+                {RELEASE_INFO.downloads.linux.archive.filename}
               </p>
-              <p className="text-xs text-slate-300">
-                Tệp thực thi duy nhất, không cần cài đặt. Tải về và khởi chạy ngay từ USB hoặc thư mục bất kỳ.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Tệp thực thi độc lập cho Linux (Ubuntu, Debian, Fedora, Arch), giải nén và sử dụng tức thì.
               </p>
 
-              {RELEASE_INFO.downloads.windows.portable.sha256 && (
+              {RELEASE_INFO.downloads.linux.archive.sha256 && (
                 <div className="pt-1">
                   <button
-                    onClick={() => handleCopyHash(RELEASE_INFO.downloads.windows.portable.sha256, 'win-port')}
+                    onClick={() => handleCopyHash(RELEASE_INFO.downloads.linux.archive.sha256, 'linux-zip')}
                     className="flex items-center gap-1.5 text-[11px] font-mono text-slate-400 hover:text-asuka-flame transition-colors"
                   >
-                    {copiedHash === 'win-port' ? (
+                    {copiedHash === 'linux-zip' ? (
                       <Check className="w-3 h-3 text-cyber-neon" />
                     ) : (
                       <Copy className="w-3 h-3" />
                     )}
-                    <span>{copiedHash === 'win-port' ? t.download.copied : t.download.copy_sha256}</span>
+                    <span>{copiedHash === 'linux-zip' ? t.download.copied : `${t.download.sha256_label}: d2fc817...`}</span>
                   </button>
                 </div>
               )}
@@ -176,57 +176,52 @@ export default function DownloadSection({ t }) {
 
             <div className="pt-5 mt-5 border-t border-white/10">
               <a
-                href={getDownloadUrl(RELEASE_INFO.downloads.windows.portable)}
+                href={getDownloadUrl(RELEASE_INFO.downloads.linux.archive)}
                 className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 hover:border-asuka-flame/50 flex items-center justify-center gap-2 transition-all uppercase"
               >
                 <Download className="w-4 h-4 text-asuka-flame" />
-                <span>Tải Portable (.exe)</span>
+                <span>Tải Bản Linux x64 (.zip)</span>
               </a>
             </div>
           </div>
 
-          {/* Card 3: Linux & Core */}
+          {/* Card 3: Python Core Wheel */}
           <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-amber-400/40 transition-all relative group">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-cyber-neon uppercase font-bold">
-                  LINUX & DEVS // 開発
+                  PYTHON CORE // WHEEL
                 </span>
                 <span className="text-xs font-mono text-slate-400">
-                  {RELEASE_INFO.downloads.linux.binary.size}
+                  {RELEASE_INFO.downloads.core.wheel.size}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white">
-                {t.download.linux_binary}
+                {t.download.core_wheel}
               </h3>
               <p className="text-[11px] text-slate-400 font-mono truncate">
-                {RELEASE_INFO.downloads.linux.binary.filename}
+                {RELEASE_INFO.downloads.core.wheel.filename}
               </p>
-              <p className="text-xs text-slate-300">
-                Thực thi độc lập trên Linux (Ubuntu, Debian, Fedora, Arch). Hỗ trợ Python SDK wheel cho lập trình viên.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Thư viện Python Core Headless độc lập cho lập trình viên xây dựng bot và công cụ tự động hóa.
               </p>
 
-              {/* Core wheel quick link */}
+              {/* Pip install quick note */}
               <div className="pt-1 text-xs font-mono text-slate-400">
                 <div className="flex items-center justify-between">
-                  <span>Python Core Wheel:</span>
-                  <a
-                    href={getDownloadUrl(RELEASE_INFO.downloads.core.wheel)}
-                    className="text-asuka-flame hover:underline flex items-center gap-1 font-bold"
-                  >
-                    <span>mcw-core.whl</span>
-                  </a>
+                  <span>Cài đặt qua pip:</span>
+                  <span className="text-asuka-flame font-bold">pip install mcw-core</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-5 mt-5 border-t border-white/10">
               <a
-                href={getDownloadUrl(RELEASE_INFO.downloads.linux.binary)}
+                href={getDownloadUrl(RELEASE_INFO.downloads.core.wheel)}
                 className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 hover:border-amber-400/40 flex items-center justify-center gap-2 transition-all uppercase"
               >
                 <Terminal className="w-4 h-4 text-amber-400" />
-                <span>Tải Bản Linux (x64)</span>
+                <span>Tải Core Wheel (.whl)</span>
               </a>
             </div>
           </div>
