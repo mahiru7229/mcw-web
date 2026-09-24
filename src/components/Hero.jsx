@@ -87,7 +87,7 @@ export default function Hero({ t }) {
                 <span className="text-[11px] text-slate-400 block">{t.hero.stat_open}</span>
               </div>
               <div className="space-y-0.5">
-                <span className="text-lg font-extrabold text-asuka-flame font-mono block">Server VN</span>
+                <span className="text-lg font-extrabold text-asuka-flame font-mono block">Asia Edge</span>
                 <span className="text-[11px] text-slate-400 block">{t.hero.stat_speed}</span>
               </div>
             </div>
