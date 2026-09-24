@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Hero from './components/Hero';
 import Features from './components/Features';
+import ArchitectureComparison from './components/ArchitectureComparison';
 import DownloadSection from './components/DownloadSection';
 import DeveloperHub from './components/DeveloperHub';
 import Footer from './components/Footer';
@@ -21,6 +22,7 @@ export default function App() {
         <main className="flex-grow">
           <Hero t={t} />
           <Features t={t} />
+          <ArchitectureComparison t={t} />
           <DownloadSection t={t} />
           <DeveloperHub t={t} />
         </main>

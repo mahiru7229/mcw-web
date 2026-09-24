@@ -20,6 +20,7 @@ export default function Sidebar({ lang, setLang, t }) {
   const navItems = [
     { id: 'hero', href: '#hero', label: t.sidebar.home, jp: t.sidebar.home_jp, icon: Home },
     { id: 'features', href: '#features', label: t.sidebar.features, jp: t.sidebar.features_jp, icon: Sparkles },
+    { id: 'comparison', href: '#comparison', label: t.sidebar.comparison, jp: t.sidebar.comparison_jp, icon: Zap },
     { id: 'download', href: '#download', label: t.sidebar.download, jp: t.sidebar.download_jp, icon: Download },
     { id: 'core-hub', href: '#core-hub', label: t.sidebar.core, jp: t.sidebar.core_jp, icon: Code2 },
   ];

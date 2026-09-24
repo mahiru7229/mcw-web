@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MCW Launcher</title>
+  <title>MCW Launcher — High Performance Minecraft Architecture</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -95,7 +95,105 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
+
+    // Vector SVG Icons
+    const Icons = {
+      Layers: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+          <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+          <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+        </svg>
+      ),
+      ShieldCheck: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      ),
+      RefreshCw: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+          <path d="M21 3v5h-5"/>
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+          <path d="M8 16H3v5"/>
+        </svg>
+      ),
+      Sparkles: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        </svg>
+      ),
+      Cpu: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="16" height="16" x="4" y="4" rx="2"/>
+          <rect width="6" height="6" x="9" y="9" rx="1"/>
+          <path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>
+        </svg>
+      ),
+      Lock: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      ),
+      Palette: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+          <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+          <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+          <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+        </svg>
+      ),
+      Zap: (props) => (
+        <svg className={props.className || "w-5 h-5"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      ),
+      Check: (props) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      ),
+      X: (props) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      ),
+      Terminal: (props) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="4 17 10 11 4 5"/>
+          <line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+      ),
+      Copy: (props) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+      ),
+      BookOpen: (props) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      ),
+      ExternalLink: (props) => (
+        <svg className={props.className || "w-3 h-3"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M15 3h6v6"/>
+          <path d="M10 14 21 3"/>
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        </svg>
+      ),
+      Flame: (props) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+        </svg>
+      )
+    };
 
     const RELEASE_DATA = {
       version: "v1.6.1",
@@ -133,24 +231,7 @@
             cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/mcw_core-1.6.1-py3-none-any.whl",
           }
         }
-      },
-      changelog: [
-        {
-          type: "feat",
-          title: "Nạp Lại Modloader & 5 Lần Thử Lại",
-          desc: "Nút Reload tức thì trong giao diện Tạo Instance. Tự động thử lại 5 lần với exponential backoff khi mạng chập chờn."
-        },
-        {
-          type: "fix",
-          title: "Giải Phóng Giới Hạn MAX_PATH Windows",
-          desc: "Tự động kích hoạt tiền tố \\\\?\\ mở rộng 32.767 ký tự, xóa sổ hoàn toàn lỗi WinError 3 khi cài các modpack nặng."
-        },
-        {
-          type: "perf",
-          title: "Đóng Gói One-File & Cụm Server VN Siêu Tốc",
-          desc: "Tệp thực thi độc lập an toàn không dính cảnh báo sai, sẵn sàng kết nối cụm Server VN tốc độ cao."
-        }
-      ]
+      }
     };
 
     const I18N = {
@@ -161,11 +242,13 @@
           status_kaomoji: "SYSTEM: ONLINE (๑•̀ㅂ•́)و✧",
           home: "Tổng Quan",
           home_jp: "ホーム",
-          features: "Hệ Thống Lõi",
+          features: "8 Trụ Cột Lõi",
           features_jp: "特長",
+          comparison: "So Sánh Kiến Trúc",
+          comparison_jp: "比較",
           download: "Tải Về",
           download_jp: "入手",
-          core: "Dev Core",
+          core: "Dev Core SDK",
           core_jp: "開発者",
           download_btn: "Khởi Chạy v1.6.1",
         },
@@ -175,7 +258,7 @@
           title_1: "Trình Khởi Chạy",
           title_gradient: "MCW Launcher",
           title_2: "Chuẩn Mực Instance-First",
-          subtitle: "Nền tảng khởi chạy Minecraft cách ly 100% từng phiên bản, loại bỏ hoàn toàn lỗi đường dẫn dài Windows. Đạt tỷ lệ đồng bộ tuyệt đối với cụm Server Việt Nam tốc độ cao!",
+          subtitle: "Nền tảng khởi chạy Minecraft mã nguồn mở với kiến trúc khoang độc lập 100%. Vượt qua rào cản đường dẫn dài Windows, tự động cấp phát Java Temurin và đồng bộ cụm Server VN tốc độ cao.",
           btn_download: "Tải v1.6.1 Ngay",
           btn_explore: "Khám Phá Tính Năng",
           stat_loaders: "4 Mod Loaders Hỗ Trợ",
@@ -183,21 +266,163 @@
           stat_speed: "Server VN Tốc Độ Cao",
         },
         features: {
-          tag: "TACTICAL SYSTEMS // 4 TRỤ CỘT",
-          title: "Đồng Bộ Tuyệt Đối. Không Thỏa Hiệp.",
-          subtitle: "Xóa sạch mọi lỗi nghẽn và phiền toái khi chơi Minecraft modpack với hiệu năng tối đa.",
-          card1_title: "Khoang Cách Ly Tuyệt Đối (Container Isolation)",
-          card1_jp: "「完全独立・コンテナ分離」",
-          card1_desc: "Mỗi bản game là một không gian độc lập tuyệt đối. Mods, saves, shaders, Java và cấu hình JVM tách biệt hoàn toàn — thử modpack mới không bao giờ ảnh hưởng thế giới cũ.",
-          card2_title: "Giải Phóng Giới Hạn MAX_PATH",
-          card2_jp: "「32,767文字パス完全解放」",
-          card2_desc: "Tự động kích hoạt tiền tố \\\\?\\ mở rộng giới hạn lên 32.767 ký tự. Thoải mái cài các modpack đồ sộ hàng trăm mod của NeoForge mà không lo lỗi WinError 3.",
-          card3_title: "Tự Phục Hồi 5 Lần (Auto-Recovery)",
-          card3_jp: "「5回自動リトライ機構」",
-          card3_desc: "Bộ nạp metadata tự động thử lại 5 lần kèm giãn cách exponential backoff khi mạng chập chờn, kết hợp nút Reload tức thì ngay trong màn hình tạo bản chơi.",
-          card4_title: "Đồng Bộ Java & Mod Hub",
-          card4_jp: "「Java＆Mod統合同期ハブ」",
-          card4_desc: "Tự nhận diện và cấp phát Java Adoptium chuẩn xác từ Java 8 đến 21+. Tìm kiếm và cài đặt mod Modrinth & CurseForge an toàn chỉ với 1 cú click.",
+          tag: "CORE ARCHITECTURE // 8 TRỤ CỘT KỸ THUẬT",
+          title: "Đồng Bộ Tuyệt Đối. Chuẩn Mực Instance-First.",
+          subtitle: "Được chắt lọc từ tài liệu kỹ thuật của MCW Launcher, giải quyết triệt để mọi giới hạn cố hữu của launcher truyền thống.",
+          filter_all: "Tất Cả (8)",
+          filter_core: "Kiến Trúc Lõi",
+          filter_mods: "Mods & Modpacks",
+          filter_security: "Bảo Mật & Giao Diện",
+          items: [
+            {
+              id: "isolation",
+              category: "core",
+              icon: "Layers",
+              color: "text-asuka-red",
+              border: "hover:border-asuka-red/60",
+              badge: "ISOLATION // 独立",
+              title: "Khoang Cách Ly Tuyệt Đối (Instance Isolation)",
+              jp: "「完全独立・コンテナ分離」",
+              desc: "Mỗi bản chơi là một khoang hoàn toàn biệt lập (instances/<Name>/) với instance.json, settings.json, mods, saves, shaders và Java riêng. Tích hợp bộ đếm giờ chơi, crash analytics và icon nhận diện độc quyền.",
+              docRef: "docs/INSTANCE_SYSTEM.md"
+            },
+            {
+              id: "long_path",
+              category: "core",
+              icon: "ShieldCheck",
+              color: "text-asuka-flame",
+              border: "hover:border-asuka-flame/60",
+              badge: "LONG PATH // 安定",
+              title: "Giải Phóng Giới Hạn MAX_PATH (32.767 Ký Tự)",
+              jp: "「32,767文字パス完全解放」",
+              desc: "Tự động chuẩn hóa tiền tố \\\\?\\ trên Windows cho toàn bộ thao tác sao chép, liên kết và giải nén. Tối ưu tên staging tạm .tmp_<hex>.pub, xóa sổ vĩnh viễn lỗi WinError 3 khi cài các modpack đồ sộ của NeoForge.",
+              docRef: "docs/releases/v1.6.1.md"
+            },
+            {
+              id: "auto_recovery",
+              category: "core",
+              icon: "RefreshCw",
+              color: "text-amber-400",
+              border: "hover:border-amber-500/60",
+              badge: "RECOVERY // 回復",
+              title: "Tự Phục Hồi 5 Lần & Nút Reload Tức Thì",
+              jp: "「5回自動リトライ機構」",
+              desc: "Hỗ trợ 4 Mod Loader (Fabric, Quilt, Forge, NeoForge). Nút Reload làm mới metadata trực tiếp; bộ nạp HttpDownloader tự động thử lại 5 lần với exponential backoff khi mạng timeout, chập chờn.",
+              docRef: "docs/releases/v1.6.1.md"
+            },
+            {
+              id: "mod_ecosystem",
+              category: "mods",
+              icon: "Sparkles",
+              color: "text-cyan-400",
+              border: "hover:border-cyan-500/60",
+              badge: "ECOSYSTEM // 統合",
+              title: "Hệ Sinh Thái Modrinth & CurseForge Native",
+              jp: "「Modrinth＆CurseForge統合」",
+              desc: "Tìm kiếm, duyệt và cài mod 1-click từ Modrinth. Tự động kéo required dependencies, xác minh hash SHA-1/SHA-512 chặt chẽ. Hỗ trợ nhập modpack .mrpack, CurseForge ZIP, FTB và ATLauncher an toàn sandbox.",
+              docRef: "docs/MODRINTH_INTEGRATION.md"
+            },
+            {
+              id: "java_managed",
+              category: "core",
+              icon: "Cpu",
+              color: "text-cyber-neon",
+              border: "hover:border-emerald-500/60",
+              badge: "JAVA RUNTIME // 管理",
+              title: "Cấp Phát Java Tự Động & Cơ Chế Repair",
+              jp: "「Java自動検出＆修復」",
+              desc: "Tự động phát hiện Java 8 đến 21+ trên máy hoặc tự tải Eclipse Temurin JDK chuẩn xác theo từng phiên bản game. Kiểm tra chữ ký số SHA-256 và cung cấp cơ chế tự động sửa chữa khi runtime bị lỗi.",
+              docRef: "docs/ARCHITECTURE.md"
+            },
+            {
+              id: "zero_trace",
+              category: "security",
+              icon: "Lock",
+              color: "text-rose-400",
+              border: "hover:border-rose-500/60",
+              badge: "SECURITY // 防護",
+              title: "Bảo Mật Zero-Trace (Microsoft & Offline)",
+              jp: "「ゼロトレース認証」",
+              desc: "Đăng nhập Microsoft chính chủ và chế độ chơi Offline. Access token chỉ lưu tạm thời trong bộ nhớ RAM, tuyệt đối không bao giờ ghi xuống ổ cứng hay rò rỉ trong file log/diagnostics bundle.",
+              docRef: "docs/ARCHITECTURE.md"
+            },
+            {
+              id: "theme_engine",
+              category: "security",
+              icon: "Palette",
+              color: "text-purple-400",
+              border: "hover:border-purple-500/60",
+              badge: "CUSTOMIZE // 自由",
+              title: "Theme Studio Contract v1 & Đa Ngôn Ngữ",
+              jp: "「Theme Schema v6＆多言語」",
+              desc: "Hỗ trợ chuẩn Theme Schema 6 với khả năng tùy biến màu sắc, âm thanh, animation và font chữ. Gói ngôn ngữ Tiếng Việt & Tiếng Anh đạt 100% parity với hơn 2.290 khóa dịch.",
+              docRef: "docs/THEME_RUNTIME_CONTRACT.md"
+            },
+            {
+              id: "updater_v2",
+              category: "security",
+              icon: "Zap",
+              color: "text-amber-500",
+              border: "hover:border-amber-500/60",
+              badge: "UPDATER // 安全",
+              title: "Bộ Cập Nhật Độc Lập Fail-Closed (Updater v2)",
+              jp: "「独立アップデータv2」",
+              desc: "Kiến trúc Updater v2 với binary MCW Updater riêng biệt. Xác thực chữ ký số SHA-256 sidecar trước khi ghi đè, đóng gói định dạng One-File Standalone siêu nhẹ cho Windows và Linux.",
+              docRef: "docs/UPDATE_PACKAGES.md"
+            }
+          ]
+        },
+        comparison: {
+          tag: "ARCHITECTURE BENCHMARK // SO SÁNH CHUẨN MỰC",
+          title: "Sự Vượt Trội Về Kiến Trúc Kỹ Thuật",
+          subtitle: "Giải quyết triệt để những bất cập cố hữu mà người chơi Minecraft gặp phải trong hơn 10 năm qua.",
+          col_feature: "Tiêu Chí Kỹ Thuật",
+          col_legacy: "Launcher Truyền Thống / Khác",
+          col_mcw: "MCW Launcher (v1.6.1)",
+          items: [
+            {
+              feature: "Cấu Trúc Thư Mục Game",
+              legacy: "Dùng chung một thư mục .minecraft, dễ xung đột mod và hỏng file save",
+              mcw: "Khoang cách ly độc lập 100% (instances/<Name>/) với settings, mods, saves riêng",
+              highlight: true
+            },
+            {
+              feature: "Đường Dẫn Windows (MAX_PATH)",
+              legacy: "Giới hạn 260 ký tự, hay văng lỗi WinError 3 khi cài modpack nặng",
+              mcw: "Chuẩn hóa tiền tố \\\\?\\ lên 32.767 ký tự + staging rút ngắn, không bao giờ lỗi",
+              highlight: true
+            },
+            {
+              feature: "Tải Metadata Mod Loader",
+              legacy: "Mạng chập chờn là kẹt cache danh sách rỗng, phải tắt đi bật lại launcher",
+              mcw: "Tự động thử lại 5 lần (Exponential Backoff) + Nút Reload nạp lại tức thì",
+              highlight: false
+            },
+            {
+              feature: "Quản Lý Java Runtime",
+              legacy: "Bắt người dùng tự tìm, cài đặt và cấu hình biến môi trường Java thủ công",
+              mcw: "Tự động cấp phát Eclipse Temurin (Java 8 - 21+), kiểm tra SHA-256 & auto-repair",
+              highlight: false
+            },
+            {
+              feature: "Cài Đặt Mods & Modpack",
+              legacy: "Copy file thủ công, dễ thiếu mod phụ thuộc hoặc dính mã độc",
+              mcw: "Tích hợp Modrinth/CurseForge, tự kéo dependency, sandbox chống Directory Traversal",
+              highlight: false
+            },
+            {
+              feature: "Bảo Mật Tài Khoản",
+              legacy: "Lưu token hoặc mật khẩu dạng plaintext vào file cấu hình trên ổ cứng",
+              mcw: "Zero-Trace: Microsoft access token chỉ giữ tạm trong RAM, không ghi file",
+              highlight: true
+            },
+            {
+              feature: "Định Dạng Phân Phối",
+              legacy: "Bộ cài cồng kềnh, nhiều tệp DLL rời rạc hoặc AppData rác",
+              mcw: "Tệp thực thi duy nhất One-File Standalone siêu nhẹ, không rác hệ thống",
+              highlight: false
+            }
+          ]
         },
         download: {
           tag: "DEPLOYMENT // TRẠM TẢI XUỐNG",
@@ -215,6 +440,18 @@
           copy_sha256: "Copy SHA256",
           copied: "Đã copy!",
           view_changelog: "Chi Tiết v1.6.1",
+        },
+        core_hub: {
+          tag: "PYTHON CORE SDK // 開発者向け",
+          title: "Hệ Sinh Thái MCW Core",
+          subtitle: "Toàn bộ sức mạnh của launcher được đóng gói thành thư viện Python độc lập mcw-core để bạn tự do phát triển bot hoặc công cụ tự động hóa.",
+          install_cmd: "pip install mcw-core",
+          example_tab_launch: "Khởi Động",
+          example_tab_create: "Tạo Instance",
+          example_tab_health: "Giám Sát Health",
+          example_tab_cli: "CLI Script",
+          read_docs: "Tài Liệu API",
+          view_core_repo: "Mã Nguồn Core",
         }
       },
       en: {
@@ -224,11 +461,13 @@
           status_kaomoji: "SYSTEM: ONLINE (๑•̀ㅂ•́)و✧",
           home: "Overview",
           home_jp: "ホーム",
-          features: "Core Systems",
+          features: "8 Core Pillars",
           features_jp: "特長",
+          comparison: "Architecture Spec",
+          comparison_jp: "比較",
           download: "Download",
           download_jp: "入手",
-          core: "Dev Core",
+          core: "Dev Core SDK",
           core_jp: "開発者",
           download_btn: "Launch v1.6.1",
         },
@@ -238,7 +477,7 @@
           title_1: "The Next-Gen",
           title_gradient: "MCW Launcher",
           title_2: "Pure Instance-First",
-          subtitle: "The high-performance open-source Minecraft launcher. 100% isolated instances, zero Windows long path errors, and blazing fast downloads via dedicated Vietnam & Global servers.",
+          subtitle: "The high-performance open-source Minecraft launcher with 100% isolated instances. Bypassing Windows long path limits, auto-provisioning Eclipse Temurin runtimes, and blazing fast edge downloads.",
           btn_download: "Download v1.6.1",
           btn_explore: "Explore Systems",
           stat_loaders: "4 Official Mod Loaders",
@@ -246,21 +485,163 @@
           stat_speed: "Vietnam Server Fast",
         },
         features: {
-          tag: "TACTICAL SYSTEMS // 4 PILLARS",
+          tag: "CORE ARCHITECTURE // 8 TECHNICAL PILLARS",
           title: "Absolute Synchronization. Zero Compromise.",
-          subtitle: "Engineered specifically to solve the biggest headaches in modded Minecraft with maximum stability.",
-          card1_title: "Instance Container Isolation",
-          card1_jp: "「完全独立・コンテナ分離」",
-          card1_desc: "Every instance is a self-contained environment. Mods, saves, shaders, Java, and JVM arguments are isolated — testing new modpacks never harms existing worlds.",
-          card2_title: "Windows Long Path Bypass",
-          card2_jp: "「32,767文字パス完全解放」",
-          card2_desc: "Automatically utilizes \\\\?\\ extended 32,767-character paths on Windows. Freely install massive modpacks with deep hierarchies without WinError 3.",
-          card3_title: "5-Attempt Auto-Recovery",
-          card3_jp: "「5回自動リトライ機構」",
-          card3_desc: "Metadata fetchers retry 5 times with exponential backoff on transient connection drops, paired with an instant Reload button right inside the Create dialog.",
-          card4_title: "Auto Java & Mod Hub",
-          card4_jp: "「Java＆Mod統合同期ハブ」",
-          card4_desc: "Auto-detects and provisions Eclipse Temurin runtimes from Java 8 to 21+. Seamlessly search and install mods from Modrinth & CurseForge in 1 click.",
+          subtitle: "Engineered specifically based on official MCW Launcher documentation to solve the biggest headaches in modded Minecraft.",
+          filter_all: "All (8)",
+          filter_core: "Core Engine",
+          filter_mods: "Mods & Modpacks",
+          filter_security: "Security & UX",
+          items: [
+            {
+              id: "isolation",
+              category: "core",
+              icon: "Layers",
+              color: "text-asuka-red",
+              border: "hover:border-asuka-red/60",
+              badge: "ISOLATION // 独立",
+              title: "Plug Isolation (Independent Containers)",
+              jp: "「完全独立・コンテナ分離」",
+              desc: "Every instance is a self-contained environment (instances/<Name>/) with its own instance.json, settings.json, mods, saves, shaders, and Java. Features dedicated playtime tracking, crash diagnostics, and custom icons.",
+              docRef: "docs/INSTANCE_SYSTEM.md"
+            },
+            {
+              id: "long_path",
+              category: "core",
+              icon: "ShieldCheck",
+              color: "text-asuka-flame",
+              border: "hover:border-asuka-flame/60",
+              badge: "LONG PATH // 安定",
+              title: "Windows Long Path Bypass (32,767 Chars)",
+              jp: "「32,767文字パス完全解放」",
+              desc: "Automatically utilizes \\\\?\\ extended paths across copy, link, and file operations on Windows. Shortens staging files (.tmp_<hex>.pub), completely eradicating WinError 3 on deep NeoForge/Forge modpacks.",
+              docRef: "docs/releases/v1.6.1.md"
+            },
+            {
+              id: "auto_recovery",
+              category: "core",
+              icon: "RefreshCw",
+              color: "text-amber-400",
+              border: "hover:border-amber-500/60",
+              badge: "RECOVERY // 回復",
+              title: "5-Attempt Auto-Recovery & Instant Reload",
+              jp: "「5回自動リトライ機構」",
+              desc: "Full support for 4 Mod Loaders (Fabric, Quilt, Forge, NeoForge). Instant loader reload button cleans stale cache; HttpDownloader retries 5 times with exponential backoff on transient network drops.",
+              docRef: "docs/releases/v1.6.1.md"
+            },
+            {
+              id: "mod_ecosystem",
+              category: "mods",
+              icon: "Sparkles",
+              color: "text-cyan-400",
+              border: "hover:border-cyan-500/60",
+              badge: "ECOSYSTEM // 統合",
+              title: "Native Modrinth & CurseForge Integration",
+              jp: "「Modrinth＆CurseForge統合」",
+              desc: "Browse and install mods in 1 click from Modrinth. Automatically installs required dependencies, validates SHA-1/SHA-512 hashes, and imports .mrpack, CurseForge ZIP, FTB, and ATLauncher modpacks safely.",
+              docRef: "docs/MODRINTH_INTEGRATION.md"
+            },
+            {
+              id: "java_managed",
+              category: "core",
+              icon: "Cpu",
+              color: "text-cyber-neon",
+              border: "hover:border-emerald-500/60",
+              badge: "JAVA RUNTIME // 管理",
+              title: "Managed Java Runtime & Auto-Repair",
+              jp: "「Java自動検出＆修復」",
+              desc: "Auto-detects installed Java 8 to 21+ or provisions Eclipse Temurin runtimes matched to Minecraft versions. Validates SHA-256 digests and repairs corrupted runtimes automatically.",
+              docRef: "docs/ARCHITECTURE.md"
+            },
+            {
+              id: "zero_trace",
+              category: "security",
+              icon: "Lock",
+              color: "text-rose-400",
+              border: "hover:border-rose-500/60",
+              badge: "SECURITY // 防護",
+              title: "Zero-Trace Security (Microsoft & Offline)",
+              jp: "「ゼロトレース認証」",
+              desc: "Official Microsoft OAuth2 authentication and offline gameplay. Short-lived access tokens are strictly held in volatile RAM, never committed to disk, logs, or diagnostics bundles.",
+              docRef: "docs/ARCHITECTURE.md"
+            },
+            {
+              id: "theme_engine",
+              category: "security",
+              icon: "Palette",
+              color: "text-purple-400",
+              border: "hover:border-purple-500/60",
+              badge: "CUSTOMIZE // 自由",
+              title: "Theme Studio Contract v1 & 100% Localization",
+              jp: "「Theme Schema v6＆多言語」",
+              desc: "Frozen Theme Schema 6 with runtime animation, font, and audio customization. Bilingual language packs with 100% parity across 2,290+ translation keys.",
+              docRef: "docs/THEME_RUNTIME_CONTRACT.md"
+            },
+            {
+              id: "updater_v2",
+              category: "security",
+              icon: "Zap",
+              color: "text-amber-500",
+              border: "hover:border-amber-500/60",
+              badge: "UPDATER // 安全",
+              title: "Fail-Closed Updater Architecture v2",
+              jp: "「独立アップデータv2」",
+              desc: "Standalone updater binary verifying SHA-256 sidecar digests before extracting target releases. Packaged as a clean, portable single executable for Windows and Linux.",
+              docRef: "docs/UPDATE_PACKAGES.md"
+            }
+          ]
+        },
+        comparison: {
+          tag: "ARCHITECTURE BENCHMARK // SPEC COMPARISON",
+          title: "Why MCW Launcher Outperforms Legacy Tools",
+          subtitle: "Purpose-built architecture engineered to overcome limitations that have plagued Minecraft players for a decade.",
+          col_feature: "Technical Criteria",
+          col_legacy: "Legacy / Traditional Launchers",
+          col_mcw: "MCW Launcher (v1.6.1)",
+          items: [
+            {
+              feature: "Game Directory Structure",
+              legacy: "Shared .minecraft directory, causing mod conflicts and world corruption",
+              mcw: "100% isolated instance containers (instances/<Name>/) with own mods & saves",
+              highlight: true
+            },
+            {
+              feature: "Windows Path Length (MAX_PATH)",
+              legacy: "Restricted to 260 characters, frequently throwing WinError 3 on big packs",
+              mcw: "Extended \\\\?\\ prefix up to 32,767 chars with shortened staging, never fails",
+              highlight: true
+            },
+            {
+              feature: "Mod Loader Metadata Fetching",
+              legacy: "Transient drops permanently lock empty lists, requiring full app restart",
+              mcw: "5-attempt exponential backoff auto-recovery + instant one-click reload button",
+              highlight: false
+            },
+            {
+              feature: "Java Runtime Provisioning",
+              legacy: "Forces players to search, download, and configure system Java manually",
+              mcw: "Auto-detects or provisions Eclipse Temurin (Java 8 - 21+) with auto-repair",
+              highlight: false
+            },
+            {
+              feature: "Mod & Modpack Management",
+              legacy: "Manual folder pasting, easy to miss dependencies or download malware",
+              mcw: "Integrated Modrinth/CurseForge, auto-dependencies, traversal-safe sandbox",
+              highlight: false
+            },
+            {
+              feature: "Account Token Protection",
+              legacy: "Plaintext token or password persistence inside config files on disk",
+              mcw: "Zero-Trace: Microsoft access token held strictly in RAM, never saved to disk",
+              highlight: true
+            },
+            {
+              feature: "Packaging & Distribution",
+              legacy: "Bulky installers, sprawling DLLs, and deep AppData clutter",
+              mcw: "Clean one-file standalone executable with zero lingering background junk",
+              highlight: false
+            }
+          ]
         },
         download: {
           tag: "DEPLOYMENT // TRẠM TẢI XUỐNG",
@@ -278,15 +659,27 @@
           copy_sha256: "Copy SHA256",
           copied: "Copied!",
           view_changelog: "v1.6.1 Notes",
+        },
+        core_hub: {
+          tag: "PYTHON CORE SDK // 開発者向け",
+          title: "Headless MCW Core Engine",
+          subtitle: "The entire launcher engine is packaged into an independent mcw-core Python library, letting you build bots, automation pipelines, or custom tools.",
+          install_cmd: "pip install mcw-core",
+          example_tab_launch: "Launch",
+          example_tab_create: "Create",
+          example_tab_health: "Health Check",
+          example_tab_cli: "CLI Script",
+          read_docs: "API Docs",
+          view_core_repo: "Core Repository",
         }
       }
     };
 
     // 3D Tactical Interactive Voxel Canvas
     function InteractiveCanvas() {
-      const canvasRef = React.useRef(null);
+      const canvasRef = useRef(null);
 
-      React.useEffect(() => {
+      useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -438,6 +831,7 @@
       const navItems = [
         { id: 'hero', href: '#hero', label: t.sidebar.home, jp: t.sidebar.home_jp, icon: "🚀" },
         { id: 'features', href: '#features', label: t.sidebar.features, jp: t.sidebar.features_jp, icon: "🔥" },
+        { id: 'comparison', href: '#comparison', label: t.sidebar.comparison, jp: t.sidebar.comparison_jp, icon: "⚡" },
         { id: 'download', href: '#download', label: t.sidebar.download, jp: t.sidebar.download_jp, icon: "📥" },
         { id: 'core-hub', href: '#core-hub', label: t.sidebar.core, jp: t.sidebar.core_jp, icon: "💻" },
       ];
@@ -586,6 +980,428 @@
       );
     }
 
+    // Features Component (8 Pillars + Filter Tabs)
+    function FeaturesSection({ t }) {
+      const [activeFilter, setActiveFilter] = useState('all');
+
+      const filterTabs = [
+        { id: 'all', label: t.features.filter_all },
+        { id: 'core', label: t.features.filter_core },
+        { id: 'mods', label: t.features.filter_mods },
+        { id: 'security', label: t.features.filter_security },
+      ];
+
+      const items = t.features.items || [];
+      const filteredItems = activeFilter === 'all' 
+        ? items 
+        : items.filter(item => item.category === activeFilter);
+
+      return (
+        <section id="features" className="py-20 relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* Header */}
+            <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/10 border border-asuka-red/30 text-asuka-red text-xs font-mono font-bold">
+                <Icons.Flame className="w-3.5 h-3.5 text-asuka-flame animate-pulse" />
+                <span>{t.features.tag}</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                {t.features.title}
+              </h2>
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                {t.features.subtitle}
+              </p>
+
+              {/* Filter Categories */}
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
+                {filterTabs.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveFilter(tab.id)}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all duration-200 ${
+                      activeFilter === tab.id
+                        ? 'bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white shadow-[0_0_15px_rgba(255,31,68,0.35)] font-bold'
+                        : 'bg-obsidian-900/90 text-slate-400 hover:text-white hover:bg-obsidian-850 border border-white/10'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 8 Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredItems.map((item, index) => {
+                const IconComponent = Icons[item.icon] || Icons.Sparkles;
+                return (
+                  <div
+                    key={item.id || index}
+                    className={`glass-panel rounded-2xl p-6 sm:p-7 transition-all duration-300 transform hover:-translate-y-1 border border-white/10 ${item.border} group relative flex flex-col justify-between`}
+                  >
+                    <div>
+                      {/* Top Bar with Icon & Badge */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 rounded-xl bg-obsidian-950/90 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+                          <IconComponent className={`w-6 h-6 ${item.color}`} />
+                        </div>
+                        <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10 uppercase">
+                          {item.badge}
+                        </span>
+                      </div>
+
+                      {/* Title & Japanese sub-title */}
+                      <div className="space-y-1 mb-3">
+                        <div className="text-[11px] font-mono text-asuka-flame font-medium">
+                          {item.jp}
+                        </div>
+                        <h3 className="text-lg font-bold text-white group-hover:text-asuka-red transition-colors">
+                          {item.title}
+                        </h3>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed font-normal">
+                        {item.desc}
+                      </p>
+                    </div>
+
+                    {/* Bottom link to docs */}
+                    <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                      <a
+                        href={`https://github.com/mahiru7229/mcw-launcher/blob/main/${item.docRef}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 hover:text-asuka-flame transition-colors group/link"
+                        title="Xem tài liệu kỹ thuật trên GitHub"
+                      >
+                        <Icons.BookOpen className="w-3.5 h-3.5 text-slate-400 group-hover/link:text-asuka-flame" />
+                        <span>{item.docRef}</span>
+                        <Icons.ExternalLink className="w-3 h-3 opacity-60 group-hover/link:opacity-100" />
+                      </a>
+                      <span className="text-slate-400 group-hover:text-asuka-flame transition-colors font-semibold">
+                        VERIFIED ✦
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Architecture Comparison Section
+    function ArchitectureComparisonSection({ t }) {
+      const comparison = t.comparison;
+      if (!comparison) return null;
+
+      return (
+        <section id="comparison" className="py-20 relative overflow-hidden bg-obsidian-900/30 border-t border-white/5">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* Section Header */}
+            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-flame/15 border border-asuka-flame/35 text-asuka-flame text-xs font-mono font-bold">
+                <Icons.Zap className="w-3.5 h-3.5 text-asuka-amber animate-pulse" />
+                <span>{comparison.tag}</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                {comparison.title}
+              </h2>
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                {comparison.subtitle}
+              </p>
+            </div>
+
+            {/* Comparison Table / Cards */}
+            <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+              {/* Header Row (Desktop) */}
+              <div className="hidden md:grid md:grid-cols-12 bg-obsidian-950 px-6 py-4 border-b border-white/10 text-xs font-mono font-bold tracking-wider uppercase">
+                <div className="col-span-4 text-slate-400">{comparison.col_feature}</div>
+                <div className="col-span-4 text-rose-400/90 flex items-center gap-1.5">
+                  <Icons.X className="w-4 h-4 text-rose-500" />
+                  <span>{comparison.col_legacy}</span>
+                </div>
+                <div className="col-span-4 text-cyber-neon flex items-center gap-1.5">
+                  <Icons.Check className="w-4 h-4 text-cyber-neon" />
+                  <span>{comparison.col_mcw}</span>
+                </div>
+              </div>
+
+              {/* Rows */}
+              <div className="divide-y divide-white/5">
+                {comparison.items.map((row, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-5 md:px-6 md:py-4.5 transition-colors hover:bg-white/[0.02] ${
+                      row.highlight ? 'bg-asuka-red/[0.03]' : ''
+                    }`}
+                  >
+                    {/* Desktop Grid Layout */}
+                    <div className="hidden md:grid md:grid-cols-12 gap-4 items-center text-xs">
+                      <div className="col-span-4 font-mono font-semibold text-slate-200 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-asuka-flame" />
+                        <span>{row.feature}</span>
+                      </div>
+
+                      <div className="col-span-4 text-slate-400 flex items-start gap-2">
+                        <Icons.X className="w-4 h-4 text-rose-500/80 shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{row.legacy}</span>
+                      </div>
+
+                      <div className="col-span-4 text-slate-100 font-medium flex items-start gap-2">
+                        <Icons.Check className="w-4 h-4 text-cyber-neon shrink-0 mt-0.5" />
+                        <span className="leading-relaxed text-emerald-300/90">{row.mcw}</span>
+                      </div>
+                    </div>
+
+                    {/* Mobile Card Layout */}
+                    <div className="md:hidden space-y-3">
+                      <div className="font-mono font-bold text-sm text-white flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-asuka-flame" />
+                        <span>{row.feature}</span>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-900/30 text-xs text-rose-300 space-y-1">
+                        <div className="text-[10px] font-mono uppercase text-rose-400 font-bold flex items-center gap-1">
+                          <Icons.X className="w-3 h-3 text-rose-400" />
+                          <span>{comparison.col_legacy}</span>
+                        </div>
+                        <p className="leading-relaxed">{row.legacy}</p>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-emerald-950/25 border border-emerald-800/40 text-xs text-emerald-200 space-y-1">
+                        <div className="text-[10px] font-mono uppercase text-emerald-400 font-bold flex items-center gap-1">
+                          <Icons.Check className="w-3 h-3 text-emerald-400" />
+                          <span>{comparison.col_mcw}</span>
+                        </div>
+                        <p className="leading-relaxed">{row.mcw}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Callout Banner */}
+              <div className="p-4 bg-obsidian-950/90 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span>TESTED & VERIFIED ACROSS 1,700+ UNIT TESTS ON WINDOWS & LINUX</span>
+                </span>
+                <a
+                  href="https://github.com/mahiru7229/mcw-launcher/blob/main/docs/ARCHITECTURE.md"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-asuka-flame hover:underline flex items-center gap-1 font-semibold"
+                >
+                  <span>Xem tài liệu ARCHITECTURE.md</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Developer Hub Component
+    function DeveloperHubSection({ t }) {
+      const [activeTab, setActiveTab] = useState('launch');
+      const [copied, setCopied] = useState(false);
+
+      const snippets = {
+        launch: `# Cài đặt thư viện: pip install mcw-core
+from mcw_core import CorePaths, LaunchRequest, MCWCore
+
+# Khởi tạo core engine không cần GUI
+core = MCWCore(CorePaths.from_root("./mcw-data"))
+core.operations.begin()
+try:
+    result = core.launch(
+        LaunchRequest(
+            instance="My Instance",
+            offline_username="Player",
+            on_progress=lambda e: print(f"[{e.stage}] {e.message}"),
+            quick_play_singleplayer="New World",
+        )
+    )
+    print("Minecraft running PID:", result.process.pid)
+finally:
+    core.operations.finish()`,
+
+        create: `from mcw_core import InstanceCreateRequest, get_default_core
+
+core = get_default_core()
+
+# Tạo instance NeoForge với RAM & JVM cờ tối ưu
+instance = core.instances.create(
+    InstanceCreateRequest(
+        name="NeoForge 1.21.1 Production",
+        version_id="1.21.1",
+        loader_name="neoforge",
+        jvm_arguments=("-XX:+UseG1GC", "-Dfml.ignoreInvalidMinecraftCertificates=true"),
+    )
+)
+print("Created instance:", instance.name, instance.version_id)`,
+
+        health: `# Kiểm tra sức khỏe instance & giám sát phiên tiến trình
+from mcw_core import CorePaths, MCWCore
+
+core = MCWCore(CorePaths.from_root("./mcw-data"))
+report = core.instances.health("NeoForge 1.21.1 Production")
+
+print("Instance State:", report.state)
+if report.issues:
+    for issue in report.issues:
+        print(f"Warning [{issue.code}]: {issue.message}")
+else:
+    print("Instance Status: 100% HEALTHY - Ready to launch")`,
+
+        cli: `# Sử dụng công cụ dòng lệnh mcw-core CLI đi kèm:
+mcw-core-launch --root ./mcw-data --list
+
+# Khởi chạy một instance bất kỳ không cần mở giao diện GUI:
+mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --username Player`
+      };
+
+      const handleCopy = () => {
+        navigator.clipboard.writeText(snippets[activeTab]);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      };
+
+      return (
+        <section id="core-hub" className="py-20 relative overflow-hidden bg-obsidian-900/40 border-t border-white/5">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              {/* Left info */}
+              <div className="lg:col-span-5 space-y-5">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/10 border border-asuka-red/30 text-asuka-red text-xs font-mono font-semibold">
+                  <Icons.Terminal className="w-3.5 h-3.5 text-asuka-flame" />
+                  <span>{t.core_hub.tag}</span>
+                </div>
+
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                  {t.core_hub.title}
+                </h2>
+
+                <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                  {t.core_hub.subtitle}
+                </p>
+
+                {/* Quick pip install command */}
+                <div className="p-4 rounded-xl bg-obsidian-950 border border-white/10 flex items-center justify-between font-mono text-xs text-cyber-cyan shadow-inner">
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-500">$</span>
+                    <span>pip install mcw-core</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText('pip install mcw-core');
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }}
+                    className="text-slate-400 hover:text-white transition-colors"
+                    title="Copy command"
+                  >
+                    {copied ? <Icons.Check className="w-4 h-4 text-cyber-neon" /> : <Icons.Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap gap-4 pt-2">
+                  <a
+                    href="https://mahiru7229.github.io/mcw_core/index.html"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-5 py-2.5 rounded-xl font-semibold text-xs tracking-wider bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-white/10 hover:border-asuka-flame/40 flex items-center gap-2 transition-all"
+                  >
+                    <Icons.BookOpen className="w-4 h-4 text-asuka-flame" />
+                    <span>{t.core_hub.read_docs}</span>
+                    <Icons.ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+                  </a>
+
+                  <a
+                    href="https://github.com/mahiru7229/mcw-launcher-core"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-5 py-2.5 rounded-xl font-semibold text-xs tracking-wider bg-obsidian-950 hover:bg-obsidian-900 text-slate-300 border border-white/10 hover:border-asuka-amber/40 flex items-center gap-2 transition-all"
+                  >
+                    <Icons.Layers className="w-4 h-4 text-asuka-amber" />
+                    <span>{t.core_hub.view_core_repo}</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Right code snippet preview */}
+              <div className="lg:col-span-7 glass-panel rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+                {/* Tab header */}
+                <div className="bg-obsidian-950 px-4 py-3 flex items-center justify-between border-b border-white/10 overflow-x-auto">
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      onClick={() => setActiveTab('launch')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors ${
+                        activeTab === 'launch'
+                          ? 'bg-obsidian-800 text-asuka-flame border border-asuka-flame/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {t.core_hub.example_tab_launch}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('create')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors ${
+                        activeTab === 'create'
+                          ? 'bg-obsidian-800 text-asuka-flame border border-asuka-flame/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {t.core_hub.example_tab_create}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('health')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors ${
+                        activeTab === 'health'
+                          ? 'bg-obsidian-800 text-asuka-flame border border-asuka-flame/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {t.core_hub.example_tab_health}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('cli')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors ${
+                        activeTab === 'cli'
+                          ? 'bg-obsidian-800 text-asuka-flame border border-asuka-flame/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {t.core_hub.example_tab_cli}
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={handleCopy}
+                    className="p-1.5 rounded-lg bg-obsidian-900 border border-white/10 text-slate-400 hover:text-white transition-colors shrink-0"
+                    title="Copy code snippet"
+                  >
+                    {copied ? <Icons.Check className="w-4 h-4 text-cyber-neon" /> : <Icons.Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                {/* Code body */}
+                <div className="p-5 font-mono text-xs text-slate-300 overflow-x-auto bg-obsidian-950/90 max-h-[350px]">
+                  <pre className="leading-relaxed">
+                    <code>{snippets[activeTab]}</code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     // Main App
     function App() {
       const [lang, setLang] = useState('vi');
@@ -720,115 +1536,19 @@
                 </div>
               </section>
 
-              {/* 4 TACTICAL PILLARS */}
-              <section id="features" className="py-20 relative overflow-hidden">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                  <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/10 border border-asuka-red/30 text-asuka-red text-xs font-mono font-bold">
-                      <span>🔥 {t.features.tag}</span>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-                      {t.features.title}
-                    </h2>
-                    <p className="text-slate-400 text-sm sm:text-base">
-                      {t.features.subtitle}
-                    </p>
-                  </div>
+              {/* 8 CORE ARCHITECTURE PILLARS */}
+              <FeaturesSection t={t} />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Pillar 1 */}
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-asuka-red/60 group relative flex flex-col justify-between transition-all">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-asuka-red text-2xl font-bold">
-                            📦
-                          </div>
-                          <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            CONTAINER ISOLATION // 独立
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card1_jp}</div>
-                        <h3 className="text-lg font-bold text-white mb-2">{t.features.card1_title}</h3>
-                        <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card1_desc}</p>
-                      </div>
-                      <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>CORE PROTOCOL 01</span>
-                        <span className="text-asuka-red font-semibold">SYNCED 100% ✦</span>
-                      </div>
-                    </div>
-
-                    {/* Pillar 2 */}
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-asuka-flame/60 group relative flex flex-col justify-between transition-all">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-asuka-flame text-2xl font-bold">
-                            🛡️
-                          </div>
-                          <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            LONG PATH // 安定
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card2_jp}</div>
-                        <h3 className="text-lg font-bold text-white mb-2">{t.features.card2_title}</h3>
-                        <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card2_desc}</p>
-                      </div>
-                      <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>CORE PROTOCOL 02</span>
-                        <span className="text-asuka-flame font-semibold">SYNCED 100% ✦</span>
-                      </div>
-                    </div>
-
-                    {/* Pillar 3 */}
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-amber-500/60 group relative flex flex-col justify-between transition-all">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-amber-400 text-2xl font-bold">
-                            🔄
-                          </div>
-                          <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            AUTO-RECOVERY // 回復
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card3_jp}</div>
-                        <h3 className="text-lg font-bold text-white mb-2">{t.features.card3_title}</h3>
-                        <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card3_desc}</p>
-                      </div>
-                      <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>CORE PROTOCOL 03</span>
-                        <span className="text-amber-400 font-semibold">SYNCED 100% ✦</span>
-                      </div>
-                    </div>
-
-                    {/* Pillar 4 */}
-                    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-white/10 hover:border-emerald-500/60 group relative flex flex-col justify-between transition-all">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl bg-obsidian-950 flex items-center justify-center text-cyber-neon text-2xl font-bold">
-                            ☕
-                          </div>
-                          <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">
-                            JAVA & MODS // 自動
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-mono text-asuka-flame mb-1">{t.features.card4_jp}</div>
-                        <h3 className="text-lg font-bold text-white mb-2">{t.features.card4_title}</h3>
-                        <p className="text-xs sm:text-sm text-slate-300/90 leading-relaxed">{t.features.card4_desc}</p>
-                      </div>
-                      <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                        <span>CORE PROTOCOL 04</span>
-                        <span className="text-cyber-neon font-semibold">SYNCED 100% ✦</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
+              {/* ARCHITECTURE BENCHMARK COMPARISON */}
+              <ArchitectureComparisonSection t={t} />
 
               {/* DOWNLOAD SECTION (Server VN vs Server Quốc tế) */}
               <section id="download" className="py-20 relative overflow-hidden bg-obsidian-950/80 cyber-grid">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                   <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/15 border border-asuka-red/35 text-asuka-red text-xs font-mono font-bold">
-                      <span>🔥 {t.download.tag}</span>
+                      <Icons.Flame className="w-3.5 h-3.5 text-asuka-flame" />
+                      <span>{t.download.tag}</span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
                       {t.download.title}
@@ -873,13 +1593,20 @@
                         <h3 className="text-lg font-bold text-white">{t.download.windows_installer}</h3>
                         <p className="text-xs text-slate-300">Bộ cài hoàn chỉnh cho Windows 10 & 11 (x64), tự động tạo shortcut và cập nhật an toàn.</p>
                       </div>
-                      <div className="pt-5 mt-5 border-t border-white/10">
+                      <div className="pt-5 mt-5 border-t border-white/10 space-y-2">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.windows.installer.cdnUrl : RELEASE_DATA.downloads.windows.installer.githubUrl}
-                          className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white flex items-center justify-center gap-2 uppercase"
+                          className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white flex items-center justify-center gap-2 uppercase hover:shadow-[0_0_20px_rgba(255,31,68,0.4)] transition-all"
                         >
                           <span>Tải Bản Cài Đặt (.exe)</span>
                         </a>
+                        <button
+                          onClick={() => handleCopyHash(RELEASE_DATA.downloads.windows.installer.sha256, 'installer')}
+                          className="w-full py-1.5 text-[10px] font-mono text-slate-400 hover:text-slate-200 flex items-center justify-center gap-1.5"
+                        >
+                          <Icons.Copy className="w-3 h-3" />
+                          <span>{copiedHash === 'installer' ? t.download.copied : `${t.download.sha256_label}: 9b3c4f7...`}</span>
+                        </button>
                       </div>
                     </div>
 
@@ -893,13 +1620,20 @@
                         <h3 className="text-lg font-bold text-white">{t.download.windows_portable}</h3>
                         <p className="text-xs text-slate-300">Tệp thực thi duy nhất, không cần cài đặt. Tải về và khởi chạy ngay trên USB.</p>
                       </div>
-                      <div className="pt-5 mt-5 border-t border-white/10">
+                      <div className="pt-5 mt-5 border-t border-white/10 space-y-2">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.windows.portable.cdnUrl : RELEASE_DATA.downloads.windows.portable.githubUrl}
-                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 text-white border border-white/10 flex items-center justify-center gap-2 uppercase"
+                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 flex items-center justify-center gap-2 uppercase transition-all"
                         >
                           <span>Tải Portable (.exe)</span>
                         </a>
+                        <button
+                          onClick={() => handleCopyHash(RELEASE_DATA.downloads.windows.portable.sha256, 'portable')}
+                          className="w-full py-1.5 text-[10px] font-mono text-slate-400 hover:text-slate-200 flex items-center justify-center gap-1.5"
+                        >
+                          <Icons.Copy className="w-3 h-3" />
+                          <span>{copiedHash === 'portable' ? t.download.copied : `${t.download.sha256_label}: 4a2b1c3...`}</span>
+                        </button>
                       </div>
                     </div>
 
@@ -913,12 +1647,19 @@
                         <h3 className="text-lg font-bold text-white">{t.download.linux_binary}</h3>
                         <p className="text-xs text-slate-300">Thực thi độc lập trên Linux x64 (Ubuntu, Debian, Fedora, Arch) và Python Wheel.</p>
                       </div>
-                      <div className="pt-5 mt-5 border-t border-white/10">
+                      <div className="pt-5 mt-5 border-t border-white/10 space-y-2">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.linux.binary.cdnUrl : RELEASE_DATA.downloads.linux.binary.githubUrl}
-                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 text-white border border-white/10 flex items-center justify-center gap-2 uppercase"
+                          className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 flex items-center justify-center gap-2 uppercase transition-all"
                         >
                           <span>Tải Linux (x64)</span>
+                        </a>
+                        <a
+                          href={RELEASE_DATA.downloads.core.wheel.githubUrl}
+                          target="_blank"
+                          className="w-full py-1.5 text-[10px] font-mono text-asuka-flame hover:underline flex items-center justify-center gap-1.5"
+                        >
+                          <span>Tải Python Core Wheel (.whl) →</span>
                         </a>
                       </div>
                     </div>
@@ -927,24 +1668,7 @@
               </section>
 
               {/* CORE HUB */}
-              <section id="core-hub" className="py-20 relative overflow-hidden bg-obsidian-900/40 border-t border-white/5">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                  <div className="max-w-xl space-y-4">
-                    <span className="text-xs font-mono text-asuka-flame font-semibold">✦ PYTHON CORE SDK // 開発者向け</span>
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Thư Viện mcw-core Headless</h2>
-                    <p className="text-sm text-slate-300">Toàn bộ sức mạnh của launcher được đóng gói thành thư viện Python độc lập để bạn tự do xây dựng bot hoặc công cụ tự động hóa.</p>
-                    <div className="p-3 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-asuka-flame flex items-center justify-between">
-                      <span>$ pip install mcw-core</span>
-                      <button
-                        onClick={() => navigator.clipboard.writeText('pip install mcw-core')}
-                        className="text-slate-400 hover:text-white"
-                      >
-                        Copy
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </section>
+              <DeveloperHubSection t={t} />
             </main>
 
             {/* FOOTER */}
