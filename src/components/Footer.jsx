@@ -1,140 +1,155 @@
 import React from 'react';
-import { Github, Globe, Heart, Shield, Code2 } from 'lucide-react';
+import { Github, Globe, Heart, Shield, Terminal, BookOpen, ExternalLink } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
 export default function Footer({ t }) {
   return (
-    <footer className="bg-obsidian-950 border-t border-white/10 pt-16 pb-12 relative overflow-hidden text-slate-400">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/5">
-          {/* Brand */}
-          <div className="md:col-span-2 space-y-4">
+    <footer className="relative bg-base-950 border-t border-white/10 pt-16 pb-12 overflow-hidden text-slate-400 font-sans text-xs">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
+          {/* Col 1: Brand & Description */}
+          <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyber-cyan to-cyber-purple p-[1.5px]">
-                <div className="w-full h-full bg-obsidian-900 rounded-[6px] flex items-center justify-center font-mono font-bold text-white text-sm">
-                  M
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-cyan to-sky-purple p-[1.5px]">
+                <div className="w-full h-full bg-base-900 rounded-[10px] flex items-center justify-center font-mono font-black text-xs text-sky-cyan">
+                  MCW
                 </div>
               </div>
-              <span className="font-bold text-white text-lg tracking-wider">MCW Launcher</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyber-cyan">
+              <span className="font-extrabold text-base text-white tracking-wide">
+                MCW Launcher
+              </span>
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-base-800 text-sky-cyan border border-white/5">
                 {RELEASE_INFO.version}
               </span>
             </div>
-            <p className="text-sm text-slate-400 max-w-md leading-relaxed">
-              {t.footer.about_desc}
+            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
+              Trình khởi chạy Minecraft mã nguồn mở thế hệ mới với kiến trúc cô lập từng bản chơi, tự động cấp phát Java và tối ưu hóa tài nguyên cho trải nghiệm chơi game mượt mà nhất.
             </p>
-            <div className="flex items-center gap-4 pt-2">
+            <div className="flex items-center gap-3 pt-2">
               <a
                 href="https://github.com/mahiru7229/mcw-launcher"
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-400 hover:text-white transition-colors"
-                title="Launcher Repository"
+                className="p-2 rounded-lg bg-base-900 hover:bg-base-850 text-slate-300 hover:text-white border border-white/5 transition-all"
+                title="GitHub"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-4 h-4" />
               </a>
               <a
-                href="https://github.com/mahiru7229/mcw-launcher-core"
+                href="https://mahiru7229.github.io/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-400 hover:text-cyber-cyan transition-colors"
-                title="Core Repository"
+                className="p-2 rounded-lg bg-base-900 hover:bg-base-850 text-slate-300 hover:text-white border border-white/5 transition-all"
+                title="Author Website"
               >
-                <Code2 className="w-5 h-5" />
+                <Globe className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          {/* Links */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-              {t.footer.links_title}
+          {/* Col 2: Navigation Links */}
+          <div className="md:col-span-3 space-y-3">
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider font-mono">
+              {t.footer.quick_links}
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2">
               <li>
-                <a href="#features" className="hover:text-asuka-red transition-colors">
-                  {t.sidebar.features}
+                <a href="#features" className="hover:text-white transition-colors">
+                  {t.nav.features}
                 </a>
               </li>
               <li>
-                <a href="#download" className="hover:text-asuka-flame transition-colors">
-                  {t.sidebar.download}
+                <a href="#compatibility" className="hover:text-white transition-colors">
+                  {t.nav.compatibility}
                 </a>
               </li>
               <li>
-                <a
-                  href="https://github.com/mahiru7229/mcw-launcher/blob/main/CHANGELOG.md"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-amber-400 transition-colors"
-                >
-                  Changelog v1.6.1
+                <a href="#preview" className="hover:text-white transition-colors">
+                  {t.nav.preview}
+                </a>
+              </li>
+              <li>
+                <a href="#download" className="hover:text-white transition-colors">
+                  {t.nav.download}
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-white transition-colors">
+                  {t.nav.faq}
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Ecosystem */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-              {t.footer.ecosystem_title}
+          {/* Col 3: Resources & Docs */}
+          <div className="md:col-span-4 space-y-3">
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider font-mono">
+              {t.footer.resources}
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2">
               <li>
                 <a
-                  href="https://github.com/mahiru7229/mcw-launcher-core"
+                  href="https://github.com/mahiru7229/mcw-launcher/blob/1.7/README.md"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-cyber-cyan transition-colors"
+                  className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  MCW Core Library
+                  <span>Tài liệu hướng dẫn</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
               <li>
                 <a
-                  href="https://mahiru7229.github.io/mcw_core/index.html"
+                  href="https://github.com/mahiru7229/mcw-launcher/releases"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-cyber-cyan transition-colors"
+                  className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  Core Documentation
+                  <span>Tất cả phiên bản phát hành</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
               <li>
                 <a
-                  href="https://github.com/mahiru7229/mcw-curseforge-gateway"
+                  href="https://github.com/mahiru7229/mcw-launcher/issues"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-cyber-cyan transition-colors"
+                  className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  CurseForge Gateway
+                  <span>Báo cáo lỗi (GitHub Issues)</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
               <li>
                 <a
-                  href="https://github.com/mahiru7229/mcw-launcher/blob/main/LICENSE"
+                  href="https://mahiru7229.github.io/mcw_core/"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-cyber-cyan transition-colors"
+                  className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  MIT License
+                  <span>MCW Core API Portal</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Disclaimer & Copyright */}
-        <div className="pt-8 text-xs text-slate-500 space-y-3">
-          <p className="leading-relaxed">
-            {t.footer.disclaimer}
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px]">
-            <span>&copy; {new Date().getFullYear()} MCW Launcher. Built with open-source passion.</span>
-            <span className="flex items-center gap-1.5">
-              <span>Optimized for Cloudflare Edge</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-cyber-neon inline-block" />
-            </span>
+        {/* Legal Disclaimer Box */}
+        <div className="p-4 rounded-xl bg-base-900/60 border border-white/5 mb-8 text-[11px] leading-relaxed text-slate-400">
+          <strong className="text-white block mb-1 font-mono uppercase">
+            {t.footer.disclaimer_title}
+          </strong>
+          {t.footer.disclaimer}
+        </div>
+
+        {/* Bottom Credits */}
+        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-[11px]">
+          <div>
+            © 2026 MCW Launcher. {t.footer.rights}
+          </div>
+          <div className="flex items-center gap-1">
+            <span>{t.footer.author}</span>
           </div>
         </div>
       </div>

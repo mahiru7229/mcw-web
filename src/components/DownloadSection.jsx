@@ -1,274 +1,289 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Monitor, Terminal, FileCode, Check, Copy, Sparkles, Server, Zap, Flame } from 'lucide-react';
+import { Download, Copy, Check, ShieldCheck, ExternalLink, Zap, Terminal, Server, ChevronDown, ChevronUp } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
 export default function DownloadSection({ t }) {
-  const [selectedServer, setSelectedServer] = useState('cdn'); // 'cdn' = Server VN | 'github' = Server Quốc tế
-  const [detectedOS, setDetectedOS] = useState('windows');
-  const [copiedHash, setCopiedHash] = useState(null);
+  const [detectedOs, setDetectedOs] = useState('windows');
+  const [copiedSha, setCopiedSha] = useState(null);
+  const [showChangelog, setShowChangelog] = useState(false);
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase();
-    if (userAgent.includes('win')) {
-      setDetectedOS('windows');
-    } else if (userAgent.includes('linux')) {
-      setDetectedOS('linux');
+    if (userAgent.includes('linux')) {
+      setDetectedOs('linux');
     } else {
-      setDetectedOS('windows');
+      setDetectedOs('windows');
     }
   }, []);
 
-  const handleCopyHash = (hash, id) => {
-    navigator.clipboard.writeText(hash);
-    setCopiedHash(id);
-    setTimeout(() => setCopiedHash(null), 2000);
+  const handleCopySha = (sha, key) => {
+    navigator.clipboard.writeText(sha);
+    setCopiedSha(key);
+    setTimeout(() => setCopiedSha(null), 2500);
   };
 
-  const getDownloadUrl = (asset) => {
-    return selectedServer === 'cdn' ? asset.cdnUrl : asset.githubUrl;
-  };
+  const winInfo = RELEASE_INFO.downloads.windows.archive;
+  const linuxInfo = RELEASE_INFO.downloads.linux.archive;
+  const coreInfo = RELEASE_INFO.downloads.core.wheel;
 
   return (
-    <section id="download" className="py-20 relative overflow-hidden bg-obsidian-950/80 cyber-grid">
-      {/* Background Flame Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-asuka-red/10 blur-[150px] pointer-events-none rounded-full" />
+    <section id="download" className="relative py-24 overflow-hidden bg-base-900/40 border-t border-white/5">
+      {/* Background Lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-sky-cyan/10 blur-[150px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-red/15 border border-asuka-red/35 text-asuka-red text-xs font-mono font-bold">
-            <Flame className="w-3.5 h-3.5 text-asuka-flame" />
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-emerald/10 text-sky-emerald text-xs font-mono font-semibold mb-3 border border-sky-emerald/20">
+            <Zap className="w-3.5 h-3.5" />
             <span>{t.download.tag}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 font-sans">
             {t.download.title}
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base">
+          <p className="text-sm sm:text-base text-slate-400 font-sans mb-4">
             {t.download.subtitle}
           </p>
 
-          {/* OS Badge & Server Selection */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
-            {/* Detected OS indicator */}
-            <div className="text-xs font-mono text-slate-300 bg-obsidian-850 border border-white/10 px-3.5 py-1.5 rounded-xl flex items-center gap-2">
-              <Monitor className="w-3.5 h-3.5 text-asuka-flame" />
-              <span>{t.download.detected}</span>
-              <strong className="text-asuka-red uppercase font-bold">{detectedOS}</strong>
+          {/* Edge Server Indicator */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-base-900 border border-white/10 text-xs font-mono text-slate-300">
+            <Server className="w-3.5 h-3.5 text-sky-cyan" />
+            <span>Asia Edge CDN: <strong>Hồng Kông & Singapore (Cloudflare)</strong></span>
+          </div>
+        </div>
+
+        {/* 3 Download Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+          {/* Windows Download Card */}
+          <div
+            className={`glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between relative transition-all duration-300 ${
+              detectedOs === 'windows'
+                ? 'border-sky-cyan/50 shadow-[0_0_40px_rgba(114,216,255,0.15)] ring-1 ring-sky-cyan/40'
+                : 'hover:border-white/20'
+            }`}
+          >
+            {detectedOs === 'windows' && (
+              <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-cyan text-base-950 uppercase shadow-md">
+                Phù hợp với thiết bị của bạn
+              </span>
+            )}
+
+            <div>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-2xl font-black text-white font-sans">
+                    {t.download.win_title}
+                  </h3>
+                  <div className="text-xs text-sky-cyan font-mono mt-1 font-semibold">
+                    {t.download.win_format}
+                  </div>
+                </div>
+                <span className="text-xs font-mono px-2 py-1 rounded bg-base-800 text-slate-300 border border-white/5">
+                  {winInfo.size}
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
+                Phiên bản {RELEASE_INFO.version} chính thức cho Windows 10 & 11 (64-bit). Tệp ZIP giải nén chạy ngay, không cần cài đặt.
+              </p>
+
+              {/* Download Buttons */}
+              <div className="space-y-2.5 mb-6">
+                <a
+                  href={winInfo.cdnUrl}
+                  className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-sky-cyan to-sky-purple text-base-950 hover:shadow-[0_0_25px_rgba(114,216,255,0.4)] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+                >
+                  <Download className="w-4 h-4 stroke-[2.5]" />
+                  <span>{t.download.btn_cdn}</span>
+                </a>
+
+                <a
+                  href={winInfo.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-2.5 px-4 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-2"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{t.download.btn_github}</span>
+                </a>
+              </div>
             </div>
 
-            {/* Server Selector Switch: Server VN vs Server Quốc tế */}
-            <div className="flex items-center bg-obsidian-900 border border-asuka-red/30 p-1 rounded-xl shadow-lg">
-              <button
-                onClick={() => setSelectedServer('cdn')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
-                  selectedServer === 'cdn'
-                    ? 'bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white font-bold shadow-[0_0_15px_rgba(255,31,68,0.4)]'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <Zap className="w-3.5 h-3.5" />
-                <span>{t.download.server_cdn}</span>
-              </button>
-              <button
-                onClick={() => setSelectedServer('github')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
-                  selectedServer === 'github'
-                    ? 'bg-obsidian-800 text-white font-bold border border-white/20'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <Server className="w-3.5 h-3.5" />
-                <span>{t.download.server_github}</span>
-              </button>
+            {/* Checksum SHA-256 Box */}
+            <div className="pt-4 border-t border-white/10">
+              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1.5">
+                <span>{t.download.checksum_label}</span>
+                <button
+                  onClick={() => handleCopySha(winInfo.sha256, 'win')}
+                  className="text-sky-cyan hover:underline flex items-center gap-1"
+                >
+                  {copiedSha === 'win' ? <Check className="w-3 h-3 text-sky-emerald" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedSha === 'win' ? t.download.copied : t.download.copy_checksum}</span>
+                </button>
+              </div>
+              <div className="p-2 rounded-lg bg-base-950/80 border border-white/5 font-mono text-[10px] text-slate-400 truncate select-all">
+                {winInfo.sha256}
+              </div>
+            </div>
+          </div>
+
+          {/* Linux Download Card */}
+          <div
+            className={`glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between relative transition-all duration-300 ${
+              detectedOs === 'linux'
+                ? 'border-sky-cyan/50 shadow-[0_0_40px_rgba(114,216,255,0.15)] ring-1 ring-sky-cyan/40'
+                : 'hover:border-white/20'
+            }`}
+          >
+            {detectedOs === 'linux' && (
+              <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-cyan text-base-950 uppercase shadow-md">
+                Phù hợp với thiết bị của bạn
+              </span>
+            )}
+
+            <div>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-2xl font-black text-white font-sans">
+                    {t.download.linux_title}
+                  </h3>
+                  <div className="text-xs text-sky-cyan font-mono mt-1 font-semibold">
+                    {t.download.linux_format}
+                  </div>
+                </div>
+                <span className="text-xs font-mono px-2 py-1 rounded bg-base-800 text-slate-300 border border-white/5">
+                  {linuxInfo.size}
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
+                Tương thích hoàn hảo Ubuntu, Fedora, Arch Linux (glibc 2.35+). Đóng gói độc lập, không yêu cầu phụ thuộc phức tạp.
+              </p>
+
+              {/* Download Buttons */}
+              <div className="space-y-2.5 mb-6">
+                <a
+                  href={linuxInfo.cdnUrl}
+                  className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-sky-purple to-sky-pink text-base-950 hover:shadow-[0_0_25px_rgba(240,167,216,0.4)] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+                >
+                  <Download className="w-4 h-4 stroke-[2.5]" />
+                  <span>{t.download.btn_cdn}</span>
+                </a>
+
+                <a
+                  href={linuxInfo.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-2.5 px-4 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-2"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{t.download.btn_github}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Checksum SHA-256 Box */}
+            <div className="pt-4 border-t border-white/10">
+              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1.5">
+                <span>{t.download.checksum_label}</span>
+                <button
+                  onClick={() => handleCopySha(linuxInfo.sha256, 'linux')}
+                  className="text-sky-cyan hover:underline flex items-center gap-1"
+                >
+                  {copiedSha === 'linux' ? <Check className="w-3 h-3 text-sky-emerald" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedSha === 'linux' ? t.download.copied : t.download.copy_checksum}</span>
+                </button>
+              </div>
+              <div className="p-2 rounded-lg bg-base-950/80 border border-white/5 font-mono text-[10px] text-slate-400 truncate select-all">
+                {linuxInfo.sha256}
+              </div>
+            </div>
+          </div>
+
+          {/* MCW Core Python SDK Card */}
+          <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between hover:border-white/20 transition-all duration-300">
+            <div>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-2xl font-black text-white font-sans">
+                    {t.download.core_title}
+                  </h3>
+                  <div className="text-xs text-sky-emerald font-mono mt-1 font-semibold">
+                    {t.download.core_format}
+                  </div>
+                </div>
+                <span className="text-xs font-mono px-2 py-1 rounded bg-base-800 text-slate-300 border border-white/5">
+                  {coreInfo.size}
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
+                Thư viện Headless Core thuần Python (`mcw_core`) dành cho nhà phát triển, công cụ tự động hóa hoặc server quản lý instance.
+              </p>
+
+              {/* Pip Command Box */}
+              <div className="p-3 rounded-xl bg-base-950/90 border border-white/10 mb-6 font-mono text-xs">
+                <div className="text-[10px] text-slate-500 mb-1">Cài đặt trực tiếp qua pip:</div>
+                <div className="text-sky-emerald flex items-center justify-between">
+                  <span>pip install mcw_core</span>
+                  <button
+                    onClick={() => handleCopySha("pip install mcw_core", 'pip')}
+                    className="p-1 hover:text-white"
+                    title="Copy command"
+                  >
+                    {copiedSha === 'pip' ? <Check className="w-3.5 h-3.5 text-sky-emerald" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2.5 mb-6">
+                <a
+                  href={coreInfo.cdnUrl}
+                  className="w-full py-3 px-4 rounded-xl font-bold text-xs tracking-wide bg-base-800 hover:bg-base-750 text-white border border-white/10 transition-all flex items-center justify-center gap-2"
+                >
+                  <Download className="w-4 h-4 text-sky-emerald" />
+                  <span>Tải Wheel Package (.whl)</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Public API:</span>
+              <span className="text-sky-cyan">mcw_core.api.*</span>
             </div>
           </div>
         </div>
 
-        {/* Download Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Windows x64 Archive */}
-          <div className="asuka-panel-glow rounded-2xl p-6 flex flex-col justify-between border border-asuka-red/40 relative group">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-red/20 border border-asuka-red/40 text-asuka-red uppercase font-bold">
-                  WINDOWS X64 // VERIFIED
-                </span>
-                <span className="text-xs font-mono text-slate-400">
-                  {RELEASE_INFO.downloads.windows.archive.size}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                {t.download.windows_zip}
-              </h3>
-              <p className="text-[11px] text-slate-400 font-mono truncate">
-                {RELEASE_INFO.downloads.windows.archive.filename}
-              </p>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Gói phân phối độc lập hoàn chỉnh cho Windows 10 & 11 (x64), giải nén và khởi chạy ngay.
-              </p>
+        {/* Toggle Changelog Drawer */}
+        <div className="text-center">
+          <button
+            onClick={() => setShowChangelog(!showChangelog)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-base-900 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all"
+          >
+            <span>{t.download.view_changelog}</span>
+            {showChangelog ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
 
-              {/* SHA256 copy */}
-              {RELEASE_INFO.downloads.windows.archive.sha256 && (
-                <div className="pt-1">
-                  <button
-                    onClick={() => handleCopyHash(RELEASE_INFO.downloads.windows.archive.sha256, 'win-zip')}
-                    className="flex items-center gap-1.5 text-[11px] font-mono text-slate-400 hover:text-asuka-flame transition-colors"
-                  >
-                    {copiedHash === 'win-zip' ? (
-                      <Check className="w-3 h-3 text-cyber-neon" />
-                    ) : (
-                      <Copy className="w-3 h-3" />
-                    )}
-                    <span>{copiedHash === 'win-zip' ? t.download.copied : `${t.download.sha256_label}: 19efbb5...`}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-5 mt-5 border-t border-white/10">
-              <a
-                href={getDownloadUrl(RELEASE_INFO.downloads.windows.archive)}
-                className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white flex items-center justify-center gap-2 hover:shadow-[0_0_25px_rgba(255,31,68,0.5)] transition-all uppercase"
-              >
-                <Download className="w-4 h-4 text-white" />
-                <span>Tải Bản Windows x64 (.zip)</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Card 2: Linux x64 Archive */}
-          <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-asuka-flame/40 transition-all relative group">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-asuka-flame/15 border border-asuka-flame/30 text-asuka-flame uppercase font-bold">
-                  LINUX X64 // VERIFIED
-                </span>
-                <span className="text-xs font-mono text-slate-400">
-                  {RELEASE_INFO.downloads.linux.archive.size}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                {t.download.linux_zip}
-              </h3>
-              <p className="text-[11px] text-slate-400 font-mono truncate">
-                {RELEASE_INFO.downloads.linux.archive.filename}
-              </p>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Tệp thực thi độc lập cho Linux (Ubuntu, Debian, Fedora, Arch), giải nén và sử dụng tức thì.
-              </p>
-
-              {RELEASE_INFO.downloads.linux.archive.sha256 && (
-                <div className="pt-1">
-                  <button
-                    onClick={() => handleCopyHash(RELEASE_INFO.downloads.linux.archive.sha256, 'linux-zip')}
-                    className="flex items-center gap-1.5 text-[11px] font-mono text-slate-400 hover:text-asuka-flame transition-colors"
-                  >
-                    {copiedHash === 'linux-zip' ? (
-                      <Check className="w-3 h-3 text-cyber-neon" />
-                    ) : (
-                      <Copy className="w-3 h-3" />
-                    )}
-                    <span>{copiedHash === 'linux-zip' ? t.download.copied : `${t.download.sha256_label}: d2fc817...`}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-5 mt-5 border-t border-white/10">
-              <a
-                href={getDownloadUrl(RELEASE_INFO.downloads.linux.archive)}
-                className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 hover:border-asuka-flame/50 flex items-center justify-center gap-2 transition-all uppercase"
-              >
-                <Download className="w-4 h-4 text-asuka-flame" />
-                <span>Tải Bản Linux x64 (.zip)</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Card 3: Python Core Wheel */}
-          <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-amber-400/40 transition-all relative group">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-cyber-neon uppercase font-bold">
-                  PYTHON CORE // WHEEL
-                </span>
-                <span className="text-xs font-mono text-slate-400">
-                  {RELEASE_INFO.downloads.core.wheel.size}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                {t.download.core_wheel}
-              </h3>
-              <p className="text-[11px] text-slate-400 font-mono truncate">
-                {RELEASE_INFO.downloads.core.wheel.filename}
-              </p>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Thư viện Python Core Headless độc lập cho lập trình viên xây dựng bot và công cụ tự động hóa.
-              </p>
-
-              {/* Pip install quick note */}
-              <div className="pt-1 text-xs font-mono text-slate-400">
-                <div className="flex items-center justify-between">
-                  <span>Cài đặt qua pip:</span>
-                  <span className="text-asuka-flame font-bold">pip install mcw-core</span>
-                </div>
+          {showChangelog && (
+            <div className="mt-6 max-w-3xl mx-auto glass-panel p-6 rounded-2xl text-left border border-white/10 space-y-4">
+              <h4 className="text-base font-bold text-white font-sans border-b border-white/10 pb-3">
+                {t.download.changelog_title}
+              </h4>
+              <div className="space-y-4">
+                {RELEASE_INFO.changelog.map((c, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono px-2 py-0.2 rounded font-bold uppercase bg-sky-cyan/15 text-sky-cyan">
+                        {c.type}
+                      </span>
+                      <span className="text-xs font-bold text-white font-sans">{c.title_vi}</span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed pl-12 font-sans">{c.desc_vi}</p>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <div className="pt-5 mt-5 border-t border-white/10">
-              <a
-                href={getDownloadUrl(RELEASE_INFO.downloads.core.wheel)}
-                className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 hover:border-amber-400/40 flex items-center justify-center gap-2 transition-all uppercase"
-              >
-                <Terminal className="w-4 h-4 text-amber-400" />
-                <span>Tải Core Wheel (.whl)</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Changelog Highlights */}
-        <div className="mt-12 glass-panel rounded-2xl p-5 sm:p-6 border border-white/10">
-          <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-            <div className="flex items-center gap-2">
-              <Flame className="w-4 h-4 text-asuka-red" />
-              <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wide">
-                CHANGELOG // v1.6.1 STABLE HIGHLIGHTS
-              </h3>
-            </div>
-            <a
-              href="https://github.com/mahiru7229/mcw-launcher/blob/main/CHANGELOG.md"
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs font-mono text-asuka-flame hover:text-white transition-colors"
-            >
-              Full CHANGELOG.md &rarr;
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {RELEASE_INFO.changelog.map((item, index) => (
-              <div key={index} className="space-y-1 bg-obsidian-950/60 p-3 rounded-xl border border-white/5">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase ${
-                      item.type === 'feat'
-                        ? 'bg-asuka-flame/20 text-asuka-flame'
-                        : item.type === 'fix'
-                        ? 'bg-asuka-red/20 text-asuka-red'
-                        : 'bg-amber-500/20 text-amber-300'
-                    }`}
-                  >
-                    {item.type}
-                  </span>
-                  <h4 className="font-bold text-xs text-white truncate">{item.title_vi}</h4>
-                </div>
-                <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2">
-                  {item.desc_vi}
-                </p>
-              </div>
-            ))}
-          </div>
+          )}
         </div>
       </div>
     </section>
