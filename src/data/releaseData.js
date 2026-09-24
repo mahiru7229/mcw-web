@@ -15,8 +15,8 @@ export const RELEASE_INFO = {
     windows: {
       archive: {
         filename: "MCW-Launcher-v1.7.0-windows-x64.zip",
-        size: "74.8 MB",
-        sha256: "9b3c4a1773a97120df055b8efce7d5705307b22a61f005c21ec68d18471b697d",
+        size: "70.9 MB",
+        sha256: "8aaca319c0f086c65209eeb971a46c80c285af97e06039653d1c908647d524a7",
         githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.0/MCW-Launcher-v1.7.0-windows-x64.zip",
         cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.0/MCW-Launcher-v1.7.0-windows-x64.zip",
       }
@@ -24,8 +24,8 @@ export const RELEASE_INFO = {
     linux: {
       archive: {
         filename: "MCW-Launcher-v1.7.0-linux-x64.zip",
-        size: "76.2 MB",
-        sha256: "e4d1f2b60451a99859f1092e0719e0cf6c230f805a5a14fce9d34346adfa99bb",
+        size: "111.1 MB",
+        sha256: "c981471616287c9c14577566d446fa504a900ca22e87294387d4c38c836c31b3",
         githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.0/MCW-Launcher-v1.7.0-linux-x64.zip",
         cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.0/MCW-Launcher-v1.7.0-linux-x64.zip",
       }
