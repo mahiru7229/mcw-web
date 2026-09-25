@@ -12,8 +12,8 @@ export default function Performance({ t }) {
     },
     {
       title: "Xác thực tính toàn vẹn chữ ký Hotfix CDN Edge",
-      code: "mcw-core hotfix verify --patch v1.7.0.1.zip",
-      output: "[INFO] Fetching manifest from https://mcw-download.pages.dev/hotfixes/manifest.json\n[OK] SHA-256 matched: f6e749a8557a989f834c0dc77400e7db84ebc8377e2b5d8d6a593f034595f858\n[OK] Atomic swap staging -> live completed cleanly."
+      code: "mcw-core hotfix verify --patch v1.7.1.1.zip",
+      output: "[INFO] Fetching manifest from https://mcw-download.pages.dev/hotfixes/manifest.json\n[OK] SHA-256 matched: 3534d04c3cd8956c9176385ca3efba07d91b21484335cd34e10d70d85a304fa1\n[OK] Atomic swap staging -> live completed cleanly."
     }
   ];
 

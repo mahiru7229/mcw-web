@@ -73,8 +73,8 @@ export default function Hero({ t }) {
               <Zap className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-white font-mono">&lt; 1.2s Cold Start</div>
-              <div className="text-xs text-slate-400">Siêu tốc độ, tiết kiệm RAM</div>
+              <div className="text-xs font-bold text-white font-mono">Native & GPU Caching</div>
+              <div className="text-xs text-slate-400">Tối ưu khởi động & bộ nhớ</div>
             </div>
           </div>
 

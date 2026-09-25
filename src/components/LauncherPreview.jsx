@@ -79,7 +79,7 @@ export default function LauncherPreview({ t }) {
               <span className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600 inline-block" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600 inline-block" />
               <span className="text-xs font-mono text-slate-400 ml-3 hidden sm:inline">
-                MCW Launcher v1.7.0 — Standalone Window
+                MCW Launcher v1.7.1 (Hotfix 1.7.1.1) — Standalone Window
               </span>
             </div>
 
@@ -138,7 +138,7 @@ export default function LauncherPreview({ t }) {
               <div className="pt-4 border-t border-white/10 space-y-1">
                 <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 px-2 py-1">
                   <span>Hotfix Patch:</span>
-                  <span className="text-sky-emerald font-semibold">v1.7.0.1 Live</span>
+                  <span className="text-sky-emerald font-semibold">v1.7.1.1 Live</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 px-2 py-1">
                   <span>Edge CDN:</span>

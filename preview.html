@@ -196,33 +196,33 @@
     };
 
     const RELEASE_DATA = {
-      version: "v1.6.1",
-      versionId: "1.6.1",
+      version: "v1.7.1",
+      versionId: "1.7.1",
       downloads: {
         windows: {
           archive: {
-            filename: "MCW-Launcher-v1.6.1-windows-x64.zip",
-            size: "74.3 MB",
-            sha256: "19efbb5964845a866452680bac5ba4ab82d656c9682698854e3edd4bd4b310a7",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW-Launcher-v1.6.1-windows-x64.zip",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/MCW-Launcher-v1.6.1-windows-x64.zip",
+            filename: "MCW-Launcher-v1.7.1-windows-x64.zip",
+            size: "70.9 MB",
+            sha256: "4949f9da9db422d809013269943e4f7e488362d40320e29bced4d9ef4e181f3c",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.1/MCW-Launcher-v1.7.1-windows-x64.zip",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.1/MCW-Launcher-v1.7.1-windows-x64.zip",
           }
         },
         linux: {
           archive: {
-            filename: "MCW-Launcher-v1.6.1-linux-x64.zip",
-            size: "75.8 MB",
-            sha256: "d2fc8172dd5e79962a8aed6deb9e32e6bda449aba94ac6e0b266f5e03d98bb60",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.6.1/MCW-Launcher-v1.6.1-linux-x64.zip",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/MCW-Launcher-v1.6.1-linux-x64.zip",
+            filename: "MCW-Launcher-v1.7.1-linux-x64.zip",
+            size: "111.1 MB",
+            sha256: "1e500b7303abe13c2719330e226a93c60b11f7033072dea57f0acd4cdf170416",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.1/MCW-Launcher-v1.7.1-linux-x64.zip",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.1/MCW-Launcher-v1.7.1-linux-x64.zip",
           }
         },
         core: {
           wheel: {
-            filename: "mcw_core-1.6.1-py3-none-any.whl",
-            size: "623 KB",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher-core/releases/download/v1.6.1/mcw_core-1.6.1-py3-none-any.whl",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.6.1/mcw_core-1.6.1-py3-none-any.whl",
+            filename: "mcw_core-1.7.1-py3-none-any.whl",
+            size: "635 KB",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.1/mcw_core-1.7.1-py3-none-any.whl",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.1/mcw_core-1.7.1-py3-none-any.whl",
           }
         }
       }
@@ -238,22 +238,20 @@
           home_jp: "ホーム",
           features: "8 Trụ Cột Lõi",
           features_jp: "特長",
-          comparison: "So Sánh Kiến Trúc",
-          comparison_jp: "比較",
           download: "Tải Về",
           download_jp: "入手",
           core: "Dev Core SDK",
           core_jp: "開発者",
-          download_btn: "Khởi Chạy v1.6.1",
+          download_btn: "Khởi Chạy v1.7.1",
         },
         hero: {
-          badge: "✦ TACTICAL HUD // INSTANCE MATRIX v1.6.1 ✦",
+          badge: "✦ TACTICAL HUD // INSTANCE MATRIX v1.7.1 ✦",
           badge_jp: "「完全独立・高速起動」",
           title_1: "Trình Khởi Chạy",
           title_gradient: "MCW Launcher",
           title_2: "Chuẩn Mực Instance-First",
           subtitle: "Nền tảng khởi chạy Minecraft mã nguồn mở với kiến trúc khoang độc lập 100%. Vượt qua rào cản đường dẫn dài Windows, tự động cấp phát Java Temurin và đồng bộ cụm Server Châu Á (Hồng Kông / Singapore) tốc độ cao.",
-          btn_download: "Tải v1.6.1 Ngay",
+          btn_download: "Tải v1.7.1 Ngay",
           btn_explore: "Khám Phá Tính Năng",
           stat_loaders: "4 Mod Loaders Hỗ Trợ",
           stat_open: "100% Mã Nguồn Mở",
@@ -366,62 +364,10 @@
             }
           ]
         },
-        comparison: {
-          tag: "ARCHITECTURE BENCHMARK // SO SÁNH CHUẨN MỰC",
-          title: "Sự Vượt Trội Về Kiến Trúc Kỹ Thuật",
-          subtitle: "Giải quyết triệt để những bất cập cố hữu mà người chơi Minecraft gặp phải trong hơn 10 năm qua.",
-          col_feature: "Tiêu Chí Kỹ Thuật",
-          col_legacy: "Launcher Truyền Thống / Khác",
-          col_mcw: "MCW Launcher (v1.6.1)",
-          items: [
-            {
-              feature: "Cấu Trúc Thư Mục Game",
-              legacy: "Dùng chung một thư mục .minecraft, dễ xung đột mod và hỏng file save",
-              mcw: "Khoang cách ly độc lập 100% (instances/<Name>/) với settings, mods, saves riêng",
-              highlight: true
-            },
-            {
-              feature: "Đường Dẫn Windows (MAX_PATH)",
-              legacy: "Giới hạn 260 ký tự, hay văng lỗi WinError 3 khi cài modpack nặng",
-              mcw: "Chuẩn hóa tiền tố \\\\?\\ lên 32.767 ký tự + staging rút ngắn, không bao giờ lỗi",
-              highlight: true
-            },
-            {
-              feature: "Tải Metadata Mod Loader",
-              legacy: "Mạng chập chờn là kẹt cache danh sách rỗng, phải tắt đi bật lại launcher",
-              mcw: "Tự động thử lại 5 lần (Exponential Backoff) + Nút Reload nạp lại tức thì",
-              highlight: false
-            },
-            {
-              feature: "Quản Lý Java Runtime",
-              legacy: "Bắt người dùng tự tìm, cài đặt và cấu hình biến môi trường Java thủ công",
-              mcw: "Tự động cấp phát Eclipse Temurin (Java 8 - 21+), kiểm tra SHA-256 & auto-repair",
-              highlight: false
-            },
-            {
-              feature: "Cài Đặt Mods & Modpack",
-              legacy: "Copy file thủ công, dễ thiếu mod phụ thuộc hoặc dính mã độc",
-              mcw: "Tích hợp Modrinth/CurseForge, tự kéo dependency, sandbox chống Directory Traversal",
-              highlight: false
-            },
-            {
-              feature: "Bảo Mật Tài Khoản",
-              legacy: "Lưu token hoặc mật khẩu dạng plaintext vào file cấu hình trên ổ cứng",
-              mcw: "Zero-Trace: Microsoft access token chỉ giữ tạm trong RAM, không ghi file",
-              highlight: true
-            },
-            {
-              feature: "Định Dạng Phân Phối",
-              legacy: "Bộ cài cồng kềnh, nhiều tệp DLL rời rạc hoặc AppData rác",
-              mcw: "Tệp thực thi duy nhất One-File Standalone siêu nhẹ, không rác hệ thống",
-              highlight: false
-            }
-          ]
-        },
         download: {
           tag: "DEPLOYMENT // TRẠM TẢI XUỐNG",
           title: "Sẵn Sàng Triển Khai Ngay",
-          subtitle: "Bản phát hành chính thức v1.6.1 gọn nhẹ, sẵn sàng khởi chạy chỉ sau vài giây.",
+          subtitle: "Bản phát hành chính thức v1.7.1 gọn nhẹ, sẵn sàng khởi chạy chỉ sau vài giây.",
           detected: "Thiết bị nhận diện:",
           server_switch: "Chọn máy chủ:",
           server_cdn: "⚡ Server Châu Á (HKG / SIN)",
@@ -432,7 +378,7 @@
           sha256_label: "SHA256",
           copy_sha256: "Copy SHA256",
           copied: "Đã copy!",
-          view_changelog: "Chi Tiết v1.6.1",
+          view_changelog: "Chi Tiết v1.7.1",
         },
         core_hub: {
           tag: "PYTHON CORE SDK // 開発者向け",
@@ -456,22 +402,20 @@
           home_jp: "ホーム",
           features: "8 Core Pillars",
           features_jp: "特長",
-          comparison: "Architecture Spec",
-          comparison_jp: "比較",
           download: "Download",
           download_jp: "入手",
           core: "Dev Core SDK",
           core_jp: "開発者",
-          download_btn: "Launch v1.6.1",
+          download_btn: "Launch v1.7.1",
         },
         hero: {
-          badge: "✦ TACTICAL HUD // INSTANCE MATRIX v1.6.1 ✦",
+          badge: "✦ TACTICAL HUD // INSTANCE MATRIX v1.7.1 ✦",
           badge_jp: "「完全独立・高速起動」",
           title_1: "The Next-Gen",
           title_gradient: "MCW Launcher",
           title_2: "Pure Instance-First",
           subtitle: "The high-performance open-source Minecraft launcher with 100% isolated instances. Bypassing Windows long path limits, auto-provisioning Eclipse Temurin runtimes, and blazing fast edge downloads.",
-          btn_download: "Download v1.6.1",
+          btn_download: "Download v1.7.1",
           btn_explore: "Explore Systems",
           stat_loaders: "4 Official Mod Loaders",
           stat_open: "100% Open Source",
@@ -584,62 +528,10 @@
             }
           ]
         },
-        comparison: {
-          tag: "ARCHITECTURE BENCHMARK // SPEC COMPARISON",
-          title: "Why MCW Launcher Outperforms Legacy Tools",
-          subtitle: "Purpose-built architecture engineered to overcome limitations that have plagued Minecraft players for a decade.",
-          col_feature: "Technical Criteria",
-          col_legacy: "Legacy / Traditional Launchers",
-          col_mcw: "MCW Launcher (v1.6.1)",
-          items: [
-            {
-              feature: "Game Directory Structure",
-              legacy: "Shared .minecraft directory, causing mod conflicts and world corruption",
-              mcw: "100% isolated instance containers (instances/<Name>/) with own mods & saves",
-              highlight: true
-            },
-            {
-              feature: "Windows Path Length (MAX_PATH)",
-              legacy: "Restricted to 260 characters, frequently throwing WinError 3 on big packs",
-              mcw: "Extended \\\\?\\ prefix up to 32,767 chars with shortened staging, never fails",
-              highlight: true
-            },
-            {
-              feature: "Mod Loader Metadata Fetching",
-              legacy: "Transient drops permanently lock empty lists, requiring full app restart",
-              mcw: "5-attempt exponential backoff auto-recovery + instant one-click reload button",
-              highlight: false
-            },
-            {
-              feature: "Java Runtime Provisioning",
-              legacy: "Forces players to search, download, and configure system Java manually",
-              mcw: "Auto-detects or provisions Eclipse Temurin (Java 8 - 21+) with auto-repair",
-              highlight: false
-            },
-            {
-              feature: "Mod & Modpack Management",
-              legacy: "Manual folder pasting, easy to miss dependencies or download malware",
-              mcw: "Integrated Modrinth/CurseForge, auto-dependencies, traversal-safe sandbox",
-              highlight: false
-            },
-            {
-              feature: "Account Token Protection",
-              legacy: "Plaintext token or password persistence inside config files on disk",
-              mcw: "Zero-Trace: Microsoft access token held strictly in RAM, never saved to disk",
-              highlight: true
-            },
-            {
-              feature: "Packaging & Distribution",
-              legacy: "Bulky installers, sprawling DLLs, and deep AppData clutter",
-              mcw: "Clean one-file standalone executable with zero lingering background junk",
-              highlight: false
-            }
-          ]
-        },
         download: {
           tag: "DEPLOYMENT // TRẠM TẢI XUỐNG",
           title: "Ready For Launch",
-          subtitle: "Official v1.6.1 stable builds packaged in clean, portable single-executable formats.",
+          subtitle: "Official v1.7.1 stable builds packaged in clean, portable single-executable formats.",
           detected: "Detected system:",
           server_switch: "Select server:",
           server_cdn: "⚡ Asia Edge (HKG / SIN)",
@@ -650,7 +542,7 @@
           sha256_label: "SHA256",
           copy_sha256: "Copy SHA256",
           copied: "Copied!",
-          view_changelog: "v1.6.1 Notes",
+          view_changelog: "v1.7.1 Notes",
         },
         core_hub: {
           tag: "PYTHON CORE SDK // 開発者向け",
@@ -823,7 +715,6 @@
       const navItems = [
         { id: 'hero', href: '#hero', label: t.sidebar.home, jp: t.sidebar.home_jp, icon: "🚀" },
         { id: 'features', href: '#features', label: t.sidebar.features, jp: t.sidebar.features_jp, icon: "🔥" },
-        { id: 'comparison', href: '#comparison', label: t.sidebar.comparison, jp: t.sidebar.comparison_jp, icon: "⚡" },
         { id: 'download', href: '#download', label: t.sidebar.download, jp: t.sidebar.download_jp, icon: "📥" },
         { id: 'core-hub', href: '#core-hub', label: t.sidebar.core, jp: t.sidebar.core_jp, icon: "💻" },
       ];
@@ -840,7 +731,7 @@
               </div>
               <div>
                 <span className="font-extrabold text-sm text-white">MCW</span>
-                <span className="text-[10px] font-mono text-asuka-red ml-1.5 font-bold">v1.6.1</span>
+                <span className="text-[10px] font-mono text-asuka-red ml-1.5 font-bold">v1.7.1</span>
               </div>
             </a>
             <div className="flex items-center gap-2">
@@ -941,7 +832,7 @@
                 className="w-full py-2.5 px-3 rounded-xl font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber hover:shadow-[0_0_25px_rgba(255,31,68,0.5)] transition-all flex items-center justify-center gap-2"
               >
                 <span>📥 {t.sidebar.download_btn}</span>
-                <span className="text-[10px] opacity-80 font-mono">(v1.6.1)</span>
+                <span className="text-[10px] opacity-80 font-mono">(v1.7.1)</span>
               </a>
 
               <div className="grid grid-cols-2 gap-2 pt-1">
@@ -964,7 +855,7 @@
 
               <div className="pt-1 text-center text-[10px] font-mono text-slate-400 flex items-center justify-between px-1">
                 <span className="text-slate-500">SYNC: 100%</span>
-                <span className="text-asuka-flame font-bold">1.6.1</span>
+                <span className="text-asuka-flame font-bold">1.7.1</span>
               </div>
             </div>
           </aside>
@@ -1078,119 +969,6 @@
                   </div>
                 );
               })}
-            </div>
-          </div>
-        </section>
-      );
-    }
-
-    // Architecture Comparison Section
-    function ArchitectureComparisonSection({ t }) {
-      const comparison = t.comparison;
-      if (!comparison) return null;
-
-      return (
-        <section id="comparison" className="py-20 relative overflow-hidden bg-obsidian-900/30 border-t border-white/5">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Section Header */}
-            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-asuka-flame/15 border border-asuka-flame/35 text-asuka-flame text-xs font-mono font-bold">
-                <Icons.Zap className="w-3.5 h-3.5 text-asuka-amber animate-pulse" />
-                <span>{comparison.tag}</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-                {comparison.title}
-              </h2>
-              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                {comparison.subtitle}
-              </p>
-            </div>
-
-            {/* Comparison Table / Cards */}
-            <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-              {/* Header Row (Desktop) */}
-              <div className="hidden md:grid md:grid-cols-12 bg-obsidian-950 px-6 py-4 border-b border-white/10 text-xs font-mono font-bold tracking-wider uppercase">
-                <div className="col-span-4 text-slate-400">{comparison.col_feature}</div>
-                <div className="col-span-4 text-rose-400/90 flex items-center gap-1.5">
-                  <Icons.X className="w-4 h-4 text-rose-500" />
-                  <span>{comparison.col_legacy}</span>
-                </div>
-                <div className="col-span-4 text-cyber-neon flex items-center gap-1.5">
-                  <Icons.Check className="w-4 h-4 text-cyber-neon" />
-                  <span>{comparison.col_mcw}</span>
-                </div>
-              </div>
-
-              {/* Rows */}
-              <div className="divide-y divide-white/5">
-                {comparison.items.map((row, idx) => (
-                  <div
-                    key={idx}
-                    className={`p-5 md:px-6 md:py-4.5 transition-colors hover:bg-white/[0.02] ${
-                      row.highlight ? 'bg-asuka-red/[0.03]' : ''
-                    }`}
-                  >
-                    {/* Desktop Grid Layout */}
-                    <div className="hidden md:grid md:grid-cols-12 gap-4 items-center text-xs">
-                      <div className="col-span-4 font-mono font-semibold text-slate-200 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-asuka-flame" />
-                        <span>{row.feature}</span>
-                      </div>
-
-                      <div className="col-span-4 text-slate-400 flex items-start gap-2">
-                        <Icons.X className="w-4 h-4 text-rose-500/80 shrink-0 mt-0.5" />
-                        <span className="leading-relaxed">{row.legacy}</span>
-                      </div>
-
-                      <div className="col-span-4 text-slate-100 font-medium flex items-start gap-2">
-                        <Icons.Check className="w-4 h-4 text-cyber-neon shrink-0 mt-0.5" />
-                        <span className="leading-relaxed text-emerald-300/90">{row.mcw}</span>
-                      </div>
-                    </div>
-
-                    {/* Mobile Card Layout */}
-                    <div className="md:hidden space-y-3">
-                      <div className="font-mono font-bold text-sm text-white flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-asuka-flame" />
-                        <span>{row.feature}</span>
-                      </div>
-
-                      <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-900/30 text-xs text-rose-300 space-y-1">
-                        <div className="text-[10px] font-mono uppercase text-rose-400 font-bold flex items-center gap-1">
-                          <Icons.X className="w-3 h-3 text-rose-400" />
-                          <span>{comparison.col_legacy}</span>
-                        </div>
-                        <p className="leading-relaxed">{row.legacy}</p>
-                      </div>
-
-                      <div className="p-3 rounded-xl bg-emerald-950/25 border border-emerald-800/40 text-xs text-emerald-200 space-y-1">
-                        <div className="text-[10px] font-mono uppercase text-emerald-400 font-bold flex items-center gap-1">
-                          <Icons.Check className="w-3 h-3 text-emerald-400" />
-                          <span>{comparison.col_mcw}</span>
-                        </div>
-                        <p className="leading-relaxed">{row.mcw}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Bottom Callout Banner */}
-              <div className="p-4 bg-obsidian-950/90 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span>TESTED & VERIFIED ACROSS 1,700+ UNIT TESTS ON WINDOWS & LINUX</span>
-                </span>
-                <a
-                  href="https://github.com/mahiru7229/mcw-launcher/blob/main/docs/ARCHITECTURE.md"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-asuka-flame hover:underline flex items-center gap-1 font-semibold"
-                >
-                  <span>Xem tài liệu ARCHITECTURE.md</span>
-                  <span>→</span>
-                </a>
-              </div>
             </div>
           </div>
         </section>
@@ -1520,7 +1298,7 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --user
 
                         <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
                           <span className="text-asuka-flame text-[11px] font-semibold">TARGET: MINECRAFT SANDBOX</span>
-                          <span className="text-asuka-red font-bold text-[11px]">v1.6.1 READY</span>
+                          <span className="text-asuka-red font-bold text-[11px]">v1.7.1 READY</span>
                         </div>
                       </div>
                     </div>
@@ -1530,9 +1308,6 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --user
 
               {/* 8 CORE ARCHITECTURE PILLARS */}
               <FeaturesSection t={t} />
-
-              {/* ARCHITECTURE BENCHMARK COMPARISON */}
-              <ArchitectureComparisonSection t={t} />
 
               {/* DOWNLOAD SECTION (Server VN vs Server Quốc tế) */}
               <section id="download" className="py-20 relative overflow-hidden bg-obsidian-950/80 cyber-grid">
