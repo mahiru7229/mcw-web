@@ -89,7 +89,7 @@ export default function Footer({ t }) {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="https://github.com/mahiru7229/mcw-launcher/blob/1.7/README.md"
+                  href="https://github.com/mahiru7229/mcw-launcher/blob/main/README.md"
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-1.5"
