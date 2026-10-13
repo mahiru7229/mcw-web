@@ -1,4 +1,60 @@
-export const RELEASE_INFO = {
+export const STABLE_RELEASE = {
+  version: "v1.8.0",
+  versionId: "1.8.0",
+  releaseDate: "2026-09-30",
+  channel: "stable",
+  hotfix: {
+    version: "v1.8.0",
+    size: "Tích hợp sẵn",
+    cdnUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
+    manifestUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
+    edgeNodes: "Hồng Kông & Singapore (Asia Edge)",
+  },
+  downloads: {
+    windows: {
+      archive: {
+        filename: "MCW-Launcher-v1.8.0-windows-x64.zip",
+        size: "71 MB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-windows-x64.zip",
+      }
+    },
+    linux: {
+      archive: {
+        filename: "MCW-Launcher-v1.8.0-linux-x64.zip",
+        size: "111 MB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-linux-x64.zip",
+      }
+    },
+    core: {
+      wheel: {
+        filename: "mcw_core-1.8.0-py3-none-any.whl",
+        size: "733 KB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/mcw_core-1.8.0-py3-none-any.whl",
+      }
+    }
+  },
+  changelog: [
+    {
+      type: "arch",
+      title_vi: "Tách biệt 100% Core & GUI qua giao thức kép JSON-RPC 2.0 (mcw_core.rpc)",
+      title_en: "100% Core & GUI Decoupling via JSON-RPC 2.0 (mcw_core.rpc)",
+      desc_vi: "Hỗ trợ Direct In-Process, Sidecar Stdio (--stdio) và Local HTTP + Server-Sent Events (--http).",
+      desc_en: "Supports Direct In-Process, Sidecar Stdio, and Local HTTP + Server-Sent Events.",
+    },
+    {
+      type: "feat",
+      title_vi: "Ranh giới mô-đun công khai tuyệt đối (mcw_core.api)",
+      title_en: "Strict Public API Boundary (mcw_core.api)",
+      desc_vi: "Toàn bộ GUI giao tiếp qua bề mặt API công khai mcw_core.",
+      desc_en: "The entire GUI communicates exclusively through public contracts.",
+    }
+  ]
+};
+
+export const BETA_RELEASE = {
   version: "v1.8.1-beta.1",
   versionId: "1.8.1-beta.1",
   releaseDate: "2026-10-13",
@@ -60,6 +116,8 @@ export const RELEASE_INFO = {
     }
   ]
 };
+
+export const RELEASE_INFO = STABLE_RELEASE;
 
 export const I18N = {
   vi: {

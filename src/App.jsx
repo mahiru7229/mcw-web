@@ -15,7 +15,7 @@ import { useReleaseData } from './data/useReleaseData';
 export default function App() {
   const [lang, setLang] = useState('vi');
   const t = I18N[lang] || I18N.vi;
-  const { release, loading } = useReleaseData();
+  const { release, stableRelease, betaRelease, channel, setChannel, loading } = useReleaseData();
 
   return (
     <div className="min-h-screen bg-base-950 text-slate-100 flex flex-col font-sans selection:bg-sky-cyan/30 selection:text-sky-cyan relative">
@@ -23,16 +23,30 @@ export default function App() {
       <AtmosphereCanvas />
 
       {/* Modern Top Navigation Bar */}
-      <Navbar lang={lang} setLang={setLang} t={t} release={release} />
+      <Navbar lang={lang} setLang={setLang} t={t} release={release} channel={channel} />
 
       {/* Main Content Stream */}
       <main className="flex-grow relative z-10">
-        <Hero t={t} release={release} />
+        <Hero
+          t={t}
+          release={release}
+          stableRelease={stableRelease}
+          betaRelease={betaRelease}
+          channel={channel}
+          setChannel={setChannel}
+        />
         <LauncherPreview t={t} />
         <Features t={t} />
         <Compatibility t={t} />
         <Performance t={t} />
-        <DownloadSection t={t} release={release} />
+        <DownloadSection
+          t={t}
+          release={release}
+          stableRelease={stableRelease}
+          betaRelease={betaRelease}
+          channel={channel}
+          setChannel={setChannel}
+        />
         <Faq t={t} />
       </main>
 

@@ -196,31 +196,31 @@
     };
 
     const RELEASE_DATA = {
-      version: "v1.8.1-beta.1",
-      versionId: "1.8.1-beta.1",
+      version: "v1.8.0",
+      versionId: "1.8.0",
       downloads: {
         windows: {
           archive: {
-            filename: "MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
+            filename: "MCW-Launcher-v1.8.0-windows-x64.zip",
             size: "71 MB",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-windows-x64.zip",
           }
         },
         linux: {
           archive: {
-            filename: "MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
+            filename: "MCW-Launcher-v1.8.0-linux-x64.zip",
             size: "111 MB",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-linux-x64.zip",
           }
         },
         core: {
           wheel: {
-            filename: "mcw_core-1.8.1b1-py3-none-any.whl",
-            size: "740 KB",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/mcw_core-1.8.1b1-py3-none-any.whl",
+            filename: "mcw_core-1.8.0-py3-none-any.whl",
+            size: "733 KB",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/mcw_core-1.8.0-py3-none-any.whl",
           }
         }
       }
@@ -1359,17 +1359,22 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --user
                         <p className="text-[11px] text-slate-400 font-mono truncate">{RELEASE_DATA.downloads.windows.archive.filename}</p>
                         <p className="text-xs text-slate-300 leading-relaxed">Gói phân phối độc lập hoàn chỉnh cho Windows 10 & 11 (x64), giải nén và khởi chạy ngay.</p>
                       </div>
-                      <div className="pt-5 mt-5 border-t border-white/10 space-y-2">
+                      <div class="pt-5 mt-5 border-t border-white/10 space-y-2">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.windows.archive.cdnUrl : RELEASE_DATA.downloads.windows.archive.githubUrl}
                           className="w-full py-3 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-asuka-crimson via-asuka-flame to-asuka-amber text-white flex items-center justify-center gap-2 uppercase hover:shadow-[0_0_20px_rgba(255,31,68,0.4)] transition-all"
                         >
                           <Icons.Download className="w-4 h-4 text-white" />
-                          <span>Tải Bản Windows x64 (.zip)</span>
+                          <span>Tải Bản Ổn Định Windows (.zip)</span>
                         </a>
-                        <div className="w-full py-1 text-[10px] font-mono text-emerald-400 flex items-center justify-center gap-1">
-                          ✓ Sẵn sàng tải xuống
-                        </div>
+                        <a
+                          href="https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-windows-x64.zip"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-full py-2 rounded-xl text-center text-xs font-mono text-amber-400 hover:text-amber-300 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/20 flex items-center justify-center gap-1 transition-all"
+                        >
+                          🧪 Tải Bản Beta v1.8.1-beta.1 ↗
+                        </a>
                       </div>
                     </div>
 
@@ -1384,17 +1389,22 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --user
                         <p className="text-[11px] text-slate-400 font-mono truncate">{RELEASE_DATA.downloads.linux.archive.filename}</p>
                         <p className="text-xs text-slate-300 leading-relaxed">Tệp thực thi độc lập cho Linux (Ubuntu, Debian, Fedora, Arch), giải nén và sử dụng tức thì.</p>
                       </div>
-                      <div className="pt-5 mt-5 border-t border-white/10 space-y-2">
+                      <div class="pt-5 mt-5 border-t border-white/10 space-y-2">
                         <a
                           href={selectedServer === 'cdn' ? RELEASE_DATA.downloads.linux.archive.cdnUrl : RELEASE_DATA.downloads.linux.archive.githubUrl}
                           className="w-full py-3 rounded-xl font-semibold text-xs tracking-wide bg-obsidian-850 hover:bg-obsidian-800 text-white border border-white/10 flex items-center justify-center gap-2 uppercase transition-all"
                         >
                           <Icons.Download className="w-4 h-4 text-asuka-flame" />
-                          <span>Tải Bản Linux x64 (.zip)</span>
+                          <span>Tải Bản Ổn Định Linux (.zip)</span>
                         </a>
-                        <div className="w-full py-1 text-[10px] font-mono text-emerald-400 flex items-center justify-center gap-1">
-                          ✓ Sẵn sàng tải xuống
-                        </div>
+                        <a
+                          href="https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-linux-x64.zip"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-full py-2 rounded-xl text-center text-xs font-mono text-amber-400 hover:text-amber-300 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/20 flex items-center justify-center gap-1 transition-all"
+                        >
+                          🧪 Tải Bản Beta v1.8.1-beta.1 ↗
+                        </a>
                       </div>
                     </div>
 
