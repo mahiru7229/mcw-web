@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Download, Github, Globe, Menu, X, Sparkles, Layers, Terminal, HelpCircle } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function Navbar({ lang, setLang, t }) {
+export default function Navbar({ lang, setLang, t, release }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -44,7 +44,7 @@ export default function Navbar({ lang, setLang, t }) {
                 MCW Launcher
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-purple/15 text-sky-purple border border-sky-purple/30 font-semibold">
-                {RELEASE_INFO.version}
+                {release?.version || RELEASE_INFO.version}
               </span>
             </div>
           </a>

@@ -2,7 +2,10 @@ import React from 'react';
 import { Download, Sparkles, ArrowRight, ShieldCheck, Box, Cpu, Zap } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function Hero({ t }) {
+export default function Hero({ t, release }) {
+  const currentVersion = release?.version || RELEASE_INFO.version;
+  const isBeta = (release?.channel === 'beta') || currentVersion.includes('beta');
+
   return (
     <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
       {/* Background Soft Glows */}
@@ -18,7 +21,7 @@ export default function Hero({ t }) {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-emerald"></span>
           </span>
           <span className="text-xs font-mono font-medium text-slate-200">
-            {t.hero.badge}
+            {currentVersion} ({isBeta ? 'Beta' : 'Stable'})
           </span>
           <span className="text-[11px] font-mono text-sky-cyan font-semibold">
             • Asia Edge CDN
@@ -48,7 +51,7 @@ export default function Hero({ t }) {
             className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-sky-cyan via-sky-purple to-sky-pink text-base-950 hover:shadow-[0_0_35px_rgba(114,216,255,0.5)] transition-all duration-300 flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
           >
             <Download className="w-4 h-4 text-base-950 stroke-[2.5]" />
-            <span>{t.hero.btn_download}</span>
+            <span>{t.hero.btn_download} ({currentVersion})</span>
           </a>
 
           <a

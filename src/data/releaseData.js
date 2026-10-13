@@ -1,12 +1,11 @@
 export const RELEASE_INFO = {
-  version: "v1.8.0",
-  versionId: "1.8.0",
-  releaseDate: "2026-09-30",
-  channel: "stable",
+  version: "v1.8.1-beta.1",
+  versionId: "1.8.1-beta.1",
+  releaseDate: "2026-10-13",
+  channel: "beta",
   hotfix: {
-    version: "v1.8.0",
+    version: "v1.8.1-beta.1",
     size: "Tích hợp sẵn",
-    sha256: "cd15876ca381d2d70f4ba7bb5446caf3973e6db960340da8e09745892ff8bf3e",
     cdnUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
     manifestUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
     edgeNodes: "Hồng Kông & Singapore (Asia Edge)",
@@ -14,53 +13,50 @@ export const RELEASE_INFO = {
   downloads: {
     windows: {
       archive: {
-        filename: "MCW-Launcher-v1.8.0-windows-x64.zip",
-        size: "70.9 MB",
-        sha256: "cd15876ca381d2d70f4ba7bb5446caf3973e6db960340da8e09745892ff8bf3e",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.8.0/MCW-Launcher-v1.8.0-windows-x64.zip",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-windows-x64.zip",
+        filename: "MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
+        size: "71 MB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
       }
     },
     linux: {
       archive: {
-        filename: "MCW-Launcher-v1.8.0-linux-x64.zip",
-        size: "111.1 MB",
-        sha256: "d5c10de4541da04872ecddeb16c1caed910cf3ce9476e0bf6c57580671194e59",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.8.0/MCW-Launcher-v1.8.0-linux-x64.zip",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-linux-x64.zip",
+        filename: "MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
+        size: "111 MB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
       }
     },
     core: {
       wheel: {
-        filename: "mcw_core-1.8.0-py3-none-any.whl",
-        size: "733 KB",
-        sha256: "bdfcf1ffb96d172e60265b3f34fb224e1f708a16ec23fb250d77dc28795285f0",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher-core/releases/download/v1.8.0/mcw_core-1.8.0-py3-none-any.whl",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/mcw_core-1.8.0-py3-none-any.whl",
+        filename: "mcw_core-1.8.1b1-py3-none-any.whl",
+        size: "740 KB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/mcw_core-1.8.1b1-py3-none-any.whl",
       }
     }
   },
   changelog: [
     {
-      type: "arch",
-      title_vi: "Tách biệt 100% Core & GUI qua giao thức kép JSON-RPC 2.0 (mcw_core.rpc)",
-      title_en: "100% Core & GUI Decoupling via Dual-Transport JSON-RPC 2.0 (mcw_core.rpc)",
-      desc_vi: "Hỗ trợ đồng thời 3 chế độ kết nối: Direct In-Process, Sidecar Stdio (--stdio) và Local HTTP + Server-Sent Events (--http) độc lập hoàn toàn với ngôn ngữ giao diện.",
-      desc_en: "Supports Direct In-Process, Sidecar Stdio (--stdio), and Local HTTP + Server-Sent Events (--http) for language-agnostic GUI integration.",
-    },
-    {
       type: "feat",
-      title_vi: "Ranh giới mô-đun tuyệt đối (mcw_core.api & mcw_core.api.models)",
-      title_en: "Strict Public API & Models Boundary (mcw_core.api & mcw_core.api.models)",
-      desc_vi: "Toàn bộ tầng giao diện giao tiếp 100% qua bề mặt công khai mcw_core mà không còn bất kỳ phụ thuộc trực tiếp nào vào src.core hay src.models.",
-      desc_en: "The entire GUI communicates exclusively through public mcw_core contracts with zero direct imports of internal src.core or src.models modules.",
+      title_vi: "Khởi chạy theo phong cách Prism Launcher (Không chặn khởi động vì phụ thuộc mod)",
+      title_en: "Prism-style Launch Pipeline (Zero blocking on mod dependencies)",
+      desc_vi: "Khởi chạy trực tiếp vào JVM, chuyển toàn bộ lỗi kiểm tra phụ thuộc modloader thành cảnh báo phi chặn và nhường quyền xử lý cho Mod Loader.",
+      desc_en: "Launches directly into the JVM, treating modloader dependency issues as non-blocking warnings and delegating resolution to the modloader itself.",
     },
     {
-      type: "perf",
-      title_vi: "Tích hợp sẵn toàn bộ bản vá Hotfix v1.7.0.1 – v1.7.1.1 & GPU Caching",
-      title_en: "Built-in Hotfixes v1.7.0.1 – v1.7.1.1 & Hardware GPU Caching",
-      desc_vi: "Hợp nhất bộ đệm phần cứng GPU tăng tốc khởi động, đồng bộ Hotfix chạy nền không chặn giao diện và tối ưu hộp thoại Tạo Bản Chơi.",
-      desc_en: "Includes persistent GPU hardware detection caching, non-blocking background hotfix sync, and Create Instance dialog refinements.",
+      type: "arch",
+      title_vi: "Nâng cấp Schema phiên bản 20 & Tinh giản Cài đặt",
+      title_en: "Schema Version 20 & Simplified Settings",
+      desc_vi: "Loại bỏ hoàn toàn forge_preflight_failure_policy khỏi cấu hình và giao diện cài đặt, giúp trải nghiệm tinh gọn và trực quan.",
+      desc_en: "Purged forge_preflight_failure_policy from settings and UI dialogs for a cleaner and simpler experience.",
+    },
+    {
+      type: "core",
+      title_vi: "Hợp nhất toàn bộ các bản vá nóng v1.8.0.x",
+      title_en: "Consolidated all v1.8.0.x Hotfixes",
+      desc_vi: "Bao gồm tất cả cải tiến và tối ưu hóa từ nhánh hotfix/1.8.0.2 vào nhánh chính với ranh giới mcw_core.api rõ ràng.",
+      desc_en: "Integrated all improvements from hotfix/1.8.0.2 into main with clean mcw_core.api boundaries.",
     }
   ]
 };
@@ -76,11 +72,11 @@ export const I18N = {
       download: "Tải Về",
     },
     hero: {
-      badge: "Phiên bản mới nhất: v1.8.0 Stable (100% Decoupled Core & GUI)",
+      badge: "Phiên bản mới nhất trên GitHub",
       headline: "Your World. Your Way.",
       subtitle: "A lightweight Minecraft launcher built for your next adventure.",
       desc: "Trình khởi chạy Minecraft mã nguồn mở với kiến trúc tách biệt 100% Core & GUI (JSON-RPC 2.0), cô lập từng bản chơi, tự động cấp phát Java và cập nhật Edge CDN.",
-      btn_download: "Tải Ngay v1.8.0",
+      btn_download: "Tải Bản Mới Nhất",
       btn_explore: "Khám Phá Tính Năng",
       os_support: "Hỗ trợ Windows & Linux x64 • Giải nén chạy ngay không cần cài đặt",
     },
@@ -125,7 +121,7 @@ export const I18N = {
         {
           id: "hotfix",
           title: "Bản vá vi mô Hotfix CDN Edge",
-          desc: "Nhận các bản cập nhật vá lỗi nhỏ gọn từ Cloudflare Edge (Hồng Kông & Singapore) với cơ chế xác thực chữ ký SHA-256 an toàn.",
+          desc: "Nhận các bản cập nhật vá lỗi nhỏ gọn từ Cloudflare Edge (Hồng Kông & Singapore) một cách an toàn và nhanh chóng.",
         },
         {
           id: "auth",
@@ -204,17 +200,17 @@ export const I18N = {
           desc: "Mỗi bản chơi hoạt động trong thư mục riêng, không đè cấu hình hay xung đột file",
         },
         {
-          val: "SHA-256",
-          label: "Xác thực tính toàn vẹn",
-          desc: "Kiểm tra mã băm mọi tệp tải về và bản vá Hotfix từ cụm máy chủ Edge CDN",
+          val: "Open",
+          label: "Mã nguồn mở 100%",
+          desc: "Dự án độc lập, hoàn toàn miễn phí, tối ưu tài nguyên cho máy chơi game",
         },
       ],
-      terminal_title: "MCW Core Command Line & Status",
+      terminal_title: "MCW Core Engine",
     },
     download: {
       tag: "Tải về miễn phí",
       title: "Ready to play?",
-      subtitle: "Tải ngay MCW Launcher v1.8.0 dưới định dạng tệp ZIP giải nén dùng ngay hoặc tích hợp Core SDK.",
+      subtitle: "Tải ngay MCW Launcher định dạng tệp ZIP giải nén dùng ngay, không cần cài đặt.",
       detected_os: "Hệ điều hành nhận diện:",
       win_title: "Windows x64",
       win_format: "Định dạng Portable ZIP (.zip)",
@@ -224,11 +220,8 @@ export const I18N = {
       core_format: "Python Wheel (.whl)",
       btn_cdn: "Tải từ Asia Edge (HKG / SIN)",
       btn_github: "Tải từ GitHub Mirror",
-      checksum_label: "SHA-256 Checksum:",
-      copy_checksum: "Sao chép SHA-256",
-      copied: "Đã sao chép!",
-      view_changelog: "Xem nhật ký cập nhật v1.8.0",
-      changelog_title: "Nhật ký cập nhật v1.8.0 Stable (100% Decoupled Core & GUI)",
+      view_changelog: "Xem nhật ký cập nhật",
+      changelog_title: "Nhật ký phát hành trên GitHub",
     },
     faq: {
       tag: "Giải đáp thắc mắc",
@@ -288,11 +281,11 @@ export const I18N = {
       download: "Download",
     },
     hero: {
-      badge: "Latest Release: v1.8.0 Stable (100% Decoupled Core & GUI)",
+      badge: "Latest Release on GitHub",
       headline: "Your World. Your Way.",
       subtitle: "A lightweight Minecraft launcher built for your next adventure.",
       desc: "An open-source Minecraft launcher featuring 100% Core & GUI decoupling via JSON-RPC 2.0, complete instance isolation, automatic Java management, and Edge CDN updates.",
-      btn_download: "Download v1.8.0",
+      btn_download: "Download Latest Release",
       btn_explore: "Explore Features",
       os_support: "Supports Windows & Linux x64 • Portable standalone zero-install",
     },
@@ -336,8 +329,8 @@ export const I18N = {
         },
         {
           id: "hotfix",
-          title: "Fail-Closed Hotfix CDN",
-          desc: "Micro-patches distributed from Cloudflare Edge PoPs (Hong Kong & Singapore) with strict SHA-256 verification and atomic swap.",
+          title: "Micro Hotfix CDN Edge",
+          desc: "Receive lightweight patch updates distributed from Cloudflare Edge (Hong Kong & Singapore) quickly and securely.",
         },
         {
           id: "auth",
@@ -416,17 +409,17 @@ export const I18N = {
           desc: "Separate mods, saves, and settings per instance with zero file collisions",
         },
         {
-          val: "SHA-256",
-          label: "Verified Assets & Edge Hotfix",
-          desc: "Cryptographic hash checks on every download and Cloudflare Edge micro-patch",
+          val: "Open",
+          label: "100% Open Source",
+          desc: "Independent and free project, optimized to save system overhead for games",
         },
       ],
-      terminal_title: "MCW Core Command Line & Status",
+      terminal_title: "MCW Core Engine",
     },
     download: {
       tag: "Free Download",
       title: "Ready to play?",
-      subtitle: "Download MCW Launcher v1.8.0 as a standalone portable ZIP or integrate the Core Python SDK.",
+      subtitle: "Download MCW Launcher as a portable standalone archive with zero installation required.",
       detected_os: "Detected Operating System:",
       win_title: "Windows x64",
       win_format: "Portable Standalone Archive (.zip)",
@@ -439,8 +432,8 @@ export const I18N = {
       checksum_label: "SHA-256 Checksum:",
       copy_checksum: "Copy SHA-256",
       copied: "Copied!",
-      view_changelog: "View v1.8.0 Changelog",
-      changelog_title: "Release Changelog — v1.8.0 Stable (100% Decoupled Core & GUI)",
+      view_changelog: "View Changelog",
+      changelog_title: "Release Changelog on GitHub",
     },
     faq: {
       tag: "FAQ",
@@ -469,7 +462,7 @@ export const I18N = {
         },
         {
           q: "How does the Edge CDN Hotfix system work?",
-          a: "When a minor patch is published, the launcher downloads a micro-archive from Cloudflare Edge PoPs (Hong Kong & Singapore), verifies its SHA-256 checksum, and atomically applies it in seconds.",
+          a: "When a minor patch is published, the launcher downloads a micro-archive from Cloudflare Edge PoPs (Hong Kong & Singapore) and safely applies it without re-downloading the full launcher.",
         },
         {
           q: "Can I play offline or over a local LAN?",

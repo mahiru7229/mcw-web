@@ -2,7 +2,7 @@ import React from 'react';
 import { Github, Globe, Heart, Shield, Terminal, BookOpen, ExternalLink } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function Footer({ t }) {
+export default function Footer({ t, release }) {
   return (
     <footer className="relative bg-base-950 border-t border-white/10 pt-16 pb-12 overflow-hidden text-slate-400 font-sans text-xs">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -19,7 +19,7 @@ export default function Footer({ t }) {
                 MCW Launcher
               </span>
               <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-base-800 text-sky-cyan border border-white/5">
-                {RELEASE_INFO.version}
+                {release?.version || RELEASE_INFO.version}
               </span>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">

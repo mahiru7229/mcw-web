@@ -276,8 +276,8 @@ export default function LauncherPreview({ t }) {
                         <span className="text-slate-400">-XX:+UseG1GC -Dsun.stdout.encoding=UTF-8</span>
                       </div>
                       <div className="flex justify-between text-slate-300">
-                        <span>Isolation Mode:</span>
-                        <span className="text-sky-emerald font-bold">STRICT_SANDBOX (Level 3)</span>
+                        <span>Instance Isolation:</span>
+                        <span className="text-sky-emerald font-bold">Thư mục độc lập (Isolated)</span>
                       </div>
                     </div>
                   )}

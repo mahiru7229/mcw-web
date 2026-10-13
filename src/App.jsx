@@ -10,10 +10,12 @@ import DownloadSection from './components/DownloadSection';
 import Faq from './components/Faq';
 import Footer from './components/Footer';
 import { I18N } from './data/releaseData';
+import { useReleaseData } from './data/useReleaseData';
 
 export default function App() {
   const [lang, setLang] = useState('vi');
   const t = I18N[lang] || I18N.vi;
+  const { release, loading } = useReleaseData();
 
   return (
     <div className="min-h-screen bg-base-950 text-slate-100 flex flex-col font-sans selection:bg-sky-cyan/30 selection:text-sky-cyan relative">
@@ -21,21 +23,21 @@ export default function App() {
       <AtmosphereCanvas />
 
       {/* Modern Top Navigation Bar */}
-      <Navbar lang={lang} setLang={setLang} t={t} />
+      <Navbar lang={lang} setLang={setLang} t={t} release={release} />
 
       {/* Main Content Stream */}
       <main className="flex-grow relative z-10">
-        <Hero t={t} />
+        <Hero t={t} release={release} />
         <LauncherPreview t={t} />
         <Features t={t} />
         <Compatibility t={t} />
         <Performance t={t} />
-        <DownloadSection t={t} />
+        <DownloadSection t={t} release={release} />
         <Faq t={t} />
       </main>
 
       {/* Legal Footer & Credits */}
-      <Footer t={t} />
+      <Footer t={t} release={release} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Download, Copy, Check, ShieldCheck, ExternalLink, Zap, Terminal, Server, ChevronDown, ChevronUp } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function DownloadSection({ t }) {
+export default function DownloadSection({ t, release }) {
   const [detectedOs, setDetectedOs] = useState('windows');
   const [copiedSha, setCopiedSha] = useState(null);
   const [showChangelog, setShowChangelog] = useState(false);
@@ -22,9 +22,10 @@ export default function DownloadSection({ t }) {
     setTimeout(() => setCopiedSha(null), 2500);
   };
 
-  const winInfo = RELEASE_INFO.downloads.windows.archive;
-  const linuxInfo = RELEASE_INFO.downloads.linux.archive;
-  const coreInfo = RELEASE_INFO.downloads.core.wheel;
+  const currentVersion = release?.version || RELEASE_INFO.version;
+  const winInfo = release?.downloads?.windows?.archive || RELEASE_INFO.downloads.windows.archive;
+  const linuxInfo = release?.downloads?.linux?.archive || RELEASE_INFO.downloads.linux.archive;
+  const coreInfo = release?.downloads?.core?.wheel || RELEASE_INFO.downloads.core.wheel;
 
   return (
     <section id="download" className="relative py-24 overflow-hidden bg-base-900/40 border-t border-white/5">
@@ -84,7 +85,7 @@ export default function DownloadSection({ t }) {
               </div>
 
               <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
-                Phiên bản {RELEASE_INFO.version} chính thức cho Windows 10 & 11 (64-bit). Tệp ZIP giải nén chạy ngay, không cần cài đặt.
+                Phiên bản {currentVersion} chính thức cho Windows 10 & 11 (64-bit). Tệp ZIP giải nén chạy ngay, không cần cài đặt.
               </p>
 
               {/* Download Buttons */}
@@ -109,21 +110,10 @@ export default function DownloadSection({ t }) {
               </div>
             </div>
 
-            {/* Checksum SHA-256 Box */}
-            <div className="pt-4 border-t border-white/10">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1.5">
-                <span>{t.download.checksum_label}</span>
-                <button
-                  onClick={() => handleCopySha(winInfo.sha256, 'win')}
-                  className="text-sky-cyan hover:underline flex items-center gap-1"
-                >
-                  {copiedSha === 'win' ? <Check className="w-3 h-3 text-sky-emerald" /> : <Copy className="w-3 h-3" />}
-                  <span>{copiedSha === 'win' ? t.download.copied : t.download.copy_checksum}</span>
-                </button>
-              </div>
-              <div className="p-2 rounded-lg bg-base-950/80 border border-white/5 font-mono text-[10px] text-slate-400 truncate select-all">
-                {winInfo.sha256}
-              </div>
+            {/* Asset Status Box */}
+            <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span className="truncate max-w-[200px]" title={winInfo.filename}>{winInfo.filename}</span>
+              <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
             </div>
           </div>
 
@@ -182,21 +172,10 @@ export default function DownloadSection({ t }) {
               </div>
             </div>
 
-            {/* Checksum SHA-256 Box */}
-            <div className="pt-4 border-t border-white/10">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1.5">
-                <span>{t.download.checksum_label}</span>
-                <button
-                  onClick={() => handleCopySha(linuxInfo.sha256, 'linux')}
-                  className="text-sky-cyan hover:underline flex items-center gap-1"
-                >
-                  {copiedSha === 'linux' ? <Check className="w-3 h-3 text-sky-emerald" /> : <Copy className="w-3 h-3" />}
-                  <span>{copiedSha === 'linux' ? t.download.copied : t.download.copy_checksum}</span>
-                </button>
-              </div>
-              <div className="p-2 rounded-lg bg-base-950/80 border border-white/5 font-mono text-[10px] text-slate-400 truncate select-all">
-                {linuxInfo.sha256}
-              </div>
+            {/* Asset Status Box */}
+            <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span className="truncate max-w-[200px]" title={linuxInfo.filename}>{linuxInfo.filename}</span>
+              <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
             </div>
           </div>
 
@@ -270,7 +249,7 @@ export default function DownloadSection({ t }) {
                 {t.download.changelog_title}
               </h4>
               <div className="space-y-4">
-                {RELEASE_INFO.changelog.map((c, idx) => (
+                {(release?.changelog || RELEASE_INFO.changelog).map((c, idx) => (
                   <div key={idx} className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono px-2 py-0.2 rounded font-bold uppercase bg-sky-cyan/15 text-sky-cyan">

@@ -196,33 +196,31 @@
     };
 
     const RELEASE_DATA = {
-      version: "v1.7.1",
-      versionId: "1.7.1",
+      version: "v1.8.1-beta.1",
+      versionId: "1.8.1-beta.1",
       downloads: {
         windows: {
           archive: {
-            filename: "MCW-Launcher-v1.7.1-windows-x64.zip",
-            size: "70.9 MB",
-            sha256: "4949f9da9db422d809013269943e4f7e488362d40320e29bced4d9ef4e181f3c",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.1/MCW-Launcher-v1.7.1-windows-x64.zip",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.1/MCW-Launcher-v1.7.1-windows-x64.zip",
+            filename: "MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
+            size: "71 MB",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
           }
         },
         linux: {
           archive: {
-            filename: "MCW-Launcher-v1.7.1-linux-x64.zip",
-            size: "111.1 MB",
-            sha256: "1e500b7303abe13c2719330e226a93c60b11f7033072dea57f0acd4cdf170416",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.1/MCW-Launcher-v1.7.1-linux-x64.zip",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.1/MCW-Launcher-v1.7.1-linux-x64.zip",
+            filename: "MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
+            size: "111 MB",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
           }
         },
         core: {
           wheel: {
-            filename: "mcw_core-1.7.1-py3-none-any.whl",
-            size: "635 KB",
-            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.7.1/mcw_core-1.7.1-py3-none-any.whl",
-            cdnUrl: "https://mcw-download.pages.dev/releases/v1.7.1/mcw_core-1.7.1-py3-none-any.whl",
+            filename: "mcw_core-1.8.1b1-py3-none-any.whl",
+            size: "740 KB",
+            githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
+            cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/mcw_core-1.8.1b1-py3-none-any.whl",
           }
         }
       }
@@ -1369,13 +1367,9 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --user
                           <Icons.Download className="w-4 h-4 text-white" />
                           <span>Tải Bản Windows x64 (.zip)</span>
                         </a>
-                        <button
-                          onClick={() => handleCopyHash(RELEASE_DATA.downloads.windows.archive.sha256, 'win-zip')}
-                          className="w-full py-1.5 text-[10px] font-mono text-slate-400 hover:text-slate-200 flex items-center justify-center gap-1.5"
-                        >
-                          <Icons.Copy className="w-3 h-3" />
-                          <span>{copiedHash === 'win-zip' ? t.download.copied : `${t.download.sha256_label}: 19efbb5...`}</span>
-                        </button>
+                        <div className="w-full py-1 text-[10px] font-mono text-emerald-400 flex items-center justify-center gap-1">
+                          ✓ Sẵn sàng tải xuống
+                        </div>
                       </div>
                     </div>
 
@@ -1398,13 +1392,9 @@ mcw-core-launch --root ./mcw-data --instance "NeoForge 1.21.1 Production" --user
                           <Icons.Download className="w-4 h-4 text-asuka-flame" />
                           <span>Tải Bản Linux x64 (.zip)</span>
                         </a>
-                        <button
-                          onClick={() => handleCopyHash(RELEASE_DATA.downloads.linux.archive.sha256, 'linux-zip')}
-                          className="w-full py-1.5 text-[10px] font-mono text-slate-400 hover:text-slate-200 flex items-center justify-center gap-1.5"
-                        >
-                          <Icons.Copy className="w-3 h-3" />
-                          <span>{copiedHash === 'linux-zip' ? t.download.copied : `${t.download.sha256_label}: d2fc817...`}</span>
-                        </button>
+                        <div className="w-full py-1 text-[10px] font-mono text-emerald-400 flex items-center justify-center gap-1">
+                          ✓ Sẵn sàng tải xuống
+                        </div>
                       </div>
                     </div>
 
