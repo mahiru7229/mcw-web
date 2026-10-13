@@ -17,7 +17,6 @@ export default function Navbar({ lang, setLang, t, release, channel }) {
   const navLinks = [
     { href: "#features", label: t.nav.features, icon: Sparkles },
     { href: "#compatibility", label: t.nav.compatibility, icon: Layers },
-    { href: "#preview", label: t.nav.preview, icon: Sparkles },
     { href: "#benchmarks", label: t.nav.benchmarks, icon: Terminal },
     { href: "#faq", label: t.nav.faq, icon: HelpCircle },
   ];

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import AtmosphereCanvas from './components/AtmosphereCanvas';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import LauncherPreview from './components/LauncherPreview';
 import Features from './components/Features';
 import Compatibility from './components/Compatibility';
 import Performance from './components/Performance';
@@ -35,7 +34,6 @@ export default function App() {
           channel={channel}
           setChannel={setChannel}
         />
-        <LauncherPreview t={t} />
         <Features t={t} />
         <Compatibility t={t} />
         <Performance t={t} />

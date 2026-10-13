@@ -64,11 +64,6 @@ export default function Footer({ t, release }) {
                 </a>
               </li>
               <li>
-                <a href="#preview" className="hover:text-white transition-colors">
-                  {t.nav.preview}
-                </a>
-              </li>
-              <li>
                 <a href="#download" className="hover:text-white transition-colors">
                   {t.nav.download}
                 </a>

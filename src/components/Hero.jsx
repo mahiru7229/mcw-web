@@ -70,7 +70,7 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
 
           {/* Explore Button */}
           <a
-            href="#preview"
+            href="#features"
             className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-sm tracking-wide bg-base-900/80 hover:bg-base-800 text-slate-200 border border-white/10 hover:border-sky-cyan/40 transition-all duration-300 flex items-center justify-center gap-2"
           >
             <span>{t.hero.btn_explore}</span>
