@@ -33,6 +33,7 @@ export default function App() {
           betaRelease={betaRelease}
           channel={channel}
           setChannel={setChannel}
+          loading={loading}
         />
         <Features t={t} />
         <Compatibility t={t} />
@@ -44,6 +45,7 @@ export default function App() {
           betaRelease={betaRelease}
           channel={channel}
           setChannel={setChannel}
+          loading={loading}
         />
         <Faq t={t} />
       </main>

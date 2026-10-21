@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Download, Copy, Check, ShieldCheck, ExternalLink, Zap, Terminal, Server, ChevronDown, ChevronUp } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function DownloadSection({ t, release, stableRelease, betaRelease, channel, setChannel }) {
+export default function DownloadSection({ t, release, stableRelease, betaRelease, channel, setChannel, loading }) {
   const [detectedOs, setDetectedOs] = useState('windows');
   const [copiedSha, setCopiedSha] = useState(null);
   const [showChangelog, setShowChangelog] = useState(false);
@@ -65,7 +65,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                   : 'bg-base-900/80 text-slate-400 hover:text-white border border-white/10'
               }`}
             >
-              ✦ Bản Ổn Định ({stableRelease?.version || 'v1.8.0'})
+              ✦ Bản Ổn Định {loading ? '' : `(${stableRelease?.version || 'v1.8.3'})`}
             </button>
             {betaRelease && (
               <button
@@ -76,7 +76,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                     : 'bg-base-900/80 text-slate-400 hover:text-white border border-white/10'
                 }`}
               >
-                🧪 Bản Beta ({betaRelease.version})
+                🧪 Bản Beta {loading ? '' : `(${betaRelease.version})`}
               </button>
             )}
           </div>
@@ -109,56 +109,71 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                   </div>
                 </div>
                 <span className="text-xs font-mono px-2 py-1 rounded bg-base-800 text-slate-300 border border-white/5">
-                  {winInfo.size}
+                  {loading ? '...' : winInfo.size}
                 </span>
               </div>
 
               <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
-                Phiên bản {currentVersion} {isBetaActive ? '(Beta Thử Nghiệm)' : '(Chính thức)'} cho Windows 10 & 11 (64-bit). Tệp ZIP giải nén chạy ngay, không cần cài đặt.
+                {loading
+                  ? "Đang kiểm tra và đồng bộ liên kết tải mới nhất từ Cloudflare Edge CDN..."
+                  : `Phiên bản ${currentVersion} ${isBetaActive ? '(Beta Thử Nghiệm)' : '(Chính thức)'} cho Windows 10 & 11 (64-bit). Tệp ZIP giải nén chạy ngay, không cần cài đặt.`}
               </p>
 
               {/* Download Buttons */}
-              <div className="space-y-2.5 mb-6">
-                <a
-                  href={winInfo.cdnUrl}
-                  className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-sky-cyan to-sky-purple text-base-950 hover:shadow-[0_0_25px_rgba(114,216,255,0.4)] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
-                >
-                  <Download className="w-4 h-4 stroke-[2.5]" />
-                  <span>{t.download.btn_cdn}</span>
-                </a>
-
-                <div className="grid grid-cols-2 gap-2">
+              {loading ? (
+                <div className="py-8 flex flex-col items-center justify-center gap-2 text-xs font-mono text-slate-400 bg-base-950/40 rounded-xl border border-white/5 mb-6">
+                  <div className="w-4 h-4 border-2 border-sky-cyan border-t-transparent rounded-full animate-spin" />
+                  <span>Đang tải thông tin tệp...</span>
+                </div>
+              ) : (
+                <div className="space-y-2.5 mb-6">
                   <a
-                    href={winInfo.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5"
+                    href={winInfo.cdnUrl}
+                    className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-sky-cyan to-sky-purple text-base-950 hover:shadow-[0_0_25px_rgba(114,216,255,0.4)] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
                   >
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                    <span>GitHub ↗</span>
+                    <Download className="w-4 h-4 stroke-[2.5]" />
+                    <span>{t.download.btn_cdn}</span>
                   </a>
 
-                  {/* Quick Beta / Stable Toggle Button */}
-                  {betaRelease && (
-                    <button
-                      onClick={() => setChannel && setChannel(isBetaActive ? 'stable' : 'beta')}
-                      className={`py-2.5 px-3 rounded-xl font-mono text-xs font-semibold transition-all flex items-center justify-center gap-1 ${
-                        isBetaActive
-                          ? 'bg-sky-emerald/10 hover:bg-sky-emerald/20 text-sky-emerald border border-sky-emerald/25'
-                          : 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/25'
-                      }`}
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={winInfo.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5"
                     >
-                      <span>{isBetaActive ? '✦ Bản Ổn Định' : '🧪 Tải Beta'}</span>
-                    </button>
-                  )}
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                      <span>GitHub ↗</span>
+                    </a>
+
+                    {/* Quick Beta / Stable Toggle Button */}
+                    {betaRelease && (
+                      <button
+                        onClick={() => setChannel && setChannel(isBetaActive ? 'stable' : 'beta')}
+                        className={`py-2.5 px-3 rounded-xl font-mono text-xs font-semibold transition-all flex items-center justify-center gap-1 ${
+                          isBetaActive
+                            ? 'bg-sky-emerald/10 hover:bg-sky-emerald/20 text-sky-emerald border border-sky-emerald/25'
+                            : 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/25'
+                        }`}
+                      >
+                        <span>{isBetaActive ? '✦ Bản Ổn Định' : '🧪 Tải Beta'}</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Asset Status Box */}
             <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span className="truncate max-w-[200px]" title={winInfo.filename}>{winInfo.filename}</span>
-              <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
+              {loading ? (
+                <span className="text-slate-500">Đang đồng bộ CDN...</span>
+              ) : (
+                <>
+                  <span className="truncate max-w-[200px]" title={winInfo.filename}>{winInfo.filename}</span>
+                  <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
+                </>
+              )}
             </div>
           </div>
 
@@ -187,56 +202,71 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                   </div>
                 </div>
                 <span className="text-xs font-mono px-2 py-1 rounded bg-base-800 text-slate-300 border border-white/5">
-                  {linuxInfo.size}
+                  {loading ? '...' : linuxInfo.size}
                 </span>
               </div>
 
               <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
-                Phiên bản {currentVersion} {isBetaActive ? '(Beta Thử Nghiệm)' : '(Chính thức)'} cho Linux (glibc 2.35+). Đóng gói độc lập, không yêu cầu phụ thuộc phức tạp.
+                {loading
+                  ? "Đang kiểm tra và đồng bộ liên kết tải mới nhất từ Cloudflare Edge CDN..."
+                  : `Phiên bản ${currentVersion} ${isBetaActive ? '(Beta Thử Nghiệm)' : '(Chính thức)'} cho Linux (glibc 2.35+). Đóng gói độc lập, không yêu cầu phụ thuộc phức tạp.`}
               </p>
 
               {/* Download Buttons */}
-              <div className="space-y-2.5 mb-6">
-                <a
-                  href={linuxInfo.cdnUrl}
-                  className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-sky-purple to-sky-pink text-base-950 hover:shadow-[0_0_25px_rgba(240,167,216,0.4)] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
-                >
-                  <Download className="w-4 h-4 stroke-[2.5]" />
-                  <span>{t.download.btn_cdn}</span>
-                </a>
-
-                <div className="grid grid-cols-2 gap-2">
+              {loading ? (
+                <div className="py-8 flex flex-col items-center justify-center gap-2 text-xs font-mono text-slate-400 bg-base-950/40 rounded-xl border border-white/5 mb-6">
+                  <div className="w-4 h-4 border-2 border-sky-purple border-t-transparent rounded-full animate-spin" />
+                  <span>Đang tải thông tin tệp...</span>
+                </div>
+              ) : (
+                <div className="space-y-2.5 mb-6">
                   <a
-                    href={linuxInfo.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5"
+                    href={linuxInfo.cdnUrl}
+                    className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wide bg-gradient-to-r from-sky-purple to-sky-pink text-base-950 hover:shadow-[0_0_25px_rgba(240,167,216,0.4)] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
                   >
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                    <span>GitHub ↗</span>
+                    <Download className="w-4 h-4 stroke-[2.5]" />
+                    <span>{t.download.btn_cdn}</span>
                   </a>
 
-                  {/* Quick Beta / Stable Toggle Button */}
-                  {betaRelease && (
-                    <button
-                      onClick={() => setChannel && setChannel(isBetaActive ? 'stable' : 'beta')}
-                      className={`py-2.5 px-3 rounded-xl font-mono text-xs font-semibold transition-all flex items-center justify-center gap-1 ${
-                        isBetaActive
-                          ? 'bg-sky-emerald/10 hover:bg-sky-emerald/20 text-sky-emerald border border-sky-emerald/25'
-                          : 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/25'
-                      }`}
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={linuxInfo.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5"
                     >
-                      <span>{isBetaActive ? '✦ Bản Ổn Định' : '🧪 Tải Beta'}</span>
-                    </button>
-                  )}
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                      <span>GitHub ↗</span>
+                    </a>
+
+                    {/* Quick Beta / Stable Toggle Button */}
+                    {betaRelease && (
+                      <button
+                        onClick={() => setChannel && setChannel(isBetaActive ? 'stable' : 'beta')}
+                        className={`py-2.5 px-3 rounded-xl font-mono text-xs font-semibold transition-all flex items-center justify-center gap-1 ${
+                          isBetaActive
+                            ? 'bg-sky-emerald/10 hover:bg-sky-emerald/20 text-sky-emerald border border-sky-emerald/25'
+                            : 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/25'
+                        }`}
+                      >
+                        <span>{isBetaActive ? '✦ Bản Ổn Định' : '🧪 Tải Beta'}</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Asset Status Box */}
             <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span className="truncate max-w-[200px]" title={linuxInfo.filename}>{linuxInfo.filename}</span>
-              <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
+              {loading ? (
+                <span className="text-slate-500">Đang đồng bộ CDN...</span>
+              ) : (
+                <>
+                  <span className="truncate max-w-[200px]" title={linuxInfo.filename}>{linuxInfo.filename}</span>
+                  <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
+                </>
+              )}
             </div>
           </div>
 
@@ -253,7 +283,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                   </div>
                 </div>
                 <span className="text-xs font-mono px-2 py-1 rounded bg-base-800 text-slate-300 border border-white/5">
-                  {coreInfo.size}
+                  {loading ? '...' : coreInfo.size}
                 </span>
               </div>
 
@@ -276,15 +306,22 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                 </div>
               </div>
 
-              <div className="space-y-2.5 mb-6">
-                <a
-                  href={coreInfo.cdnUrl}
-                  className="w-full py-3 px-4 rounded-xl font-bold text-xs tracking-wide bg-base-800 hover:bg-base-750 text-white border border-white/10 transition-all flex items-center justify-center gap-2"
-                >
-                  <Download className="w-4 h-4 text-sky-emerald" />
-                  <span>Tải Wheel Package (.whl)</span>
-                </a>
-              </div>
+              {loading ? (
+                <div className="py-4 flex flex-col items-center justify-center gap-2 text-xs font-mono text-slate-400 bg-base-950/40 rounded-xl border border-white/5 mb-6">
+                  <div className="w-4 h-4 border-2 border-sky-emerald border-t-transparent rounded-full animate-spin" />
+                  <span>Đang tải...</span>
+                </div>
+              ) : (
+                <div className="space-y-2.5 mb-6">
+                  <a
+                    href={coreInfo.cdnUrl}
+                    className="w-full py-3 px-4 rounded-xl font-bold text-xs tracking-wide bg-base-800 hover:bg-base-750 text-white border border-white/10 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Download className="w-4 h-4 text-sky-emerald" />
+                    <span>Tải Wheel Package (.whl)</span>
+                  </a>
+                </div>
+              )}
             </div>
 
             <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">

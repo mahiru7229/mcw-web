@@ -2,9 +2,9 @@ import React from 'react';
 import { Download, Sparkles, ArrowRight, ShieldCheck, Box, Cpu, Zap } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function Hero({ t, release, stableRelease, betaRelease, channel, setChannel }) {
-  const stableVer = stableRelease?.version || 'v1.8.0';
-  const betaVer = betaRelease?.version || 'v1.8.1-beta.1';
+export default function Hero({ t, release, stableRelease, betaRelease, channel, setChannel, loading }) {
+  const stableVer = stableRelease?.version || 'v1.8.3';
+  const betaVer = betaRelease?.version || 'v1.8.3-beta.3';
   const isBetaActive = channel === 'beta';
 
   return (
@@ -18,11 +18,13 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
         {/* Release Pill Badge */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-base-900/90 border border-white/10 shadow-[0_0_20px_rgba(114,216,255,0.15)] mb-8 backdrop-blur-md">
           <span className="flex h-2 w-2 relative">
-            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isBetaActive ? 'bg-amber-400' : 'bg-sky-emerald'} opacity-75`}></span>
-            <span className={`relative inline-flex rounded-full h-2 w-2 ${isBetaActive ? 'bg-amber-400' : 'bg-sky-emerald'}`}></span>
+            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${loading ? 'bg-sky-cyan' : isBetaActive ? 'bg-amber-400' : 'bg-sky-emerald'} opacity-75`}></span>
+            <span className={`relative inline-flex rounded-full h-2 w-2 ${loading ? 'bg-sky-cyan' : isBetaActive ? 'bg-amber-400' : 'bg-sky-emerald'}`}></span>
           </span>
           <span className="text-xs font-mono font-medium text-slate-200">
-            {isBetaActive ? `${betaVer} (Beta Thử Nghiệm)` : `${stableVer} (Bản Ổn Định Khuyên Dùng)`}
+            {loading
+              ? 'Đang kiểm tra phiên bản mới...'
+              : (isBetaActive ? `${betaVer} (Beta Thử Nghiệm)` : `${stableVer} (Bản Ổn Định Khuyên Dùng)`)}
           </span>
           <span className="text-[11px] font-mono text-sky-cyan font-semibold">
             • Asia Edge CDN
@@ -47,25 +49,34 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-12">
-          {/* Main Button: Tải Bản Ổn Định */}
-          <a
-            href="#download"
-            onClick={() => setChannel && setChannel('stable')}
-            className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-sky-cyan via-sky-purple to-sky-pink text-base-950 hover:shadow-[0_0_35px_rgba(114,216,255,0.5)] transition-all duration-300 flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
-          >
-            <Download className="w-4 h-4 text-base-950 stroke-[2.5]" />
-            <span>{t.hero.btn_download} ({stableVer})</span>
-          </a>
+          {loading ? (
+            <div className="px-6 py-3.5 rounded-xl font-mono text-xs text-slate-400 bg-base-900/60 border border-white/5 flex items-center justify-center gap-2">
+              <div className="w-3.5 h-3.5 border-2 border-sky-cyan border-t-transparent rounded-full animate-spin" />
+              <span>Đang kiểm tra phiên bản mới...</span>
+            </div>
+          ) : (
+            <>
+              {/* Main Button: Tải Bản Ổn Định */}
+              <a
+                href="#download"
+                onClick={() => setChannel && setChannel('stable')}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-sky-cyan via-sky-purple to-sky-pink text-base-950 hover:shadow-[0_0_35px_rgba(114,216,255,0.5)] transition-all duration-300 flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
+              >
+                <Download className="w-4 h-4 text-base-950 stroke-[2.5]" />
+                <span>{t.hero.btn_download} ({stableVer})</span>
+              </a>
 
-          {/* Option Button: Tải Bản Beta nếu người dùng cần */}
-          {betaRelease && (
-            <a
-              href="#download"
-              onClick={() => setChannel && setChannel('beta')}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 hover:border-amber-400/50 hover:shadow-[0_0_25px_rgba(251,191,36,0.25)] transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
-            >
-              <span>🧪 Tải Bản Beta ({betaVer})</span>
-            </a>
+              {/* Option Button: Tải Bản Beta nếu người dùng cần */}
+              {betaRelease && (
+                <a
+                  href="#download"
+                  onClick={() => setChannel && setChannel('beta')}
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 hover:border-amber-400/50 hover:shadow-[0_0_25px_rgba(251,191,36,0.25)] transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+                >
+                  <span>🧪 Tải Bản Beta ({betaVer})</span>
+                </a>
+              )}
+            </>
           )}
 
           {/* Explore Button */}

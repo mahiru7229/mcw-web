@@ -1,10 +1,10 @@
 export const STABLE_RELEASE = {
-  version: "v1.8.0",
-  versionId: "1.8.0",
+  version: "v1.8.3",
+  versionId: "1.8.3",
   releaseDate: "2026-09-30",
   channel: "stable",
   hotfix: {
-    version: "v1.8.0",
+    version: "v1.8.3",
     size: "Tích hợp sẵn",
     cdnUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
     manifestUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
@@ -13,26 +13,26 @@ export const STABLE_RELEASE = {
   downloads: {
     windows: {
       archive: {
-        filename: "MCW-Launcher-v1.8.0-windows-x64.zip",
+        filename: "MCW-Launcher-v1.8.3-windows-x64.zip",
         size: "71 MB",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-windows-x64.zip",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.3",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.3/MCW-Launcher-v1.8.3-windows-x64.zip",
       }
     },
     linux: {
       archive: {
-        filename: "MCW-Launcher-v1.8.0-linux-x64.zip",
+        filename: "MCW-Launcher-v1.8.3-linux-x64.zip",
         size: "111 MB",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/MCW-Launcher-v1.8.0-linux-x64.zip",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.3",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.3/MCW-Launcher-v1.8.3-linux-x64.zip",
       }
     },
     core: {
       wheel: {
-        filename: "mcw_core-1.8.0-py3-none-any.whl",
+        filename: "mcw_core-1.8.3-py3-none-any.whl",
         size: "733 KB",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.0",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.0/mcw_core-1.8.0-py3-none-any.whl",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.3",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.3/mcw_core-1.8.3-py3-none-any.whl",
       }
     }
   },
@@ -109,10 +109,10 @@ export const BETA_RELEASE = {
     },
     {
       type: "core",
-      title_vi: "Hợp nhất toàn bộ các bản vá nóng v1.8.0.x",
-      title_en: "Consolidated all v1.8.0.x Hotfixes",
-      desc_vi: "Bao gồm tất cả cải tiến và tối ưu hóa từ nhánh hotfix/1.8.0.2 vào nhánh chính với ranh giới mcw_core.api rõ ràng.",
-      desc_en: "Integrated all improvements from hotfix/1.8.0.2 into main with clean mcw_core.api boundaries.",
+      title_vi: "Hợp nhất toàn bộ các bản vá nóng v1.8.3.x",
+      title_en: "Consolidated all v1.8.3.x Hotfixes",
+      desc_vi: "Bao gồm tất cả cải tiến và tối ưu hóa từ nhánh hotfix/1.8.3.2 vào nhánh chính với ranh giới mcw_core.api rõ ràng.",
+      desc_en: "Integrated all improvements from hotfix/1.8.3.2 into main with clean mcw_core.api boundaries.",
     }
   ]
 };

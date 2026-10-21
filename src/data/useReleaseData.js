@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { STABLE_RELEASE, BETA_RELEASE } from './releaseData';
 
+const CDN_RELEASES_URL = 'https://mcw-download.pages.dev/releases/manifest.json';
+const GITHUB_RELEASES_URL = 'https://api.github.com/repos/mahiru7229/mcw-launcher/releases';
+
 const formatSize = (bytes) => {
   if (!bytes || bytes <= 0) return null;
   const mb = bytes / (1024 * 1024);
@@ -19,36 +22,40 @@ function parseRelease(latest, baseline) {
   const linuxAsset = assets.find(a => a.name.toLowerCase().includes('linux-x64.zip'));
   const coreAsset = assets.find(a => a.name.toLowerCase().endsWith('.whl'));
 
+  const winFilename = winAsset ? winAsset.name : `MCW-Launcher-${tag}-windows-x64.zip`;
+  const linuxFilename = linuxAsset ? linuxAsset.name : `MCW-Launcher-${tag}-linux-x64.zip`;
+  const coreFilename = coreAsset ? coreAsset.name : `mcw_core-${versionId}-py3-none-any.whl`;
+
   return {
     ...baseline,
     version: tag,
     versionId: versionId,
     releaseDate: releaseDate,
     channel: channel,
-    releaseNotes: latest.body || baseline.releaseNotes || '',
+    releaseNotes: latest.body || latest.notes || baseline.releaseNotes || '',
     downloads: {
       windows: {
         archive: {
-          filename: winAsset ? winAsset.name : `MCW-Launcher-${tag}-windows-x64.zip`,
+          filename: winFilename,
           size: winAsset ? formatSize(winAsset.size) : baseline.downloads.windows.archive.size,
-          githubUrl: winAsset ? winAsset.browser_download_url : (latest.html_url || `https://github.com/mahiru7229/mcw-launcher/releases/tag/${tag}`),
-          cdnUrl: winAsset ? `https://mcw-download.pages.dev/releases/${tag}/${winAsset.name}` : `https://mcw-download.pages.dev/releases/${tag}/MCW-Launcher-${tag}-windows-x64.zip`,
+          cdnUrl: `https://mcw-download.pages.dev/releases/${tag}/${winFilename}`,
+          githubUrl: winAsset?.browser_download_url || `https://github.com/mahiru7229/mcw-launcher/releases/download/${tag}/${winFilename}`,
         }
       },
       linux: {
         archive: {
-          filename: linuxAsset ? linuxAsset.name : `MCW-Launcher-${tag}-linux-x64.zip`,
+          filename: linuxFilename,
           size: linuxAsset ? formatSize(linuxAsset.size) : baseline.downloads.linux.archive.size,
-          githubUrl: linuxAsset ? linuxAsset.browser_download_url : (latest.html_url || `https://github.com/mahiru7229/mcw-launcher/releases/tag/${tag}`),
-          cdnUrl: linuxAsset ? `https://mcw-download.pages.dev/releases/${tag}/${linuxAsset.name}` : `https://mcw-download.pages.dev/releases/${tag}/MCW-Launcher-${tag}-linux-x64.zip`,
+          cdnUrl: `https://mcw-download.pages.dev/releases/${tag}/${linuxFilename}`,
+          githubUrl: linuxAsset?.browser_download_url || `https://github.com/mahiru7229/mcw-launcher/releases/download/${tag}/${linuxFilename}`,
         }
       },
       core: {
         wheel: {
-          filename: coreAsset ? coreAsset.name : `mcw_core-${versionId}-py3-none-any.whl`,
+          filename: coreFilename,
           size: coreAsset ? formatSize(coreAsset.size) : baseline.downloads.core.wheel.size,
-          githubUrl: coreAsset ? coreAsset.browser_download_url : (latest.html_url || `https://github.com/mahiru7229/mcw-launcher/releases/tag/${tag}`),
-          cdnUrl: coreAsset ? `https://mcw-download.pages.dev/releases/${tag}/${coreAsset.name}` : `https://mcw-download.pages.dev/releases/${tag}/mcw_core-${versionId}-py3-none-any.whl`,
+          cdnUrl: `https://mcw-download.pages.dev/releases/${tag}/${coreFilename}`,
+          githubUrl: coreAsset?.browser_download_url || (latest.html_url || `https://github.com/mahiru7229/mcw-launcher/releases/tag/${tag}`),
         }
       }
     }
@@ -62,30 +69,76 @@ export function useReleaseData() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function fetchReleases() {
+      let releases = null;
+
+      // 1. Prioritize Cloudflare Edge CDN
       try {
-        const res = await fetch('https://api.github.com/repos/mahiru7229/mcw-launcher/releases');
-        if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
-        const releases = await res.json();
-        if (!Array.isArray(releases) || releases.length === 0) return;
+        const cdnController = new AbortController();
+        const cdnTimeout = setTimeout(() => cdnController.abort(), 4000);
+        const cdnRes = await fetch(CDN_RELEASES_URL, {
+          headers: { 'Accept': 'application/json' },
+          signal: cdnController.signal,
+        });
+        clearTimeout(cdnTimeout);
 
-        const ghStable = releases.find(r => !r.prerelease);
-        const ghBeta = releases.find(r => r.prerelease);
-
-        if (ghStable) {
-          setStableRelease(parseRelease(ghStable, STABLE_RELEASE));
+        if (cdnRes.ok) {
+          const payload = await cdnRes.json();
+          const items = Array.isArray(payload) ? payload : (payload.releases || payload.active_releases || []);
+          if (Array.isArray(items) && items.length > 0) {
+            releases = items;
+          }
         }
-        if (ghBeta) {
-          setBetaRelease(parseRelease(ghBeta, BETA_RELEASE));
-        }
-      } catch (err) {
-        console.warn('Fallback to baseline release data:', err);
-      } finally {
-        setLoading(false);
+      } catch (cdnErr) {
+        console.warn('Cloudflare CDN release lookup failed, falling back to GitHub:', cdnErr);
       }
+
+      // 2. Fallback to GitHub API
+      if (!releases) {
+        try {
+          const ghController = new AbortController();
+          const ghTimeout = setTimeout(() => ghController.abort(), 5000);
+          const ghRes = await fetch(GITHUB_RELEASES_URL, {
+            headers: { 'Accept': 'application/vnd.github.v3+json' },
+            signal: ghController.signal,
+          });
+          clearTimeout(ghTimeout);
+
+          if (ghRes.ok) {
+            const ghPayload = await ghRes.json();
+            if (Array.isArray(ghPayload) && ghPayload.length > 0) {
+              releases = ghPayload;
+            }
+          }
+        } catch (ghErr) {
+          console.warn('GitHub API release lookup failed:', ghErr);
+        }
+      }
+
+      if (cancelled) return;
+
+      if (Array.isArray(releases) && releases.length > 0) {
+        const foundStable = releases.find(r => !r.prerelease);
+        const foundBeta = releases.find(r => r.prerelease);
+
+        if (foundStable) {
+          setStableRelease(parseRelease(foundStable, STABLE_RELEASE));
+        }
+        if (foundBeta) {
+          setBetaRelease(parseRelease(foundBeta, BETA_RELEASE));
+        }
+      }
+
+      setLoading(false);
     }
 
     fetchReleases();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const release = (channel === 'beta' && betaRelease) ? betaRelease : (stableRelease || betaRelease);
