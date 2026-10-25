@@ -55,12 +55,12 @@ export const STABLE_RELEASE = {
 };
 
 export const BETA_RELEASE = {
-  version: "v1.8.1-beta.1",
-  versionId: "1.8.1-beta.1",
-  releaseDate: "2026-10-13",
+  version: "v1.8.4-beta.1",
+  versionId: "1.8.4-beta.1",
+  releaseDate: "2026-10-25",
   channel: "beta",
   hotfix: {
-    version: "v1.8.1-beta.1",
+    version: "v1.8.4-beta.1",
     size: "Tích hợp sẵn",
     cdnUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
     manifestUrl: "https://mcw-download.pages.dev/hotfixes/manifest.json",
@@ -69,26 +69,26 @@ export const BETA_RELEASE = {
   downloads: {
     windows: {
       archive: {
-        filename: "MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
-        size: "71 MB",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-windows-x64.zip",
+        filename: "MCW-Launcher-v1.8.4-beta.1-windows-x64.zip",
+        size: "79.4 MB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.8.4-beta.1/MCW-Launcher-v1.8.4-beta.1-windows-x64.zip",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.4-beta.1/MCW-Launcher-v1.8.4-beta.1-windows-x64.zip",
       }
     },
     linux: {
       archive: {
-        filename: "MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
-        size: "111 MB",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/MCW-Launcher-v1.8.1-beta.1-linux-x64.zip",
+        filename: "MCW-Launcher-v1.8.4-beta.1-linux-x64.zip",
+        size: "121.2 MB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/download/v1.8.4-beta.1/MCW-Launcher-v1.8.4-beta.1-linux-x64.zip",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.4-beta.1/MCW-Launcher-v1.8.4-beta.1-linux-x64.zip",
       }
     },
     core: {
       wheel: {
-        filename: "mcw_core-1.8.1b1-py3-none-any.whl",
-        size: "740 KB",
-        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.1-beta.1",
-        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.1-beta.1/mcw_core-1.8.1b1-py3-none-any.whl",
+        filename: "mcw_core-1.8.4b1-py3-none-any.whl",
+        size: "750 KB",
+        githubUrl: "https://github.com/mahiru7229/mcw-launcher/releases/tag/v1.8.4-beta.1",
+        cdnUrl: "https://mcw-download.pages.dev/releases/v1.8.4-beta.1/mcw_core-1.8.4b1-py3-none-any.whl",
       }
     }
   },

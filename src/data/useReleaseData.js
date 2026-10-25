@@ -62,6 +62,29 @@ function parseRelease(latest, baseline) {
   };
 }
 
+function isNewer(tagA, tagB) {
+  if (!tagA) return false;
+  if (!tagB) return true;
+  const cleanA = String(tagA).replace(/^v/, '');
+  const cleanB = String(tagB).replace(/^v/, '');
+  const parse = (v) => {
+    const [main, pre] = v.split('-');
+    const parts = (main || '').split('.').map(n => parseInt(n, 10) || 0);
+    return { parts, pre: pre || '' };
+  };
+  const pa = parse(cleanA);
+  const pb = parse(cleanB);
+  for (let i = 0; i < Math.max(pa.parts.length, pb.parts.length); i++) {
+    const na = pa.parts[i] || 0;
+    const nb = pb.parts[i] || 0;
+    if (na > nb) return true;
+    if (na < nb) return false;
+  }
+  if (!pa.pre && pb.pre) return true;
+  if (pa.pre && !pb.pre) return false;
+  return pa.pre.localeCompare(pb.pre, undefined, { numeric: true }) > 0;
+}
+
 export function useReleaseData() {
   const [channel, setChannel] = useState('stable');
   const [stableRelease, setStableRelease] = useState(STABLE_RELEASE);
@@ -95,8 +118,12 @@ export function useReleaseData() {
         console.warn('Cloudflare CDN release lookup failed, falling back to GitHub:', cdnErr);
       }
 
-      // 2. Fallback to GitHub API
-      if (!releases) {
+      // Check if CDN manifest has the newest known beta (BETA_RELEASE.version)
+      const cdnBeta = releases ? releases.find(r => r.prerelease) : null;
+      const needsGitHubFallback = !releases || !cdnBeta || isNewer(BETA_RELEASE.version, cdnBeta.tag_name);
+
+      // 2. Fallback to GitHub API if CDN lacks latest releases
+      if (needsGitHubFallback) {
         try {
           const ghController = new AbortController();
           const ghTimeout = setTimeout(() => ghController.abort(), 5000);
@@ -109,7 +136,14 @@ export function useReleaseData() {
           if (ghRes.ok) {
             const ghPayload = await ghRes.json();
             if (Array.isArray(ghPayload) && ghPayload.length > 0) {
-              releases = ghPayload;
+              if (!releases) {
+                releases = ghPayload;
+              } else {
+                const ghBeta = ghPayload.find(r => r.prerelease);
+                if (ghBeta && (!cdnBeta || isNewer(ghBeta.tag_name, cdnBeta.tag_name))) {
+                  releases = [ghBeta, ...releases.filter(r => !r.prerelease)];
+                }
+              }
             }
           }
         } catch (ghErr) {
@@ -124,10 +158,10 @@ export function useReleaseData() {
         const foundBeta = releases.find(r => r.prerelease);
 
         if (foundStable) {
-          setStableRelease(parseRelease(foundStable, STABLE_RELEASE));
+          setStableRelease(prev => (!prev || isNewer(foundStable.tag_name, prev.version) ? parseRelease(foundStable, STABLE_RELEASE) : prev));
         }
         if (foundBeta) {
-          setBetaRelease(parseRelease(foundBeta, BETA_RELEASE));
+          setBetaRelease(prev => (!prev || !isNewer(prev.version, foundBeta.tag_name) ? parseRelease(foundBeta, BETA_RELEASE) : prev));
         }
       }
 
