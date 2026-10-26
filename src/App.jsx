@@ -27,6 +27,7 @@ export default function App() {
       {/* Main Content Stream */}
       <main className="flex-grow relative z-10">
         <Hero
+          lang={lang}
           t={t}
           release={release}
           stableRelease={stableRelease}
@@ -39,6 +40,7 @@ export default function App() {
         <Compatibility t={t} />
         <Performance t={t} />
         <DownloadSection
+          lang={lang}
           t={t}
           release={release}
           stableRelease={stableRelease}
@@ -51,7 +53,7 @@ export default function App() {
       </main>
 
       {/* Legal Footer & Credits */}
-      <Footer t={t} release={release} />
+      <Footer lang={lang} t={t} release={release} />
     </div>
   );
 }

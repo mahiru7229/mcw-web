@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Globe, Heart, Shield, Terminal, BookOpen, ExternalLink } from 'lucide-react';
+import { Github, Globe, ExternalLink } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
 export default function Footer({ t, release }) {
@@ -23,7 +23,7 @@ export default function Footer({ t, release }) {
               </span>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
-              Trình khởi chạy Minecraft mã nguồn mở thế hệ mới với kiến trúc cô lập từng bản chơi, tự động cấp phát Java và tối ưu hóa tài nguyên cho trải nghiệm chơi game mượt mà nhất.
+              {t.footer.brand_desc}
             </p>
             <div className="flex items-center gap-3 pt-2">
               <a
@@ -89,7 +89,7 @@ export default function Footer({ t, release }) {
                   rel="noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  <span>Tài liệu hướng dẫn</span>
+                  <span>{t.footer.doc_guide}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
@@ -100,7 +100,7 @@ export default function Footer({ t, release }) {
                   rel="noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  <span>Tất cả phiên bản phát hành</span>
+                  <span>{t.footer.all_releases}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
@@ -111,7 +111,7 @@ export default function Footer({ t, release }) {
                   rel="noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  <span>Báo cáo lỗi (GitHub Issues)</span>
+                  <span>{t.footer.report_bug}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>

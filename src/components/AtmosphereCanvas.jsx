@@ -7,18 +7,21 @@ export default function AtmosphereCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Check prefers-reduced-motion
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const prefersReducedMotion = mediaQuery.matches;
 
     const ctx = canvas.getContext('2d');
-    let animationFrameId;
+    let animationFrameId = null;
+    let isRunning = false;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      if (prefersReducedMotion) {
+        drawFrame();
+      }
     };
     window.addEventListener('resize', handleResize);
 
@@ -54,7 +57,7 @@ export default function AtmosphereCanvas() {
     let shootingStar = null;
     let shootingStarTimer = 0;
 
-    const render = () => {
+    const drawFrame = () => {
       ctx.clearRect(0, 0, width, height);
 
       // 1. Soft atmospheric twilight aurora in background
@@ -73,9 +76,10 @@ export default function AtmosphereCanvas() {
       ctx.fillRect(0, 0, width, height);
 
       // 2. Stars
+      const now = Date.now();
       for (const s of stars) {
         if (!prefersReducedMotion) {
-          s.alpha += Math.sin(Date.now() * s.speed) * 0.005;
+          s.alpha += Math.sin(now * s.speed) * 0.005;
           s.alpha = Math.max(0.1, Math.min(0.9, s.alpha));
         }
         ctx.fillStyle = s.color;
@@ -130,7 +134,6 @@ export default function AtmosphereCanvas() {
           }
         }
 
-        // Perspective projection
         const fov = 400;
         const scale = fov / (fov + cube.z);
         const cx = width / 2 + cube.x * scale;
@@ -140,7 +143,6 @@ export default function AtmosphereCanvas() {
         ctx.save();
         ctx.translate(cx, cy);
 
-        // Simple stylized isometric voxel square/cube
         ctx.fillStyle = cube.color;
         ctx.strokeStyle = cube.borderColor;
         ctx.lineWidth = 1;
@@ -152,15 +154,48 @@ export default function AtmosphereCanvas() {
 
         ctx.restore();
       }
-
-      animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    const tick = () => {
+      if (!isRunning) return;
+      drawFrame();
+      animationFrameId = requestAnimationFrame(tick);
+    };
+
+    const startLoop = () => {
+      if (prefersReducedMotion) {
+        drawFrame();
+        return;
+      }
+      if (!isRunning && !document.hidden) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(tick);
+      }
+    };
+
+    const stopLoop = () => {
+      isRunning = false;
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    startLoop();
 
     return () => {
+      stopLoop();
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Download, Sparkles, ArrowRight, ShieldCheck, Box, Cpu, Zap } from 'lucide-react';
+import { Download, ArrowRight, ShieldCheck, Box, Cpu, Zap } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function Hero({ t, release, stableRelease, betaRelease, channel, setChannel, loading }) {
-  const stableVer = stableRelease?.version || 'v1.8.3';
-  const betaVer = betaRelease?.version || 'v1.8.3-beta.3';
-  const isBetaActive = channel === 'beta';
+export default function Hero({ t, stableRelease, betaRelease, channel, setChannel, loading }) {
+  const stableVer = stableRelease?.version || RELEASE_INFO.version;
+  const betaVer = betaRelease?.version || null;
+  const isBetaActive = channel === 'beta' && Boolean(betaRelease);
 
   return (
     <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
@@ -23,8 +23,10 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
           </span>
           <span className="text-xs font-mono font-medium text-slate-200">
             {loading
-              ? 'Đang kiểm tra phiên bản mới...'
-              : (isBetaActive ? `${betaVer} (Beta Thử Nghiệm)` : `${stableVer} (Bản Ổn Định Khuyên Dùng)`)}
+              ? t.hero.checking_badge
+              : isBetaActive
+                ? `${betaVer} (${t.hero.beta_badge_suffix})`
+                : `${stableVer} (${t.hero.stable_badge_suffix})`}
           </span>
           <span className="text-[11px] font-mono text-sky-cyan font-semibold">
             • Asia Edge CDN
@@ -52,11 +54,11 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
           {loading ? (
             <div className="px-6 py-3.5 rounded-xl font-mono text-xs text-slate-400 bg-base-900/60 border border-white/5 flex items-center justify-center gap-2">
               <div className="w-3.5 h-3.5 border-2 border-sky-cyan border-t-transparent rounded-full animate-spin" />
-              <span>Đang kiểm tra phiên bản mới...</span>
+              <span>{t.hero.checking_badge}</span>
             </div>
           ) : (
             <>
-              {/* Main Button: Tải Bản Ổn Định */}
+              {/* Main Button: Download Latest Stable */}
               <a
                 href="#download"
                 onClick={() => setChannel && setChannel('stable')}
@@ -66,14 +68,14 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
                 <span>{t.hero.btn_download} ({stableVer})</span>
               </a>
 
-              {/* Option Button: Tải Bản Beta nếu người dùng cần */}
-              {betaRelease && (
+              {/* Option Button: Download Newer Beta only when available */}
+              {betaRelease && betaVer && (
                 <a
                   href="#download"
                   onClick={() => setChannel && setChannel('beta')}
                   className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-sm tracking-wide bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 hover:border-amber-400/50 hover:shadow-[0_0_25px_rgba(251,191,36,0.25)] transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
                 >
-                  <span>🧪 Tải Bản Beta ({betaVer})</span>
+                  <span>{t.hero.btn_beta} ({betaVer})</span>
                 </a>
               )}
             </>
@@ -103,7 +105,7 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
             </div>
             <div>
               <div className="text-xs font-bold text-white font-mono">Native & GPU Caching</div>
-              <div className="text-xs text-slate-400">Tối ưu khởi động & bộ nhớ</div>
+              <div className="text-xs text-slate-400">{t.hero.pillar_gpu_sub}</div>
             </div>
           </div>
 
@@ -113,7 +115,7 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
             </div>
             <div>
               <div className="text-xs font-bold text-white font-mono">100% Instance Isolation</div>
-              <div className="text-xs text-slate-400">Tách biệt mọi mod, thế giới</div>
+              <div className="text-xs text-slate-400">{t.hero.pillar_iso_sub}</div>
             </div>
           </div>
 
@@ -123,7 +125,7 @@ export default function Hero({ t, release, stableRelease, betaRelease, channel, 
             </div>
             <div>
               <div className="text-xs font-bold text-white font-mono">Auto Java 8/17/21</div>
-              <div className="text-xs text-slate-400">Cấp phát OpenJDK tự động</div>
+              <div className="text-xs text-slate-400">{t.hero.pillar_java_sub}</div>
             </div>
           </div>
         </div>

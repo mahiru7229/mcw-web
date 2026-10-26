@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Copy, Check, ShieldCheck, ExternalLink, Zap, Terminal, Server, ChevronDown, ChevronUp } from 'lucide-react';
+import { Download, Copy, Check, ExternalLink, Zap, Server, ChevronDown, ChevronUp } from 'lucide-react';
 import { RELEASE_INFO } from '../data/releaseData';
 
-export default function DownloadSection({ t, release, stableRelease, betaRelease, channel, setChannel, loading }) {
+export default function DownloadSection({ lang, t, release, stableRelease, betaRelease, channel, setChannel, loading }) {
   const [detectedOs, setDetectedOs] = useState('windows');
   const [copiedSha, setCopiedSha] = useState(null);
   const [showChangelog, setShowChangelog] = useState(false);
@@ -23,7 +23,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
   };
 
   const currentVersion = release?.version || RELEASE_INFO.version;
-  const isBetaActive = channel === 'beta';
+  const isBetaActive = channel === 'beta' && Boolean(betaRelease);
   const winInfo = release?.downloads?.windows?.archive || RELEASE_INFO.downloads.windows.archive;
   const linuxInfo = release?.downloads?.linux?.archive || RELEASE_INFO.downloads.linux.archive;
   const coreInfo = release?.downloads?.core?.wheel || RELEASE_INFO.downloads.core.wheel;
@@ -44,15 +44,13 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
             {t.download.title}
           </h2>
           <p className="text-sm sm:text-base text-slate-400 font-sans mb-4">
-            {isBetaActive
-              ? "Trải nghiệm bản Beta thử nghiệm cơ chế khởi chạy Prism Launcher và Schema phiên bản 20 mới nhất."
-              : t.download.subtitle}
+            {isBetaActive ? t.download.subtitle_beta : t.download.subtitle}
           </p>
 
           {/* Edge Server Indicator */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-base-900 border border-white/10 text-xs font-mono text-slate-300 mb-6">
             <Server className="w-3.5 h-3.5 text-sky-cyan" />
-            <span>Asia Edge CDN: <strong>Hồng Kông & Singapore (Cloudflare)</strong></span>
+            <span>Asia Edge CDN: <strong>{t.download.edge_location}</strong></span>
           </div>
 
           {/* Channel Selector: Stable vs Beta */}
@@ -65,7 +63,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                   : 'bg-base-900/80 text-slate-400 hover:text-white border border-white/10'
               }`}
             >
-              ✦ Bản Ổn Định {loading ? '' : `(${stableRelease?.version || 'v1.8.3'})`}
+              {t.download.tab_stable} {loading ? '' : `(${stableRelease?.version || RELEASE_INFO.version})`}
             </button>
             {betaRelease && (
               <button
@@ -76,7 +74,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                     : 'bg-base-900/80 text-slate-400 hover:text-white border border-white/10'
                 }`}
               >
-                🧪 Bản Beta {loading ? '' : `(${betaRelease.version})`}
+                {t.download.tab_beta} {loading ? '' : `(${betaRelease.version})`}
               </button>
             )}
           </div>
@@ -94,7 +92,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
           >
             {detectedOs === 'windows' && (
               <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-cyan text-base-950 uppercase shadow-md">
-                Phù hợp với thiết bị của bạn
+                {t.download.recommended_os}
               </span>
             )}
 
@@ -115,15 +113,15 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
 
               <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
                 {loading
-                  ? "Đang kiểm tra và đồng bộ liên kết tải mới nhất từ Cloudflare Edge CDN..."
-                  : `Phiên bản ${currentVersion} ${isBetaActive ? '(Beta Thử Nghiệm)' : '(Chính thức)'} cho Windows 10 & 11 (64-bit). Tệp ZIP giải nén chạy ngay, không cần cài đặt.`}
+                  ? t.download.syncing_cdn
+                  : `${t.download.version_prefix} ${currentVersion} ${isBetaActive ? t.download.channel_beta : t.download.channel_official} ${isBetaActive ? t.download.win_desc_beta : t.download.win_desc_stable}`}
               </p>
 
               {/* Download Buttons */}
               {loading ? (
                 <div className="py-8 flex flex-col items-center justify-center gap-2 text-xs font-mono text-slate-400 bg-base-950/40 rounded-xl border border-white/5 mb-6">
                   <div className="w-4 h-4 border-2 border-sky-cyan border-t-transparent rounded-full animate-spin" />
-                  <span>Đang tải thông tin tệp...</span>
+                  <span>{t.download.loading_file_info}</span>
                 </div>
               ) : (
                 <div className="space-y-2.5 mb-6">
@@ -140,7 +138,9 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                       href={winInfo.githubUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5"
+                      className={`py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5 ${
+                        betaRelease ? '' : 'col-span-2'
+                      }`}
                     >
                       <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
                       <span>GitHub ↗</span>
@@ -156,7 +156,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                             : 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/25'
                         }`}
                       >
-                        <span>{isBetaActive ? '✦ Bản Ổn Định' : '🧪 Tải Beta'}</span>
+                        <span>{isBetaActive ? t.download.quick_stable : t.download.quick_beta}</span>
                       </button>
                     )}
                   </div>
@@ -167,11 +167,11 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
             {/* Asset Status Box */}
             <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
               {loading ? (
-                <span className="text-slate-500">Đang đồng bộ CDN...</span>
+                <span className="text-slate-500">{t.download.syncing_short}</span>
               ) : (
                 <>
                   <span className="truncate max-w-[200px]" title={winInfo.filename}>{winInfo.filename}</span>
-                  <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
+                  <span className="text-sky-emerald shrink-0">{t.download.ready_badge}</span>
                 </>
               )}
             </div>
@@ -187,7 +187,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
           >
             {detectedOs === 'linux' && (
               <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-cyan text-base-950 uppercase shadow-md">
-                Phù hợp với thiết bị của bạn
+                {t.download.recommended_os}
               </span>
             )}
 
@@ -208,15 +208,15 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
 
               <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
                 {loading
-                  ? "Đang kiểm tra và đồng bộ liên kết tải mới nhất từ Cloudflare Edge CDN..."
-                  : `Phiên bản ${currentVersion} ${isBetaActive ? '(Beta Thử Nghiệm)' : '(Chính thức)'} cho Linux (glibc 2.35+). Đóng gói độc lập, không yêu cầu phụ thuộc phức tạp.`}
+                  ? t.download.syncing_cdn
+                  : `${t.download.version_prefix} ${currentVersion} ${isBetaActive ? t.download.channel_beta : t.download.channel_official} ${isBetaActive ? t.download.linux_desc_beta : t.download.linux_desc_stable}`}
               </p>
 
               {/* Download Buttons */}
               {loading ? (
                 <div className="py-8 flex flex-col items-center justify-center gap-2 text-xs font-mono text-slate-400 bg-base-950/40 rounded-xl border border-white/5 mb-6">
                   <div className="w-4 h-4 border-2 border-sky-purple border-t-transparent rounded-full animate-spin" />
-                  <span>Đang tải thông tin tệp...</span>
+                  <span>{t.download.loading_file_info}</span>
                 </div>
               ) : (
                 <div className="space-y-2.5 mb-6">
@@ -233,7 +233,9 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                       href={linuxInfo.githubUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5"
+                      className={`py-2.5 px-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white bg-base-900 hover:bg-base-850 border border-white/10 transition-all flex items-center justify-center gap-1.5 ${
+                        betaRelease ? '' : 'col-span-2'
+                      }`}
                     >
                       <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
                       <span>GitHub ↗</span>
@@ -249,7 +251,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                             : 'bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/25'
                         }`}
                       >
-                        <span>{isBetaActive ? '✦ Bản Ổn Định' : '🧪 Tải Beta'}</span>
+                        <span>{isBetaActive ? t.download.quick_stable : t.download.quick_beta}</span>
                       </button>
                     )}
                   </div>
@@ -260,11 +262,11 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
             {/* Asset Status Box */}
             <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
               {loading ? (
-                <span className="text-slate-500">Đang đồng bộ CDN...</span>
+                <span className="text-slate-500">{t.download.syncing_short}</span>
               ) : (
                 <>
                   <span className="truncate max-w-[200px]" title={linuxInfo.filename}>{linuxInfo.filename}</span>
-                  <span className="text-sky-emerald shrink-0">✓ Sẵn sàng</span>
+                  <span className="text-sky-emerald shrink-0">{t.download.ready_badge}</span>
                 </>
               )}
             </div>
@@ -288,12 +290,12 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
               </div>
 
               <p className="text-xs text-slate-400 mb-6 leading-relaxed font-sans">
-                Thư viện Headless Core thuần Python (`mcw_core`) dành cho nhà phát triển, công cụ tự động hóa hoặc server quản lý instance.
+                {t.download.core_desc}
               </p>
 
               {/* Pip Command Box */}
               <div className="p-3 rounded-xl bg-base-950/90 border border-white/10 mb-6 font-mono text-xs">
-                <div className="text-[10px] text-slate-500 mb-1">Cài đặt trực tiếp qua pip:</div>
+                <div className="text-[10px] text-slate-500 mb-1">{t.download.pip_label}</div>
                 <div className="text-sky-emerald flex items-center justify-between">
                   <span>pip install mcw_core</span>
                   <button
@@ -309,7 +311,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
               {loading ? (
                 <div className="py-4 flex flex-col items-center justify-center gap-2 text-xs font-mono text-slate-400 bg-base-950/40 rounded-xl border border-white/5 mb-6">
                   <div className="w-4 h-4 border-2 border-sky-emerald border-t-transparent rounded-full animate-spin" />
-                  <span>Đang tải...</span>
+                  <span>{t.download.loading_file_info}</span>
                 </div>
               ) : (
                 <div className="space-y-2.5 mb-6">
@@ -318,7 +320,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                     className="w-full py-3 px-4 rounded-xl font-bold text-xs tracking-wide bg-base-800 hover:bg-base-750 text-white border border-white/10 transition-all flex items-center justify-center gap-2"
                   >
                     <Download className="w-4 h-4 text-sky-emerald" />
-                    <span>Tải Wheel Package (.whl)</span>
+                    <span>{t.download.btn_wheel}</span>
                   </a>
                 </div>
               )}
@@ -344,7 +346,7 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
           {showChangelog && (
             <div className="mt-6 max-w-3xl mx-auto glass-panel p-6 rounded-2xl text-left border border-white/10 space-y-4">
               <h4 className="text-base font-bold text-white font-sans border-b border-white/10 pb-3">
-                {t.download.changelog_title}
+                {t.download.changelog_title} ({currentVersion})
               </h4>
               <div className="space-y-4">
                 {(release?.changelog || RELEASE_INFO.changelog).map((c, idx) => (
@@ -353,9 +355,13 @@ export default function DownloadSection({ t, release, stableRelease, betaRelease
                       <span className="text-[10px] font-mono px-2 py-0.2 rounded font-bold uppercase bg-sky-cyan/15 text-sky-cyan">
                         {c.type}
                       </span>
-                      <span className="text-xs font-bold text-white font-sans">{c.title_vi}</span>
+                      <span className="text-xs font-bold text-white font-sans">
+                        {lang === 'en' ? (c.title_en || c.title_vi) : c.title_vi}
+                      </span>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed pl-12 font-sans">{c.desc_vi}</p>
+                    <p className="text-xs text-slate-400 leading-relaxed pl-12 font-sans">
+                      {lang === 'en' ? (c.desc_en || c.desc_vi) : c.desc_vi}
+                    </p>
                   </div>
                 ))}
               </div>
